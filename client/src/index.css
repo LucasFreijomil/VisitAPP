@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root 
+{
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-color: rgb(255, 255, 255);
+}
+
+body 
+{
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: rgb(255, 255, 255);
+}
