@@ -51,7 +51,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true
         },
-        secA: //A-N 
+        secA: //A-N
         {
             type: DataTypes.STRING,
             allowNull: true
