@@ -8,7 +8,6 @@ const updateUser = async (req, res) => {
         if(user) await Users.update({isApproved: false}, {where: {isApproved: true}})
         return res.status(200).send("Usuario aprovado")
     } catch (error) {
-        console.log(error)
         return res.status(500).send("Error")
     }
 }
