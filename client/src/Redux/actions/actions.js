@@ -1,17 +1,8 @@
-import axios from "axios";
-import {  } from "./actionTypes.js.js";
+import {SET_GUEST_TYPE} from './action-types'
 
-// export const "ACTION-EJEMPLO" () =>
-// {
-
-// }
-
-// export const "ACTION-EJEMPLO-2" () =>
-// {
-
-// }
-
-// export const "ACTION-EJEMPLO-3" () =>
-// {
-
-// }
+export const guestTypeAction = (type) => {
+	return {
+		type: SET_GUEST_TYPE,
+		payload: type,
+	}
+}
