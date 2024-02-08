@@ -7,7 +7,7 @@ const deleteVisita = async(req, res) => {
         const visita = await Visitas.findOne({where: id})
         await visita.destroy()
     } catch (error) {
-        console.log(error)
+        return res.status(500).json(error.message)
     }
 }
 

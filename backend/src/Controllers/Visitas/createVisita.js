@@ -7,11 +7,10 @@ const createVisita = async(req, res) => {
             name, surname, dni, empresa
         }
 
-        const visita = visitas.create(nuevaVisita)
-        res.status(201).json({ok:"Visita creada"})
+        const visita = await visitas.create(nuevaVisita)
+        return res.status(201).json(visita)
     } catch (error) {
-        console.log(error)
-        res.status(500).json({mensaje: "Error al crear la visita"})
+        return res.status(500).json(error.message)
     }
 }
 
