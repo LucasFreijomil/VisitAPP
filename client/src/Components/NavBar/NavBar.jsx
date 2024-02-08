@@ -14,6 +14,9 @@ export const NavBar = () =>
             <Link to='/createvisit'>
                 <button> Create VISIT </button>
             </Link>
+            <Link to='/login'>
+                <button> LOGIN </button>
+            </Link>
         </div>
     )
 }
