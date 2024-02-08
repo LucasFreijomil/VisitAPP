@@ -4,12 +4,12 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import './App.css';
 import { CreateUser } from "./Components/Create/CreateUser/CreateUser";
 import { CreateVisit } from "./Components/Create/CreateVisit/CreateVisit";
+import Footer from "./Components/Footer/Footer";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { E404 } from "./Components/Views/404/E404";
 import { Dashboard } from "./Components/Views/Dashboard/Dashboard";
 import { Home } from './Components/Views/Home/Home';
 import { Landing } from "./Components/Views/Landing/Landing";
-import Footer from "./Components/Footer/Footer";
 import { Login } from "./Components/Views/Login/Login";
 import { logInUser, logOffUser } from "./Redux/actions/actions.JS";
 
@@ -42,7 +42,8 @@ function App() {
         <Route path="/createuser" element={ <CreateUser /> } />
         <Route path="/createvisit" element={ <CreateVisit /> } />
         <Route path="/login" element={ <Login /> } />
-        { (activeUser && activeUser.isAdmin) && <Route path="/dashboard" element={ <Dashboard /> } /> }
+        {/* { (activeUser && activeUser.isAdmin) && <Route path="/dashboard" element={ <Dashboard /> } /> } */}
+        <Route path="/dashboard" element={ <Dashboard /> } />
 
       </Routes>
       <Footer/>
