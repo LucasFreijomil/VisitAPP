@@ -27,7 +27,7 @@ export const DPending = () =>
                 pending.map( (x, y) =>
                 {
                     let thisUser = JSON.parse( x );
-                    <DPendingCard x={x} />
+                    <DPendingCard thisUser={thisUser} />
                 })
             )}
             <p> No hay usuarios pendientes de aprobación ♪ </p>
