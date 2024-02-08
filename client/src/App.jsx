@@ -5,6 +5,7 @@ import { CreateVisit } from "./Components/Create/CreateVisit/CreateVisit";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { Home } from './Components/Views/Home/Home';
 import { Landing } from "./Components/Views/Landing/Landing";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
   const location = useLocation();
@@ -20,6 +21,7 @@ function App() {
         <Route path="/createvisit" element={ <CreateVisit /> } />
 
       </Routes>
+      <Footer/>
     </div>
   )
 }
