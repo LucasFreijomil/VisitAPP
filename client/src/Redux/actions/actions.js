@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN } from "./action-types.js";
+import {SET_GUEST_TYPE, LOGIN} from './action-types'
 
 let url = "localhost:3001/";
 
@@ -35,3 +35,10 @@ export const logOffUser = () =>
 {
     return { type: LOGIN, payload: false };
 }
+
+export const guestTypeAction = (type) => {
+    return {
+		type: SET_GUEST_TYPE,
+		payload: type,
+	}
+};

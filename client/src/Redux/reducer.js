@@ -1,19 +1,21 @@
-import { LOGIN } from './actions/action-types.js';
+import {SET_GUEST_TYPE, LOGIN} from './actions/action-types'
 
-const initialstate =
+const initialstate = 
 {
 	activeUser: false,
+	guestType: null,
 }
 
-const rootReducer = (state = initialstate, {type, payload}) => 
-{
-	switch (type)
-    {
+const rootReducer = (state = initialstate, {type, payload}) => {
+	switch (type){
+		case SET_GUEST_TYPE:
+			return {...state, guestType: payload};
+
 		case LOGIN:
 			return { ...state, activeUser: payload };
 		default:
-			return {...state}
+			return {...state};
 	}
 }
 
-export default rootReducer;
+export default rootReducer
