@@ -1,7 +1,7 @@
 const { DataTypes } = require(`sequelize`);
 
 module.exports = (sequelize) => {
-    sequelize.define("User", {
+    sequelize.define("Users", {
         id:
         {
             type: DataTypes.UUID,
@@ -51,7 +51,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true
         },
-        secA: //A-N 
+        secA: //A-N
         {
             type: DataTypes.STRING,
             allowNull: true
