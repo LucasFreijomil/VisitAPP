@@ -1,7 +1,14 @@
 const {DataTypes} = require("sequelize")
 
 module.exports = (sequelize) => {
-    sequelize.define("visitas",{
+    sequelize.define("Visitas",{
+        id:
+        {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
+            primaryKey: true
+        },
         name:
         {
             type: DataTypes.STRING,
@@ -20,7 +27,7 @@ module.exports = (sequelize) => {
         empresa:
         {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     },
     { timestamps: false, freezeTableName: true })
