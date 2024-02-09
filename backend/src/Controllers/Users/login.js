@@ -1,32 +1,39 @@
-const {Users} = require("../../Models/Users")
-const jwt = require("jsonwebtoken")
+const { Users } = require("../../db.js");
+const jwt = require("jsonwebtoken");
 
-const login = async(req, res) => {
-    const {name, password} = req.body
-    try {
-        if(name || password) return res.status(400).send("Data missing")
+const login = async(req, res) =>
+{
+    const { username, password } = req.body;
 
-        const user = Users.findOne({where: {user}})
-        if(!user) {
-            return res.status(400).send("Usuario no encontrado")
+    try
+    {
+        if( !username || !password ) return res.status(400).send("Missing data");
+
+        const user = await Users.findOne( { where: {username} } )
+
+        if(user.isActive==false)
+        {
+            return res.status(400).json( { notApproved: `${user.username} hasn't been approved yet.` } );
         }
-        else {
-            if(user.password !== password){
+        else
+        {
+            if( user.password != password )
+            {
                 return res.status(400).send("Contraseña incorrecta")
-            }else{
-                const userToken = {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email
-                }
+            }
+            else
+            {
+                const userToken = user.dataValues;
 
-                const token = jwt.sign(userToken, process.env.SECRET)
-                return res.status(500).send({token})
+                const token = jwt.sign(userToken, process.env.SECRET);
+                return res.status(200).send( {token} );
             }
         }
-    } catch (error) {
-        return res.status(400).json(error.message)
+    }
+    catch(error)
+    {
+        return res.status(400).json( { error_login: error.message } );
     }
 }
 
-module.exports = login
+module.exports = login;

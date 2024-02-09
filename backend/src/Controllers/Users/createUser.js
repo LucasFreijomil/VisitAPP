@@ -1,10 +1,12 @@
-const { Users } = require("../../Models/Users")
+const { Users } = require("../../db.js")
 
-const createUser = async(res, req) => {
-    const { name, surname, email, password, reviewImages } = req.body
+const createUser = async (req, res) =>
+{
+    const { name, surname, email, username, password, reviewImages } = req.body;
 
-    try {
-        const emailCheck = await Users.findOne({where: email})
+    try
+    {
+        const emailCheck = await Users.findOne( { where: {email} } );
 
         if(emailCheck) return res.status(500).send("El email ya esta registrado")
         
@@ -12,17 +14,18 @@ const createUser = async(res, req) => {
             name,
             surname,
             email,
+            username,
             password,
-            reviewImages,
-            isAdmin: false,
-            isApproved: false
+            reviewImages
         }
 
-        const userDB = await Users.create(nuevoUsuario)
-        return res.status(201).json(userDB)
+        const userDB = await Users.create( nuevoUsuario );
+        return res.status(201).json( userDB );
 
-    } catch (error) {
-        return res.status(500).send(error.message)
+    }
+    catch(error)
+    {
+        return res.status(500).send( { error_createUser: error.message } );
     }
 }
 

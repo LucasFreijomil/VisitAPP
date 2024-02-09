@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const CreateUser = () =>
 {
@@ -21,9 +21,9 @@ export const CreateUser = () =>
                     <div>
                         
                     <p>Usuario*</p>
-                    <input 
-                    type="text" 
-                    name="usuario"
+                    <input
+                    type="text"
+                    name="username"
                     value={input}
                     />
                     
@@ -32,7 +32,7 @@ export const CreateUser = () =>
 
                     <div>
                     <p>Contraseña*</p>
-                    <input 
+                    <input
                     type="password"
                     name="password"
                     value={input}
