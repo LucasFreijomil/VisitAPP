@@ -1,7 +1,8 @@
 
 const Footer = () => {
   return (
-    <div className="flex justify-center">
+    <div className=' h-full w-full flex items-end '>
+      <div className='bg-white w-full'>
         <br />
         <u>VisitAPP</u>
         <div>
@@ -14,6 +15,7 @@ const Footer = () => {
 
         <br />
         <p>VisitAPP - Copyright © 2024 - Todos los derechos reservados</p>
+        </div>
     </div>
   )
 }
