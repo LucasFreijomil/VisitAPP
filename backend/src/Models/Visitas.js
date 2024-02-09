@@ -28,6 +28,11 @@ module.exports = (sequelize) => {
         {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        labor:
+        {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     },
     { timestamps: false, freezeTableName: true })
