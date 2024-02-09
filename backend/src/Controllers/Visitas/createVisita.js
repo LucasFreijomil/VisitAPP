@@ -2,12 +2,12 @@ const { Visitas } = require("../../db.js");
 
 const createVisita = async (req, res) =>
 {
-    const {name, surname, dni, empresa, labor} = req.body
+    const {name, surname, dni, company, work} = req.body
     try
     {
         const nuevaVisita =
         {
-            name, surname, dni, empresa, labor
+            name, surname, dni, company, work
         };
 
         const visita = await Visitas.create(nuevaVisita);

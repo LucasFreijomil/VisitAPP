@@ -1,13 +1,15 @@
 import axios from "axios";
-import {SET_GUEST_TYPE, LOGIN} from './action-types'
+import { LOGIN, SET_GUEST_TYPE } from './action-types';
 
 let url = "localhost:3001/";
+
+//  LOGIN
 
 export const logUser = async (form) =>
 {
     try
     {
-        const { data } = await axios.get(`${url}users`, form);
+        const { data } = await axios.get(`${url}users/login`, form);
         return data;
     }
     catch(error)
@@ -35,6 +37,15 @@ export const logOffUser = () =>
 {
     return { type: LOGIN, payload: false };
 }
+
+export const decodeUser = (hashed) =>
+{
+    const arrayToken = hashed.split('.');
+    const tokenPayload = JSON.parse(atob(arrayToken[1]));
+    return tokenPayload;
+}
+
+//
 
 export const guestTypeAction = (type) => {
     return {

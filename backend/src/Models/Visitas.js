@@ -24,7 +24,12 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        empresa:
+        company:
+        {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        work:
         {
             type: DataTypes.STRING,
             allowNull: true

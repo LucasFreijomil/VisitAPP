@@ -1,0 +1,21 @@
+Componente
+/////////////////////////
+export const Login = () =>
+{
+
+    return(
+        <div>
+            Soy el
+        </div>
+    )
+}
+/////////////////////////
+{
+  "name": "Daro",
+  "surname": "Gonza",
+  "email": "dario@gmail.com",
+  "username": "Reyk0",
+  "password": 1234,
+  "reviewImages": ["url1", "url2", "url3"]
+}
+/////////////////////////

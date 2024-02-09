@@ -22,24 +22,34 @@ export const Login = () =>
         e.preventDefault();
         if(form.user!='' && form.pass!='')
         {
-            const user = logUser(form);
-            if(user)
+            logUser(form)
+            .then( (data) =>
             {
-                if(user.isApproved==true)
-                {
-                    window.localStorage.setItem( 'activeUser', JSON.stringify( user.id ) );
-                    dispatch(user.id);
-                }
-                else
-                {
-                    alert('¡Usuario bloqueado! Comuníquese con atención al cliente.');
-                    setForm({ user: '', pass: '' });
-                }
-            }
-            else
+                console.log("User: ", data);
+            } )
+            .catch( (error) =>
             {
-                alert('¡Usuario/Contraseña incorrecto!');
-            }
+                console.log("Error: ", error);
+            })
+            // if(user)
+            // {
+            //     console.log("USER: ", user);
+            //     console.log("DECODED USER: ", decodeUser(user));
+                // if(user.isApproved==true)
+                // {
+                //     window.localStorage.setItem( 'activeUser', JSON.stringify( user.id ) );
+                //     dispatch(user.id);
+                // }
+                // else
+                // {
+                //     alert('¡Usuario bloqueado! Comuníquese con atención al cliente.');
+                //     setForm({ user: '', pass: '' });
+                // }
+            // }
+            // else
+            // {
+            //     alert('¡Usuario/Contraseña incorrecto!');
+            // }
         }
         else
         {

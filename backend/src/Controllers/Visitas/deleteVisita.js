@@ -1,14 +1,16 @@
-const Visitas = require("../../Models/Visitas")
-
-const deleteVisita = async(req, res) => {
+const deleteVisita = async(req, res) =>
+{
     const {id} = req.params
 
-    try {
-        const visita = await Visitas.findOne({where: id})
-        await visita.destroy()
-    } catch (error) {
-        return res.status(500).json(error.message)
+    try
+    {
+        await visita.destroy( { where: { id } } );
+        res.status(200).json( { Success: `User id ${id} deleted` } );
+    }
+    catch(error)
+    {
+        return res.status(500).json(error.message);
     }
 }
 
-module.exports =  deleteVisita
+module.exports =  deleteVisita;
