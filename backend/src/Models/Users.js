@@ -31,6 +31,11 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        username:
+        {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         password: //Revisar seguridad de contraseñas
         {
             type: DataTypes.STRING,
@@ -43,7 +48,7 @@ module.exports = (sequelize) => {
         },
         reviewImages:
         {
-            type: DataTypes.ARRAY,
+            type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: true
         },
         secQ: //A-N
