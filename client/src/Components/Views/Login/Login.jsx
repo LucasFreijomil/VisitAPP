@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { logUser } from "../../../Redux/actions/actions";
+import { useNavigate } from "react-router-dom";
+import { decodeUser, logUser } from "../../../Redux/actions/actions";
 
 export const Login = () =>
 {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [form, setForm] = useState(
         {
-            user: '',
-            pass: ''
+            username: '',
+            password: ''
         }
     );
 
@@ -20,36 +22,50 @@ export const Login = () =>
     const handleSubmit = e =>
     {
         e.preventDefault();
-        if(form.user!='' && form.pass!='')
+        if(form.username!='' && form.password!='')
         {
+            // logUser(form)
+            // .then( ( data ) =>
+            // {
+            //     console.log("DATA: ", data);
+            // })
+            // .catch( (error) =>
+            // {
+            //     console.log("ERROR: ", error);
+            // })
             logUser(form)
             .then( (data) =>
             {
-                console.log("User: ", data);
+                console.log("User: ", data.token);
+                window.localStorage.setItem('activeUser', JSON.stringify(data.token));
+                decodeUser(data.token)
+                .then( ( data ) =>
+                {
+                    console.log("DATA: ", data);
+                    if(data.payload?.isApproved)
+                    {
+                        dispatch(data);
+                        navigate('/home');
+                    }
+                    else
+                    {
+                        alert('¡Usuario aún no aprobado!');
+                        setForm({
+                            username: '',
+                            password: ''
+                        });
+                    }
+                })
+                .catch( ( error ) =>
+                {
+                    console.log("ERROR en segunda promesa: ", error);
+                })
             } )
             .catch( (error) =>
             {
+                alert('¡Usuario incorrecto o inexistente!');
                 console.log("Error: ", error);
             })
-            // if(user)
-            // {
-            //     console.log("USER: ", user);
-            //     console.log("DECODED USER: ", decodeUser(user));
-                // if(user.isApproved==true)
-                // {
-                //     window.localStorage.setItem( 'activeUser', JSON.stringify( user.id ) );
-                //     dispatch(user.id);
-                // }
-                // else
-                // {
-                //     alert('¡Usuario bloqueado! Comuníquese con atención al cliente.');
-                //     setForm({ user: '', pass: '' });
-                // }
-            // }
-            // else
-            // {
-            //     alert('¡Usuario/Contraseña incorrecto!');
-            // }
         }
         else
         {
@@ -65,17 +81,17 @@ export const Login = () =>
 
                 <div>
                     <label>Usuario</label>
-                    <input name='user' value={form.user} onChange={handleChange}/> <br/>
+                    <input name='username' value={form.username} onChange={handleChange}/> <br/>
                 </div>
 
                 <div>
                     <label>Contraseña</label>
-                    <input name='pass' value={form.pass} onChange={handleChange}/>
+                    <input name='password' value={form.password} onChange={handleChange}/>
                 </div>
 
                 <button onClick={handleSubmit}> Logear </button>
                 <button type='button' onClick={
-                    () => setForm({ user: '', pass: '' })
+                    () => setForm({ username: '', password: '' })
                 }> Limpiar </button>
 
             </form>
