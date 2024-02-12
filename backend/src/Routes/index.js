@@ -11,7 +11,7 @@ router.use(morgan("dev"));
 router.use(cors());
 router.use("/users", userRouter)
 router.use("/visitas", visitaRouter)
-router.use("/guaridas", guardiasRouter)
+router.use("/guardias", guardiasRouter)
 
 
 module.exports = router

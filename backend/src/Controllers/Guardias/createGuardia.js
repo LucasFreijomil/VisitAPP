@@ -1,16 +1,16 @@
-const { Guardias } = require("../../Models/Guardias")
+const { Guardias } = require("../../db.js")
 
 const createGuardias = async(req, res) => {
     const {name, surname, email, password} = req.body
 
     try {
-        const emailCheck = await Guardias.findOne({where: email})
+        const emailCheck = await Guardias.findOne({ where: { email: email } })
         if(emailCheck) return res.status(400).send("Email registrado")
 
         const nuevoGuardia = {
             name, surname, email, password
         }
-        const guardiaDB = Guardias.create(nuevoGuardia)
+        const guardiaDB = await Guardias.create(nuevoGuardia)
         return res.status(201).json(guardiaDB)
     } catch (error) {
         return res.status(500).json(error.message)
