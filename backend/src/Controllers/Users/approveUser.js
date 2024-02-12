@@ -6,7 +6,7 @@ const approveUser = async (req, res) =>
 
     try
     {
-        await Users.update( {isApproved: false}, { where: { id } } );
+        await Users.update( {isApproved: true}, { where: { id } } );
         return res.status(200).json("Usuario aprovado")
     }
     catch (error)

@@ -9,54 +9,54 @@ module.exports = (sequelize) => {
             allowNull: false,
             primaryKey: true
         },
-        isApproved:
+        isApproved:     //default: false    null: false
         {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             allowNull: false
         },
-        isAdmin:
+        isAdmin:        //default: false    null: false
         {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             allowNull: false
         },
-        name:
+        name:           //STRING            null: false
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        surname:
+        surname:        //STRING            null: false
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        username:
+        username:       //STRING            null: false
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: //Revisar seguridad de contraseñas
+        password:       //STRING            null: true
         {
             type: DataTypes.STRING,
             allowNull: true
         },
-        email:
+        email:          //STRING            null: false
         {
             type: DataTypes.STRING,
             allowNull: false
         },
-        reviewImages:
+        reviewImages:   //ARRAY(STRING)     null: true
         {
             type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: true
         },
-        secQ: //A-N
+        secQ:           //STRING            null: true
         {
             type: DataTypes.STRING,
             allowNull: true
         },
-        secA: //A-N
+        secA:           //STRING            null: true
         {
             type: DataTypes.STRING,
             allowNull: true

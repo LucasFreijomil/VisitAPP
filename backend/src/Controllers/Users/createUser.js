@@ -2,25 +2,17 @@ const { Users } = require("../../db.js")
 
 const createUser = async (req, res) =>
 {
-    const { name, surname, email, username, password, reviewImages } = req.body;
+    const newUserData = req.body;
 
     try
     {
-        const emailCheck = await Users.findOne( { where: {email} } );
+        const emailCheck = await Users.findOne( { where: {email: newUserData.email} } );
 
         if(emailCheck) return res.status(500).send("El email ya esta registrado")
         
-        const nuevoUsuario = {
-            name,
-            surname,
-            email,
-            username,
-            password,
-            reviewImages
-        }
-
-        const userDB = await Users.create( nuevoUsuario );
-        return res.status(201).json( userDB );
+        const newUser = await Users.create( newUserData );
+        
+        return res.status(201).json( newUser );
 
     }
     catch(error)

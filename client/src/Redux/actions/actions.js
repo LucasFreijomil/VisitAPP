@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LOGIN, SET_GUEST_TYPE } from './action-types';
 
-let url = "localhost:3001/";
+let url = "http://localhost:3001/";
 
 //  LOGIN
 
@@ -9,22 +9,22 @@ export const logUser = async (form) =>
 {
     try
     {
-        const { data } = await axios.get(`${url}users/login`, form);
-        return data;
+        const { data } = await axios.post(`${url}users/login`, form);
+        return data
     }
     catch(error)
     {
         console.log("¡Hubo un error en logUser!: ", error);
-        return false;
+        return error;
     }
 }
 
-export const logInUser = async (id) =>
+export const logInUser = async (user) =>
 {
     try
     {
         const {data} = await axios.get(`${url}users?id=${id}`);
-        return { type: LOGIN, payload: data };
+        
     }
     catch(error)
     {
@@ -33,17 +33,43 @@ export const logInUser = async (id) =>
     }
 }
 
+export const decodeUser = async ( token ) =>
+{
+    try
+    {
+        const { data } = await axios.get(`${url}users/decode?token=${token}`);
+        return { type: LOGIN, payload: data };
+    }
+    catch(error)
+    {
+        console.log( "Error en decodeUser: ", error,"\n token provided: ", token );
+    }
+}
+
 export const logOffUser = () =>
 {
     return { type: LOGIN, payload: false };
 }
 
-export const decodeUser = (hashed) =>
+// CREATE USER
+
+export const createUser = ( form ) =>
 {
-    const arrayToken = hashed.split('.');
-    const tokenPayload = JSON.parse(atob(arrayToken[1]));
-    return tokenPayload;
+    return axios.post(`${url}users`, form)
+    .then( ( { data } ) =>
+    {
+        console.log("Response: ", data);
+        return true;
+    })
+    .catch( ( error ) =>
+    {
+        console.log("Error al crear usuario /createUserAction/: ", error );
+        return false;
+    })
 }
+
+
+
 
 //
 

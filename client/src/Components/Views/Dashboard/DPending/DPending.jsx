@@ -17,7 +17,7 @@ export const DPending = () =>
         })
         .catch( (error) =>
         {
-            console.log( "Error al cargar pendientes: ", error.message );
+            console.log( "Error al cargar / No hay pendientes: ", error.message );
         })
     }, [])
 
