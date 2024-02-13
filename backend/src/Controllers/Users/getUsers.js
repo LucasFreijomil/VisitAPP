@@ -1,4 +1,4 @@
-const { Users } = require("../../db.js");
+const { Users, Visitas } = require("../../db.js");
 
 const getUsers = async(req, res) =>
 {
@@ -8,7 +8,15 @@ const getUsers = async(req, res) =>
     {
         try
         {
-            const userById = await Users.findByPk( id );
+            const userById = await Users.findByPk( id,
+                {
+                    include: [
+                {
+                    model: Visitas,
+                    as: 'Visitas',
+                    attributes: ["id", "name", "surname", "dni", "company", "work", "labor" ],
+                    through: { attributes: [] }
+                } ]} );
             res.status(200).json( userById );
         }
         catch(error)
@@ -22,7 +30,13 @@ const getUsers = async(req, res) =>
         {
             try
             {
-                const userByMail= await Users.findOne( { where: { email } } );
+                const userByMail= await Users.findOne( { where: { email }, include:
+                    [ {
+                        model: Visitas,
+                        as: 'Visitas',
+                        attributes: ["id", "name", "surname", "dni", "company", "work", "labor" ],
+                        through: { attributes: [] }
+                    } ] } );
                 res.status(200).json( userByMail );
             }
             catch(error)
