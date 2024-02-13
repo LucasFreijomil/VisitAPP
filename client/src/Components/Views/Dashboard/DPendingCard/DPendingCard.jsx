@@ -26,7 +26,7 @@ export const DPendingCard = ( {x, setUDetail, setOption} ) =>
             </div>
                 
                 <div>
-                    <button> Desactivar </button>
+                    <button> Aprobar </button>
                 </div>
 
                 <div>
