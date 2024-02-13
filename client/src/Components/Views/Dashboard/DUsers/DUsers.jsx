@@ -9,7 +9,7 @@ export const DUsers = () =>
 
     useEffect( () =>
     {
-        let url = "localhost:3001/";
+        let url = "http://localhost:3001/";
         axios.get(`${url}users`)
         .then( ( {data} ) =>
         {
@@ -23,12 +23,12 @@ export const DUsers = () =>
 
     return(
         <div className={Styles.usersContainer}>
+            <button onClick={() => console.log("users: ", users)}> users </button>
             {users.length>0 && (
                 users.map( (x, y) =>
-                {
-                    let thisUser = JSON.parse( x );
-                    <DUserCard thisUser={thisUser} />
-                })
+                
+                    <DUserCard key={y} x={x} />
+                )
             )}
             <p> No hay usuarios para mostrar </p>
         </div>
