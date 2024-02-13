@@ -19,20 +19,6 @@ export const logUser = async (form) =>
     }
 }
 
-export const logInUser = async (user) =>
-{
-    try
-    {
-        const {data} = await axios.get(`${url}users?id=${id}`);
-        
-    }
-    catch(error)
-    {
-        console.log("¡Error en logInUser! : ", error)
-        return { type: LOGIN, payload: {} };
-    }
-}
-
 export const decodeUser = async ( token ) =>
 {
     try
@@ -68,10 +54,40 @@ export const createUser = ( form ) =>
     })
 }
 
+//  APPROVE USER
 
+export const approveUser = async (id) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}users/${id}`);
+        console.log("action: approveUser, data: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("action: approveUser, error: ", error);
+        return false;
+    }
 
+}
 
-//
+//  DELETE USER
+
+export const deleteUser = async (id) =>
+{
+    try
+    {
+        const { data } = await axios.delete(`${url}users/${id}`);
+        console.log("action: deleteUser, data: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("action: deleteUser, error: ", error);
+        return false;
+    }
+}
 
 export const guestTypeAction = (type) => {
     return {
