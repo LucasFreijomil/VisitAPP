@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { DPendingCard } from '../DPendingCard/DPendingCard';
 import Styles from './DPending.module.css';
 
-export const DPending = () =>
+export const DPending = ({setUDetail, setOption}) =>
 {
     const [ pending, setPending ] = useState([]);
+    let url = "http://localhost:3001/";
 
     useEffect( () =>
     {
-        let url = "localhost:3001/";
         axios.get(`${url}users/notApproved`)
         .then( ( {data} ) =>
         {
@@ -23,14 +23,17 @@ export const DPending = () =>
 
     return(
         <div className={Styles.toApproveContainer}>
+            <button onClick={() => console.log("PENDING: ", pending)}> pendientes </button>
             {pending.length>0 && (
                 pending.map( (x, y) =>
-                {
-                    let thisUser = JSON.parse( x );
-                    <DPendingCard thisUser={thisUser} />
-                })
+                    <DPendingCard key={y} x={x} setUDetail={setUDetail} setOption={setOption}/>
+                )
             )}
-            <p> No hay usuarios pendientes de aprobación ♪ </p>
+
+            {
+                pending.length==0 && (
+                    <p> No hay usuarios pendientes de aprobación ♪ </p>
+            )}
         </div>
     )
 }
