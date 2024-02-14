@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN, SET_GUEST_TYPE } from './action-types';
+import { LOGIN, SET_GUEST_TYPE, MY_PROFILE_TO_MOUNT } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -95,3 +95,10 @@ export const guestTypeAction = (type) => {
 		payload: type,
 	}
 };
+
+export const setMyProfileComponent = (component) => {
+    return {
+        type: MY_PROFILE_TO_MOUNT,
+        payload: component,
+    }
+}
