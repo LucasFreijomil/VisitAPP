@@ -1,4 +1,4 @@
-const Visitas = require("../../db.js");
+const {Visitas} = require("../../db");
 
 const getVisitas = async (req, res) =>
 {
