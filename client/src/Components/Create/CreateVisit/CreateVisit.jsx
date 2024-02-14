@@ -25,8 +25,16 @@ export const CreateVisit = () => {
 		try {
 			const { data } = await axios.post('http://localhost:3001/visitas', form);
 			alert('New visit created!', data);
+			setForm({
+				name: '',
+				surname: '',
+				dni: '',
+				company: '',
+				work: '',
+			})
 		} catch (error) {
 			console.error('Error creating visit: ', error);
+			alert('No funciona!');
 		}
 	};
 
