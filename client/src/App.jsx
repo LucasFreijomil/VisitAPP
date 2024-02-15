@@ -11,6 +11,7 @@ import { Dashboard } from './Components/Views/Dashboard/Dashboard'
 import { Home } from './Components/Views/Home/Home'
 import { Landing } from './Components/Views/Landing/Landing'
 import { Login } from './Components/Views/Login/Login'
+import { MyProfile } from './Components/Views/MyProfile/MyProfile'
 import { decodeUser } from './Redux/actions/actions'
 
 function App() {
@@ -45,11 +46,10 @@ function App() {
 				<Route path='/createvisit' element={<CreateVisit />} />
 				<Route path='/login' element={<Login />} />
 				{/* { (activeUser && activeUser.isAdmin) && <Route path="/dashboard" element={ <Dashboard /> } /> } */}
+				{activeUser && <Route path='/myprofile' element={<MyProfile />} />}
 				<Route path='/dashboard' element={<Dashboard />} />
 			</Routes>
-      
 			<Footer />
-      
 		</div>
 	)
 }
