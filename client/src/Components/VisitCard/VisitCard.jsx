@@ -1,9 +1,9 @@
 export const VisitCard = ({props}) => 
 {
     return(
-        <div className='flex w-10 h-10 bg-sky-700 gap-2'>
-            <p>{props.name}, {props.surname}</p>
-            <p>{props.dni}</p>
+        <div className=' flex-row p-2 h-36 bg-slate-300 rounded-lg'>
+            <h3>{props.name}, {props.surname}</h3>
+            <h4>{props.dni}</h4>
             {props.company && (<p>{props.company}</p>)}
             {props.work && (<p>{props.work}</p>)}
             {props.company && props.work && <p>Empleado</p>}

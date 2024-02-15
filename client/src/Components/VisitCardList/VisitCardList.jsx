@@ -19,7 +19,7 @@ export const VisitCardList = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className='grid grid-cols-3 gap-3'>
 			{visits && visits.map((x, y) => <VisitCard key={y} props={x} />)}
 		</div>
 	);
