@@ -1,8 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setMyProfileComponent } from '../../Redux/actions/actions';
+
 
 export const NavBar = () => {
 	const { activeUser } = useSelector((state) => state);
+	const dispatch = useDispatch();
 
 	return (
 		<div className=' bg-blue-600 flex justify-evenly items-center h-20 text-cyan-50'>
@@ -65,7 +68,7 @@ export const NavBar = () => {
 			{activeUser && (
 				<Link to='/myprofile'>
 					<div className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-black hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'>
-						<button>Mi Perfil</button>
+						<button onClick={() => dispatch(setMyProfileComponent(null))} >Mi Perfil</button>
 					</div>
 				</Link>
 			)}

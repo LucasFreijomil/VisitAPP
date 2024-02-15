@@ -22,9 +22,14 @@ sequelize
   visitasModel(sequelize);
   guardiasModel(sequelize);
 
-  //
+  // SEQUELIZE.MODELS
 
   const { Users, Visitas, Guardias } = sequelize.models;
+
+  // RELACIONALES
+
+  Users.hasMany( Visitas, { foreignKey: 'userId', onDelete: 'CASCADE' } );
+  Visitas.belongsTo( Users, { foreignKey: 'userId' } );
 
   module.exports ={
     ...sequelize.models,

@@ -2,7 +2,7 @@ import Styles from './DUserDetail.module.css';
 
 export const DUserDetail = ( { uDetail, setOption} ) =>
 {
-    //En realidad habría que traer al usuario por ID para que venga con las relacionales y mostrar todo.
+    //En realidad habría que traer al usuario por ID para que venga con las relacionales y mostrar todo.git 
 
     return(
         <div className={Styles.containerDetail}>

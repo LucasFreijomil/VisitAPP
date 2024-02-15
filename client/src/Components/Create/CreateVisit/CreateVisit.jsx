@@ -1,10 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { guestTypeAction } from '../../../Redux/actions/actions';
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { guestTypeAction } from '../../../Redux/actions/actions';
 
 export const CreateVisit = () => {
-	const { guestType } = useSelector((state) => state);
+	const { guestType, activeUser } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	const [form, setForm] = useState({
@@ -23,7 +23,8 @@ export const CreateVisit = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const { data } = await axios.post('http://localhost:3001/visitas', form);
+			let completedForm = { ...form, userId: activeUser.id };
+			const { data } = await axios.post('http://localhost:3001/visitas', completedForm);
 			alert('New visit created!', data);
 			setForm({
 				name: '',
