@@ -1,8 +1,8 @@
-const { Visitas } = require("../../db.js");
+const { Visitas, Users } = require("../../db.js");
 
 const createVisita = async (req, res) =>
 {
-    const {name, surname, dni, company, work} = req.body
+    const { name, surname, dni, company, work, userId } = req.body
     try
     {
         const nuevaVisita =
@@ -11,6 +11,9 @@ const createVisita = async (req, res) =>
         };
 
         const visita = await Visitas.create(nuevaVisita);
+        const thisUser = await Users.findByPk( userId );
+        thisUser.addVisitas( visita.id );
+
         return res.status(201).json( visita );
     }
     catch(error)

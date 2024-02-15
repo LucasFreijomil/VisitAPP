@@ -42,12 +42,12 @@ function App() {
 				<Route path='*' element={<E404 />} />
 				<Route path='/' element={<Landing />} />
 				<Route path='/home' element={<Home />} />
-				<Route path='/createuser' element={<CreateUser />} />
-				<Route path='/createvisit' element={<CreateVisit />} />
+				{activeUser && <Route path='/createuser' element={<CreateUser />} />}
+				{activeUser && <Route path='/createvisit' element={<CreateVisit />} />}
 				<Route path='/login' element={<Login />} />
 				{/* { (activeUser && activeUser.isAdmin) && <Route path="/dashboard" element={ <Dashboard /> } /> } */}
 				{activeUser && <Route path='/myprofile' element={<MyProfile />} />}
-				<Route path='/dashboard' element={<Dashboard />} />
+				{ (activeUser && activeUser.isAdmin) && <Route path='/dashboard' element={<Dashboard />} />}
 			</Routes>
 			<Footer />
 		</div>

@@ -1,10 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useDispatch, useSelector } from 'react-redux';
 import { setMyProfileComponent } from '../../Redux/actions/actions';
 import { Link } from 'react-router-dom';
+import { setMyProfileComponent } from '../../Redux/actions/actions';
+
 
 export const NavBar = () => {
 	const { activeUser } = useSelector((state) => state);
 	const dispatch = useDispatch();
+
 
 	return (
 		<div className=' bg-blue-600 flex justify-evenly items-center h-20 text-cyan-50'>
