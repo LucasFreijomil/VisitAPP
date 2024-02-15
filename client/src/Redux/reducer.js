@@ -1,6 +1,7 @@
 import {SET_GUEST_TYPE, LOGIN, MY_PROFILE_TO_MOUNT} from './actions/action-types'
 
-const initialstate = 
+
+const initialstate =
 {
 	activeUser: false,
 	guestType: null,

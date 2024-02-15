@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { DUserCard } from '../DUserCard/DUserCard.jsx';
 import Styles from './DUsers.module.css';
 
-export const DUsers = () =>
+export const DUsers = ( { setUDetail, setOption }) =>
 {
     const [ users, setUsers ] = useState([]);
 
@@ -23,14 +23,13 @@ export const DUsers = () =>
 
     return(
         <div className={Styles.usersContainer}>
-            <button onClick={() => console.log("users: ", users)}> users </button>
             {users.length>0 && (
                 users.map( (x, y) =>
                 
-                    <DUserCard key={y} x={x} />
+                    <DUserCard key={y} x={x} setUDetail={setUDetail} setOption={setOption}/>
                 )
             )}
-            <p> No hay usuarios para mostrar </p>
+            {users.length==0 && <p> No hay usuarios para mostrar </p>}
         </div>
     )
 }

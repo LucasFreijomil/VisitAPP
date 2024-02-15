@@ -89,6 +89,25 @@ export const deleteUser = async (id) =>
     }
 }
 
+// DISAPPROVE USER
+
+export const disapproveUser = async (id) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}users/${id}`, {disapprove: true} );
+        console.log("Action: disapproveUser, data: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Action: disapproveUser, error: ", error);
+        return false;
+    }
+}
+
+//
+
 export const guestTypeAction = (type) => {
     return {
 		type: SET_GUEST_TYPE,

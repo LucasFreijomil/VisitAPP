@@ -1,6 +1,6 @@
-.userContainer
+.userCardContainer
 {
-    background-color:blue;
+    background-color:rgba(0, 0, 255, 0.308);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -8,9 +8,22 @@
     justify-content: space-between;
 }
 
-.userContainer img{
+.userCardContainer img{
     border-radius: 100%;
     height: 160px;
     width: 160px;
     padding: 20px;
+}
+
+.cardName
+{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.clickeable
+{
+    display: flex;
+    align-items: center;
 }

@@ -23,7 +23,6 @@ export const DPending = ({setUDetail, setOption}) =>
 
     return(
         <div className={Styles.toApproveContainer}>
-            <button onClick={() => console.log("PENDING: ", pending)}> pendientes </button>
             {pending.length>0 && (
                 pending.map( (x, y) =>
                     <DPendingCard key={y} x={x} setUDetail={setUDetail} setOption={setOption}/>
