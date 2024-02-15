@@ -14,8 +14,7 @@ const getUsers = async(req, res) =>
                 {
                     model: Visitas,
                     as: 'Visitas',
-                    attributes: ["id", "name", "surname", "dni", "company", "work", "labor" ],
-                    through: { attributes: [] }
+                    attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ]
                 } ]} );
             res.status(200).json( userById );
         }
@@ -35,7 +34,6 @@ const getUsers = async(req, res) =>
                         model: Visitas,
                         as: 'Visitas',
                         attributes: ["id", "name", "surname", "dni", "company", "work", "labor" ],
-                        through: { attributes: [] }
                     } ] } );
                 res.status(200).json( userByMail );
             }

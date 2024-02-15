@@ -33,6 +33,12 @@ module.exports = (sequelize) => {
         {
             type: DataTypes.STRING,
             allowNull: true
+        },
+        userId:
+        {
+            type: DataTypes.UUID,
+            foreignKey: true,
+            allowNull: true
         }
     },
     { timestamps: false, freezeTableName: true })
