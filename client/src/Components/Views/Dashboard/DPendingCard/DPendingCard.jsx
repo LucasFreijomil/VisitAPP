@@ -10,7 +10,7 @@ export const DPendingCard = ( {x, setUDetail, setOption} ) =>
     return(
         <div className={Styles.pendingCardContainer}>
 
-            <div onClick={ () => { setOption('userDetail'); setUDetail(x); }}
+            <div onClick={ () => { setOption('pendingUserDetail'); setUDetail(x); }}
                 className={Styles.clickeable}>
                     <div>
                         <img src={x.profileImage ? x.profileImage : "https://cdn-icons-png.flaticon.com/512/4172/4172718.png"} />

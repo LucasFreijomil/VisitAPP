@@ -1,6 +1,6 @@
-import {SET_GUEST_TYPE, LOGIN} from './actions/action-types'
+import { LOGIN, SET_GUEST_TYPE } from './actions/action-types';
 
-const initialstate = 
+const initialstate =
 {
 	activeUser: false,
 	guestType: null,

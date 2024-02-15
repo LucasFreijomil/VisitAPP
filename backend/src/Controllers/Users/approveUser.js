@@ -3,16 +3,33 @@ const { Users } = require("../../db.js");
 const approveUser = async (req, res) =>
 {
     const { id } = req.params
+    const { disapprove } = req.body;
 
-    try
+    if(disapprove)
     {
-        await Users.update( {isApproved: true}, { where: { id } } );
-        return res.status(200).json("Usuario aprovado")
+        try
+        {
+            await Users.update( {isApproved: false}, {where: { id } } );
+            return res.status(200).json("Usuario desaprobado.");
+        }
+        catch(error)
+        {
+            return res.status(500).json( { error_dissaproveUser: error } );
+        }
     }
-    catch (error)
+    else
     {
-        return res.status(500).json( { error_approveUser: error.message } );
+        try
+        {
+            await Users.update( {isApproved: true}, { where: { id } } );
+            return res.status(200).json("Usuario aprovado.")
+        }
+        catch (error)
+        {
+            return res.status(500).json( { error_approveUser: error.message } );
+        }
     }
+
 }
 
 module.exports = approveUser;
