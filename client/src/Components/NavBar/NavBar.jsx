@@ -1,7 +1,6 @@
 import { useDispatch, useDispatch, useSelector } from 'react-redux';
 import { setMyProfileComponent } from '../../Redux/actions/actions';
 import { Link } from 'react-router-dom';
-import { setMyProfileComponent } from '../../Redux/actions/actions';
 
 
 export const NavBar = () => {
