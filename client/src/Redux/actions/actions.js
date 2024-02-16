@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN, SET_GUEST_TYPE, MY_PROFILE_TO_MOUNT } from './action-types';
+import { LOGIN, SET_GUEST_TYPE, MY_PROFILE_TO_MOUNT, CURRENT_VISIT_DETAIL_ID } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -119,5 +119,12 @@ export const setMyProfileComponent = (component) => {
     return {
         type: MY_PROFILE_TO_MOUNT,
         payload: component,
+    }
+}
+
+export const setCurrentVisitId = (id) => {
+    return {
+        type: CURRENT_VISIT_DETAIL_ID,
+        payload: id,
     }
 }
