@@ -2,8 +2,8 @@ const { Users, Visitas } = require("../../db.js");
 
 const getUsers = async(req, res) =>
 {
-    const { id, email } = req.body;
-
+    const { id, email } = req.query;
+    
     if(id)
     {
         try
@@ -11,11 +11,11 @@ const getUsers = async(req, res) =>
             const userById = await Users.findByPk( id,
                 {
                     include: [
-                    {
-                        model: Visitas,
-                        as: 'Visitas',
-                        attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ]
-                    } ]} );
+                {
+                    model: Visitas,
+                    as: 'Visitas',
+                    attributes: ["id", "name", "surname", "dni", "company", "work" ]
+                } ]} );
             res.status(200).json( userById );
         }
         catch(error)
@@ -33,7 +33,7 @@ const getUsers = async(req, res) =>
                     [ {
                         model: Visitas,
                         as: 'Visitas',
-                        attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ],
+                        attributes: ["id", "name", "surname", "dni", "company", "work" ],
                     } ] } );
                 res.status(200).json( userByMail );
             }

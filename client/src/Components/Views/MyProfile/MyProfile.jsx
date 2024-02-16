@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { setMyProfileComponent } from '../../../Redux/actions/actions';
 import { VisitCardList } from '../../VisitCardList/VisitCardList';
 import { Calendario } from '../Calendar/Calendar.jsx';
+import { VisitDetail } from '../VisitDetail/VisitDetail.jsx';
 
 export const MyProfile = () => {
 	const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export const MyProfile = () => {
 				</div>
 			</div>
 			{myProfileToMount == 'My visits' && <VisitCardList />}
+			{myProfileToMount == 'visit_detail' && <VisitDetail />}
 			{myProfileToMount == 'My calendar' && <Calendario />}
 		</div>
 	);
