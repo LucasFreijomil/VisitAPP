@@ -11,11 +11,11 @@ const getUsers = async(req, res) =>
             const userById = await Users.findByPk( id,
                 {
                     include: [
-                {
-                    model: Visitas,
-                    as: 'Visitas',
-                    attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ]
-                } ]} );
+                    {
+                        model: Visitas,
+                        as: 'Visitas',
+                        attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ]
+                    } ]} );
             res.status(200).json( userById );
         }
         catch(error)
@@ -33,7 +33,7 @@ const getUsers = async(req, res) =>
                     [ {
                         model: Visitas,
                         as: 'Visitas',
-                        attributes: ["id", "name", "surname", "dni", "company", "work", "labor" ],
+                        attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ],
                     } ] } );
                 res.status(200).json( userByMail );
             }
