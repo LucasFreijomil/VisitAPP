@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMyProfileComponent } from '../../../Redux/actions/actions';
 import { VisitCardList } from '../../VisitCardList/VisitCardList';
 import { Link } from 'react-router-dom';
+import { VisitDetail } from '../VisitDetail/VisitDetail';
 
 export const MyProfile = () => {
 	const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export const MyProfile = () => {
 				</div>
 			</div>
 			{myProfileToMount == 'My visits' && <VisitCardList />}
+			{myProfileToMount == 'visit_detail' && <VisitDetail />}
 		</div>
 	);
 };
