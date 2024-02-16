@@ -4,6 +4,7 @@ const cors = require("cors");
 const userRouter = require("../Routes/usersRoutes")
 const visitaRouter = require("../Routes/visitasRoutes")
 const guardiasRouter = require("../Routes/guardiasRoutes")
+const eventsRouter = require('./eventsRouter.js');
 
 const router = Router()
 
@@ -12,6 +13,7 @@ router.use(cors());
 router.use("/users", userRouter)
 router.use("/visitas", visitaRouter)
 router.use("/guardias", guardiasRouter)
+router.use('/events', eventsRouter)
 
 
 module.exports = router
