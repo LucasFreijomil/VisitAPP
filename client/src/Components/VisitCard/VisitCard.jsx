@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { setMyProfileComponent, setCurrentVisitId } from '../../Redux/actions/actions';
 import Swal from 'sweetalert2';
+import { setCurrentVisitId, setMyProfileComponent } from '../../Redux/actions/actions';
 
 export const VisitCard = ({ props }) => {
 	const dispatch = useDispatch();

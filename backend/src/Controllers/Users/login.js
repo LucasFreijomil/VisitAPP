@@ -1,4 +1,4 @@
-const { Users } = require("../../db.js");
+const { Users, Visitas } = require("../../db.js");
 const jwt = require("jsonwebtoken");
 
 const login = async(req, res) =>
@@ -9,7 +9,12 @@ const login = async(req, res) =>
     {
         if( !username || !password ) return res.status(400).send("Missing data");
 
-        const user = await Users.findOne( { where: {username} } )
+        const user = await Users.findOne( { where: {username}, include:
+            [ {
+                model: Visitas,
+                as: 'Visitas',
+                attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ],
+            } ] } )
 
         if(user.isActive==false)
         {

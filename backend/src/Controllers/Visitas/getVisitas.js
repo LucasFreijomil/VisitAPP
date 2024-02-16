@@ -3,6 +3,7 @@ const {Visitas} = require("../../db");
 const getVisitas = async (req, res) =>
 {
     const { id, company, work } = req.query;
+
     if(id)
     {
         try

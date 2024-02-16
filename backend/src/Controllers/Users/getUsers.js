@@ -33,7 +33,7 @@ const getUsers = async(req, res) =>
                     [ {
                         model: Visitas,
                         as: 'Visitas',
-                        attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ],
+                        attributes: ["id", "name", "surname", "dni", "company", "work" ],
                     } ] } );
                 res.status(200).json( userByMail );
             }

@@ -1,0 +1,18 @@
+/* calendar.css */
+
+/* Personalización de la apariencia del calendario */
+.react-calendar {
+    font-family: 'Arial', sans-serif; /* Cambia la fuente del calendario */
+    max-width: 400px; /* Establece el ancho máximo del calendario */
+    margin: 0 auto; /* Centra el calendario horizontalmente */
+    border: 1px solid #ccc; /* Agrega un borde alrededor del calendario */
+    border-radius: 5px; /* Agrega esquinas redondeadas al calendario */
+  }
+  
+  /* Estilos para los días reservados */
+  .react-calendar__tile--active {
+    background-color: #f0f0f0; /* Cambia el color de fondo de los días reservados */
+    color: #333; /* Cambia el color del texto de los días reservados */
+    border: 1px solid #ccc; /* Agrega un borde alrededor de los días reservados */
+    border-radius: 50%; /* Hace que los días reservados tengan forma circular */
+  }

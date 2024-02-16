@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN, SET_GUEST_TYPE, MY_PROFILE_TO_MOUNT, CURRENT_VISIT_DETAIL_ID } from './action-types';
+import { CURRENT_VISIT_DETAIL_ID, LOGIN, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE } from './action-types';
 
 let url = "http://localhost:3001/";
 

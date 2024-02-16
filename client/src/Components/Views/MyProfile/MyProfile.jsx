@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { setMyProfileComponent } from '../../../Redux/actions/actions';
 import { VisitCardList } from '../../VisitCardList/VisitCardList';
-import { Link } from 'react-router-dom';
-import { VisitDetail } from '../VisitDetail/VisitDetail';
+import { Calendario } from '../Calendar/Calendar.jsx';
+import { VisitDetail } from '../VisitDetail/VisitDetail.jsx';
 
 export const MyProfile = () => {
 	const dispatch = useDispatch();
@@ -22,9 +22,13 @@ export const MyProfile = () => {
 				<div className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300'>
 					<button onClick={() => dispatch(setMyProfileComponent('My visits'))}>Mis Visitas</button>
 				</div>
+				<div className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300'>
+					<button onClick={() => dispatch(setMyProfileComponent('My calendar'))}>Mi calendario</button>
+				</div>
 			</div>
 			{myProfileToMount == 'My visits' && <VisitCardList />}
 			{myProfileToMount == 'visit_detail' && <VisitDetail />}
+			{myProfileToMount == 'My calendar' && <Calendario />}
 		</div>
 	);
 };
