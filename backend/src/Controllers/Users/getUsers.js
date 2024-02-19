@@ -1,4 +1,4 @@
-const { Users, Visitas } = require("../../db.js");
+const { Users, Visitas, Events } = require("../../db.js");
 
 const getUsers = async(req, res) =>
 {
@@ -15,7 +15,12 @@ const getUsers = async(req, res) =>
                     model: Visitas,
                     as: 'Visitas',
                     attributes: ["id", "name", "surname", "dni", "company", "work" ]
-                } ]} );
+                },
+                {
+                    model: Events,
+                    as: 'Events',
+                    attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                }]} );
             res.status(200).json( userById );
         }
         catch(error)

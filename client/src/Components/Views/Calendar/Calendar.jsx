@@ -20,7 +20,7 @@ export const Calendario = () =>
             <br/>
             <hr/>
             <br/>
-            <CreateEvent  />
+            <CreateEvent selectedDate={selectedDate} />
         </div>
     )
 }

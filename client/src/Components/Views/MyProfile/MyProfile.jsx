@@ -28,7 +28,7 @@ export const MyProfile = () => {
 			</div>
 			{myProfileToMount == 'My visits' && <VisitCardList />}
 			{myProfileToMount == 'visit_detail' && <VisitDetail />}
-			{myProfileToMount == 'My calendar' && <Calendario />}
+			{myProfileToMount == 'My calendar' && <Calendario  />}
 		</div>
 	);
 };

@@ -1,14 +1,15 @@
+import axios from "axios";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from 'react-redux';
 
-export const CreateEvent = () =>
+export const CreateEvent = ({ selectedDate }) =>
 {
     const { activeUser } = useSelector( state => state );
-    const [ user, setUser ] = useState(false);
     const [ form, setForm ] = useState(
         {
             title: '',
-            date: '',
+            date: selectedDate,
             startsAt: '',
             endsAt: '',
             body: '',
@@ -24,10 +25,28 @@ export const CreateEvent = () =>
 		setForm(prevInput => ({...prevInput, [name]: value}));
 	}
 
-    const handleSubmit = () => 
+    const handleSubmit = async (event) => 
     {
-        
+		event.preventDefault();
+        try {
+            const { data } = await axios.post('http://localhost:3001/events', form);
+            alert('New event created!', data)
+            setForm({
+                title: '',
+                date: '',
+                startsAt: '',
+                endsAt: '',
+                body: '',
+            })
+        } catch (error) {
+            console.error('Error creating event: ', error);
+            alert('Error creating event')
+        }
     }
+
+    useEffect(() => {
+        console.log(selectedDate);
+    }, [selectedDate])
 
     return(
         <div>
@@ -73,7 +92,7 @@ export const CreateEvent = () =>
                         </label>}
                     </div>
 
-                    <button type='button' onClick={()=>console.log(form)}> form so far </button>
+                    <button type='submit' className=' w-48 bg-slate-400 transition duration-300 hover:bg-white' onClick={()=>console.log(form)}> Submit </button>
                     <br />
 
                 </fieldset>
