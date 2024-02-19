@@ -24,9 +24,14 @@ export const CreateEvent = () =>
 		setForm(prevInput => ({...prevInput, [name]: value}));
 	}
 
+    const handleSubmit = () => 
+    {
+        
+    }
+
     return(
         <div>
-            <form className="relative bg-brown px-6 pt-10 pb-6 shadow-xl ring-gray-600/5 sm:max-w-lg sm:rounded-lg sm:px-10">
+            <form onSubmit={handleSubmit} className="relative bg-brown px-6 pt-10 pb-6 shadow-xl ring-gray-600/5 sm:max-w-lg sm:rounded-lg sm:px-10">
 
                 <fieldset>
 
