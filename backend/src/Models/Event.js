@@ -15,8 +15,8 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         date:
-        {
-            type: DataTypes.DATE,
+        { 
+            type: DataTypes.STRING,
             allowNull: true
         },
         startsAt:
@@ -37,19 +37,13 @@ module.exports = (sequelize) => {
         alarm:
         {
             type: DataTypes.BOOLEAN,
-            allowNull: true
-        },
-        visitId:
-        {
-            type: DataTypes.UUID,
-            foreignKey: true,
-            allowNull: false
+            defaultValue: false
         },
         userId:
         {
             type: DataTypes.UUID,
             foreignKey: true,
-            allowNull: false
+            allowNull: true
         }
     }, { timestamps: false, freezeTableName: true })
 }

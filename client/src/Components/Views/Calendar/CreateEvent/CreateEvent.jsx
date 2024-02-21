@@ -1,80 +1,133 @@
-import { useState } from "react";
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export const CreateEvent = () =>
-{
-    const { activeUser } = useSelector( state => state );
-    const [ user, setUser ] = useState(false);
-    const [ form, setForm ] = useState(
-        {
-            title: '',
-            date: '',
-            startsAt: '',
-            endsAt: '',
-            body: '',
-            alarm: false,
-            visitId: false,
-            userId: activeUser.id
-        }
-    )
+export const CreateEvent = ({ selectedDate }) => {
+	const { activeUser } = useSelector((state) => state);
+	const [form, setForm] = useState({
+		title: '',
+		date: selectedDate,
+		startsAt: '',
+		endsAt: '',
+		body: '',
+		alarm: false,
+		visitId: [],
+		userId: activeUser.id,
+	});
 
-    const handleChange = e =>
-    {
-		const {name, value} = e.target;
-		setForm(prevInput => ({...prevInput, [name]: value}));
-	}
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setForm((prevInput) => ({ ...prevInput, [name]: value }));
+	};
 
-    return(
-        <div>
-            <form className="relative bg-brown px-6 pt-10 pb-6 shadow-xl ring-gray-600/5 sm:max-w-lg sm:rounded-lg sm:px-10">
+	const handleSelectVisit = (e) => {
+		const selectedVisit = e.target.value;
 
-                <fieldset>
+		if (!form.visitId.includes(selectedVisit)) {
+			setForm({ ...form, visitId: [...form.visitId, selectedVisit] });
+		}
+	};
 
-                    <div>
-                        <p>title</p>
-                        <input type="text" name="title" value={form.title} onChange={handleChange} />
-                    </div>
-                    <br />
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const selectedVisitId = form.visitId.map((x) => x.split(',')[0]);
 
-                    <div>
-                        <p>startsAt</p>
-                        <input type="text" name="startsAt" value={form.startsAt} onChange={handleChange} />
-                    </div>
-                    <br />
+		const definitiveForm = {
+			title: form.title,
+			date: form.date,
+			startsAt: form.startsAt,
+			endsAt: form.endsAt,
+			body: form.body,
+			alarm: form.alarm,
+			visitId: selectedVisitId,
+			userId: form.userId,
+		};
+		try {
+			const { data } = await axios.post('http://localhost:3001/events', definitiveForm);
+			alert('New event created!', data);
+			setForm({
+				title: '',
+				date: '',
+				startsAt: '',
+				endsAt: '',
+				body: '',
+			});
+		} catch (error) {
+			console.error('Error creating event: ', error.message);
+			console.log('DEFINITIVE', definitiveForm);
+			alert('Error creating event');
+		}
+	};
 
-                    <div>
-                        <p>endsAt</p>
-                        <input type="text" name="endsAt" value={form.endsAt} onChange={handleChange} />
-                    </div>
-                    <br />
+	// Provisorio //////////////////////
+	useEffect(() => {
+		console.log(selectedDate);
+	}, [selectedDate]);
 
-                    <div>
-                        <p>body</p>
-                        <input type="text" name="body" value={form.body} onChange={handleChange} />
-                    </div>
-                    <br />
+	useEffect(() => {
+		console.log(form.visitId);
+	}, [form.visitId]);
+	///////////////////////////////////
 
-                    <div>
-                        <p>visitante</p>
-                        <select name='visitId' onChange={handleChange}>
-                            { activeUser.Visitas.length>0 && activeUser.Visitas?.map( (x, y) =>
-                            <option value={x.id} key={y}> {x.name} </option>
-                            )}
-                        </select>
-                        <br/>
-                        {form.visitId &&
-                        <label> {activeUser.Visitas.map( x => {if(x.id==form.visitId ) return x.name})}
-                            <button type='button' onClick={() => setForm({...form, visitId: false})}> ( x )</button>
-                        </label>}
-                    </div>
+	return (
+		<div>
+			<form
+				onSubmit={handleSubmit}
+				className='relative bg-brown px-6 pt-10 pb-6 shadow-xl ring-gray-600/5 sm:max-w-lg sm:rounded-lg sm:px-10'>
+				<fieldset>
+					<div>
+						<p>title</p>
+						<input type='text' name='title' value={form.title} onChange={handleChange} />
+					</div>
+					<br />
 
-                    <button type='button' onClick={()=>console.log(form)}> form so far </button>
-                    <br />
+					<div>
+						<p>startsAt</p>
+						<input type='text' name='startsAt' value={form.startsAt} onChange={handleChange} />
+					</div>
+					<br />
 
-                </fieldset>
+					<div>
+						<p>endsAt</p>
+						<input type='text' name='endsAt' value={form.endsAt} onChange={handleChange} />
+					</div>
+					<br />
 
-            </form>
-            Soy el CreateEvent
-        </div>
-    )
-}
+					<div>
+						<p>body</p>
+						<input type='text' name='body' value={form.body} onChange={handleChange} />
+					</div>
+					<br />
+
+					<div>
+						<p>visitante</p>
+						<select name='visitId' onChange={handleSelectVisit}>
+							{activeUser.Visitas.length > 0 &&
+								activeUser.Visitas?.map((x, y) => (
+									<option value={[x.id, x.name]} key={y}>
+										{x.name}
+									</option>
+								))}
+						</select>
+						<br />
+						{form.visitId?.length > 0 &&
+							form.visitId.map((vis, v) => {
+								const name = vis.split(',')[1];
+								return <div key={v}>{name}</div>;
+							})}
+					</div>
+
+					<button
+						type='submit'
+						className=' w-48 bg-slate-400 transition duration-300 hover:bg-white'
+						onClick={() => console.log(form)}>
+						Submit
+					</button>
+					<br />
+				</fieldset>
+			</form>
+			Soy el CreateEvent
+		</div>
+	);
+};

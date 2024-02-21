@@ -41,6 +41,7 @@ export const CreateVisit = () => {
 
 	return (
 		<div className=' mt-4 '>
+			<button type='button' onClick={() => console.log(form)}>logForm</button>
 			<div name='Create Visit Navbar' className='flex justify-center gap-9 h-20'>
 				<button
 					onClick={() => {

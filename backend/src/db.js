@@ -33,6 +33,12 @@ sequelize
   Users.hasMany( Visitas, { foreignKey: 'userId', onDelete: 'CASCADE' } );
   Visitas.belongsTo( Users, { foreignKey: 'userId' } );
 
+  Users.hasMany( Events, { foreignKey: 'userId', onDelete: 'CASCADE'} )
+  Events.belongsTo( Users, { foreignKey: 'userId' } )
+
+  Visitas.belongsToMany( Events, { through: 'events_int_visits', onDelete: 'CASCADE'} );
+  Events.belongsToMany( Visitas, { through: 'events_int_visits' } );
+
   module.exports ={
     ...sequelize.models,
     conn: sequelize };

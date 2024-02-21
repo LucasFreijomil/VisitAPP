@@ -1,4 +1,4 @@
-const {Visitas} = require("../../db");
+const {Visitas, Events, Users} = require("../../db");
 
 const getVisitas = async (req, res) =>
 {
@@ -8,7 +8,19 @@ const getVisitas = async (req, res) =>
     {
         try
         {
-            const visitById = await Visitas.findByPk( id );
+            const visitById = await Visitas.findByPk( id,
+                {
+                    include: [
+                {
+                    model: Users,
+                    as: 'User',
+                    attributes: ["id", "name", "surname"]
+                },
+                {
+                    model: Events,
+                    as: 'Events',
+                    attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                }]} );
             res.status(200).json( visitById );
         }
         catch(error)
