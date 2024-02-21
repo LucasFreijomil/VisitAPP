@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setMyProfileComponent } from '../../Redux/actions/actions';
 import { Link } from 'react-router-dom';
+import { setGuardComponent, setMyProfileComponent } from '../../Redux/actions/actions';
 
 export const NavBar = () => {
-	const { activeUser } = useSelector((state) => state);
+	const { activeUser, activeGuard } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
 	return (
@@ -16,13 +16,13 @@ export const NavBar = () => {
 				</Link>
 			</div>
 
-			<div>
+			{ (!activeUser && !activeGuard) && (<div>
 				<Link
 					className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300'
 					to='/createuser'>
 					<button className=''> Crear Usuario</button>
 				</Link>
-			</div>
+			</div>)}
 
 			<button onClick={() => console.log('Active user:\n', activeUser)}>activeUser</button>
 
@@ -38,7 +38,7 @@ export const NavBar = () => {
 
 		
 
-			{!activeUser && (
+			{ (!activeUser && !activeGuard) && (
 				<div>
 					<Link
 						className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-slate-600 hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'
@@ -48,14 +48,15 @@ export const NavBar = () => {
 				</div>
 			)}
 
-			{activeUser && (
+			{ (activeUser || activeGuard) && (
 				<div>
 					<Link
 						className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-slate-600 hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'
 						to='/home'>
 						<button
 							onClick={() => {
-								window.localStorage.setItem('activeUser', JSON.stringify(false));
+								window.localStorage.setItem('activeUser', JSON.stringify(null));
+								window.localStorage.setItem('activeGuard', JSON.stringify(null));
 								window.location.reload();
 							}}>
 							LogOut
@@ -68,6 +69,14 @@ export const NavBar = () => {
 				<Link to='/myprofile'>
 					<div className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-black hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'>
 						<button onClick={() => dispatch(setMyProfileComponent(null))} >Mi Perfil</button>
+					</div>
+				</Link>
+			)}
+
+			{activeGuard && (
+				<Link to='/guard'>
+					<div className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-black hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'>
+						<button onClick={() => dispatch(setGuardComponent(null))} >Guardia</button>
 					</div>
 				</Link>
 			)}

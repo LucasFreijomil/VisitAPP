@@ -1,0 +1,29 @@
+.pendingCardContainer
+{
+    background-color:rgba(0, 0, 255, 0.308);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 800px;
+    justify-content: space-between;
+}
+
+.pendingCardContainer img{
+    border-radius: 100%;
+    height: 160px;
+    width: 160px;
+    padding: 20px;
+}
+
+.cardName
+{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.clickeable
+{
+    display: flex;
+    align-items: center;
+}

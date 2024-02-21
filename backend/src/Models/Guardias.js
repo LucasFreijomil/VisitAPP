@@ -9,12 +9,22 @@ module.exports = (sequelize) => {
             allowNull: false,
             primaryKey: true
         },
+        active:
+        {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true
+        },
         name:
         {
             type: DataTypes.STRING,
             allowNull: false
         },
         surname:
+        {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        username:
         {
             type: DataTypes.STRING,
             allowNull: false
