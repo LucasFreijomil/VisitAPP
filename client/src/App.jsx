@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Routes, useLocation } from 'react-router-dom'
@@ -19,7 +20,8 @@ import { decodeGuard, decodeUser } from './Redux/actions/actions'
 function App() {
 	const location = useLocation()
 	const dispatch = useDispatch()
-	const {activeUser, activeGuard} = useSelector(state => state)
+	const {activeUser, activeGuard, myProfileToMount} = useSelector(state => state)
+	const ruta = location.pathname;
 
 	useEffect(() =>
 	{
@@ -50,7 +52,7 @@ function App() {
 			})
 		}
 		//
-	}, [])
+	}, [ruta, myProfileToMount, axios])
 
 	return (
 		<div className='h-screen'>
@@ -59,7 +61,7 @@ function App() {
 				<Route path='*' element={<E404 />} />
 				<Route path='/' element={<Landing />} />
 				<Route path='/home' element={<Home />} />
-				{activeUser.isAdmin && <Route path='/createuser' element={<CreateUser />} />}
+				{!activeUser && <Route path='/createuser' element={<CreateUser />} />}
 				{activeUser && <Route path='/createvisit' element={<CreateVisit />} />}
 				{ (!activeUser && !activeGuard ) && <Route path='/login' element={<Login />} />}
 				{ (!activeUser && !activeGuard ) && <Route path='/glogin' element={<LoginGuard />} />}

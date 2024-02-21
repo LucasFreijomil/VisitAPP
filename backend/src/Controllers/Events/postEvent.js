@@ -3,9 +3,9 @@ const { Users, Events, Visitas } = require("../../db")
 const postEvent = async (req, res) => {
 	const { title, date, startsAt, endsAt, body, alarm, visitId, userId } = req.body;
 
-	try 
+	try
     {
-		const newEvent = 
+		const newEvent =
         {
 			title,
 			date,

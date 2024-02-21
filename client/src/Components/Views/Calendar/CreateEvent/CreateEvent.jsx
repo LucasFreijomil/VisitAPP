@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { decodeUser } from '../../../../Redux/actions/actions';
 
 export const CreateEvent = ({ selectedDate }) => {
 	const { activeUser } = useSelector((state) => state);
+	const dispatch = useDispatch();
 	const [form, setForm] = useState({
 		title: '',
 		date: selectedDate,
@@ -53,6 +54,15 @@ export const CreateEvent = ({ selectedDate }) => {
 				endsAt: '',
 				body: '',
 			});
+			decodeUser( JSON.parse( window.localStorage.getItem('activeUser') ) )
+			.then( ( data ) =>
+			{
+				dispatch(data);
+			})
+			.catch( ( error ) =>
+			{
+				console.log("Error al logear usuario, promesa app.jsx: ", error);
+			})
 		} catch (error) {
 			console.error('Error creating event: ', error.message);
 			console.log('DEFINITIVE', definitiveForm);
