@@ -1,4 +1,6 @@
 export const SET_GUEST_TYPE = "SET_GUEST_TYPE"
 export const LOGIN = "LOGIN";
+export const LOG_GUARD = "LOG_GUARD";
 export const MY_PROFILE_TO_MOUNT = "MY_PROFILE_TO_MOUNT";
+export const GUARD_VIEW = "GUARD_VIEW";
 export const CURRENT_VISIT_DETAIL_ID = "CURRENT_VISIT_DETAIL_ID";
