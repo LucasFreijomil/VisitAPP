@@ -18,7 +18,8 @@ const getEvents = async ( req, res) =>
                             },
                             {
                                 model: Visitas,
-                                attributes: ["id", "name", "surname", "dni", "company", "work"]
+                                as: 'Visitas',
+                                through: 'events_int_visits',
                             }
                         ]})
                     res.status(200).json( eventById );

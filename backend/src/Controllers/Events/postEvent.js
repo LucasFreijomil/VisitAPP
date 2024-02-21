@@ -1,4 +1,4 @@
-const { Events } = require('../../db.js');
+const { Users, Events, Visitas } = require("../../db")
 
 const postEvent = async (req, res) => {
 	const { title, date, startsAt, endsAt, body, alarm, visitId, userId } = req.body;
@@ -13,15 +13,20 @@ const postEvent = async (req, res) => {
 			endsAt,
 			body,
 			alarm,
-			visitId,
-			userId,
 		};
 
-        const eventCreated = await Events.create(newEvent)
+		const newEventCreated = await Events.create( newEvent );
 
-        return res.status(201).json(eventCreated)
+		const thisUser = await Users.findByPk(userId);
+		await thisUser.addEvent(newEventCreated);
+
+		const selectedVisits = await Visitas.findAll({ where: { id: visitId }});
+		await newEventCreated.addVisitas(selectedVisits);
+
+        return res.status(201).json(newEventCreated)
 	} catch (error) 
     {
+		console.log(error)
         return res.status(500).json({error_creating_event: error})
     }
 };
