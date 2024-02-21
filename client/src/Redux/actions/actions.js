@@ -24,7 +24,8 @@ export const decodeUser = async ( token ) =>
     try
     {
         const { data } = await axios.get(`${url}users/decode?token=${token}`);
-        return { type: LOGIN, payload: data };
+        const thisUser = await axios.get(`${url}users?id=${data.id}`);
+        return { type: LOGIN, payload: thisUser.data };
     }
     catch(error)
     {
