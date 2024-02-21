@@ -12,7 +12,7 @@ router.use(morgan("dev"));
 router.use(cors());
 router.use("/users", userRouter)
 router.use("/visitas", visitaRouter)
-router.use("/guardias", guardiasRouter)
+router.use("/guards", guardiasRouter)
 router.use('/events', eventsRouter)
 
 

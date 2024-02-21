@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CURRENT_VISIT_DETAIL_ID, LOGIN, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE } from './action-types';
+import { CURRENT_VISIT_DETAIL_ID, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -35,6 +35,35 @@ export const decodeUser = async ( token ) =>
 export const logOffUser = () =>
 {
     return { type: LOGIN, payload: false };
+}
+
+// LOGIN GUARD
+
+export const logGuard = async (form) =>
+{
+    try
+    {
+        const { data } = await axios.post(`${url}guards/login`, form);
+        return data
+    }
+    catch(error)
+    {
+        console.log("¡Hubo un error en logGuard!: ", error);
+        return error;
+    }
+}
+
+export const decodeGuard = async ( token ) =>
+{
+    try
+    {
+        const { data } = await axios.get(`${url}guards/decode?token=${token}`);
+        return { type: LOG_GUARD, payload: data };
+    }
+    catch(error)
+    {
+        console.log( "Error en decodeGuard: ", error,"\n token provided: ", token );
+    }
 }
 
 // CREATE USER
@@ -106,7 +135,58 @@ export const disapproveUser = async (id) =>
     }
 }
 
-//
+// CREATE GUARD
+
+export const createGuard = ( form ) =>
+{
+    return axios.post(`${url}guards`, form)
+    .then( ( { data } ) =>
+    {
+        console.log("Response: ", data);
+        return true;
+    })
+    .catch( ( error ) =>
+    {
+        console.log("Error al crear guardia /createGuardAction/: ", error );
+        return false;
+    })
+}
+
+// DISABLE / ENABLE GUARD
+
+export const switchGuard = async ( id ) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}guards/${id}`);
+        console.log("RESPONSE: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error |switchGuard action|: ", error);
+        return false;
+    }
+}
+
+//  DELETE GUARD
+
+export const deleteGuard = async ( id ) =>
+{
+    try
+    {
+        const { data } = await axios.delete(`${url}guards/${id}`);
+        console.log("Guard deleted successfully: ", data);
+    }
+    catch(error)
+    {
+        console.log("Error |Action: deleteGuard| ", error);
+        return false;
+    }
+}
+
+
+// Mi Perfil
 
 export const guestTypeAction = (type) => {
     return {
@@ -126,5 +206,15 @@ export const setCurrentVisitId = (id) => {
     return {
         type: CURRENT_VISIT_DETAIL_ID,
         payload: id,
+    }
+}
+
+// Guardia
+
+
+export const setGuardComponent = (component) => {
+    return {
+        type: GUARD_VIEW,
+        payload: component,
     }
 }
