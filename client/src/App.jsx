@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Routes, useLocation } from 'react-router-dom'
@@ -26,7 +25,8 @@ function App() {
 	useEffect(() =>
 	{
 		//log user
-		if(JSON.parse(window.localStorage.getItem('activeUser')) != null)
+		if(window.localStorage.getItem('activeUser') != undefined
+		&& JSON.parse(window.localStorage.getItem('activeUser')) != null)
 		{
 			decodeUser( JSON.parse( window.localStorage.getItem('activeUser') ) )
 			.then( ( data ) =>
@@ -39,7 +39,8 @@ function App() {
 			})
 		}
 		//log guard
-		if(JSON.parse(window.localStorage.getItem('activeGuard')) != null)
+		if(window.localStorage.getItem('activeGuard') != undefined
+		&& JSON.parse(window.localStorage.getItem('activeGuard')) != null)
 		{
 			decodeGuard( JSON.parse( window.localStorage.getItem('activeGuard') ) )
 			.then( ( data ) =>
@@ -52,7 +53,7 @@ function App() {
 			})
 		}
 		//
-	}, [ruta, myProfileToMount, axios])
+	}, [ruta, myProfileToMount])
 
 	return (
 		<div className='h-screen'>

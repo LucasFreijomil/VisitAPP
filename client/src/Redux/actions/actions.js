@@ -59,7 +59,8 @@ export const decodeGuard = async ( token ) =>
     try
     {
         const { data } = await axios.get(`${url}guards/decode?token=${token}`);
-        return { type: LOG_GUARD, payload: data };
+        const thisGuard = await axios.get(`${url}guards?id=${data.id}`);
+        return { type: LOG_GUARD, payload: thisGuard.data };
     }
     catch(error)
     {
