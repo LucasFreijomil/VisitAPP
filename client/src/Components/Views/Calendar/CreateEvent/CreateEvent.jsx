@@ -8,7 +8,7 @@ export const CreateEvent = ({ selectedDate }) => {
 	const dispatch = useDispatch();
 	const [form, setForm] = useState({
 		title: '',
-		date: selectedDate,
+		date: '',
 		startsAt: '',
 		endsAt: '',
 		body: '',
@@ -36,7 +36,7 @@ export const CreateEvent = ({ selectedDate }) => {
 
 		const definitiveForm = {
 			title: form.title,
-			date: form.date,
+			date: selectedDate,
 			startsAt: form.startsAt,
 			endsAt: form.endsAt,
 			body: form.body,
@@ -47,6 +47,7 @@ export const CreateEvent = ({ selectedDate }) => {
 		try {
 			const { data } = await axios.post('http://localhost:3001/events', definitiveForm);
 			alert('New event created!', data);
+			console.log('New event created!', data);
 			setForm({
 				title: '',
 				date: '',
@@ -131,7 +132,7 @@ export const CreateEvent = ({ selectedDate }) => {
 					<button
 						type='submit'
 						className=' w-48 bg-slate-400 transition duration-300 hover:bg-white'
-						onClick={() => console.log(form)}>
+						>
 						Submit
 					</button>
 					<br />
