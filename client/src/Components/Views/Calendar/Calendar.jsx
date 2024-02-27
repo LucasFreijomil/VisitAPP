@@ -3,6 +3,8 @@ import Calendar from 'react-calendar';
 import { useSelector } from "react-redux";
 import '../Calendar/Calendar.css';
 import { CreateEvent } from "./CreateEvent/CreateEvent.jsx";
+import { EventList } from "./EventList/EventList.jsx";
+import styles from "./Calendar.module.css"
 
 export const Calendario = () =>
 {
@@ -40,7 +42,10 @@ export const Calendario = () =>
             <br/>
             <hr/>
             <br/>
-            <CreateEvent selectedDate={selectedDate} />
+            <div className={styles.container}>
+            <div className={styles.create}><CreateEvent selectedDate={selectedDate} /></div>
+            <div className={styles.list}><EventList selectedDate={selectedDate} /></div>
+            </div>
         </div>
     )
 }
