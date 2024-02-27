@@ -7,6 +7,7 @@ import { CreateVisit } from './Components/Create/CreateVisit/CreateVisit'
 import Footer from './Components/Footer/Footer'
 import { NavBar } from './Components/NavBar/NavBar'
 import { E404 } from './Components/Views/404/E404'
+import { EventCard } from './Components/Views/Calendar/EventCard/EventCard'
 import { Dashboard } from './Components/Views/Dashboard/Dashboard'
 import { Guard } from './Components/Views/Guard/Guard'
 import { Home } from './Components/Views/Home/Home'
@@ -69,6 +70,7 @@ function App() {
 				{activeUser && <Route path='/myprofile' element={<MyProfile />} />}
 				{activeGuard && <Route path='/guard' element={ <Guard /> } />}
 				{ (activeUser && activeUser.isAdmin) && <Route path='/dashboard' element={<Dashboard />} />}
+				<Route path='/event/:id' element={<EventCard/>} />
 			</Routes>
 			<Footer />
 		</div>

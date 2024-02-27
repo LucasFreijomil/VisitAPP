@@ -220,3 +220,37 @@ export const setGuardComponent = (component) => {
         payload: component,
     }
 }
+
+// Modify Visit
+
+export const modifyVisit = async ( form, id ) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}visitas/${id}`, form);
+        console.log("Visit modified succesfully.\nData: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error modifyVisit action: ", error);
+        return false;
+    }
+}
+
+// Modify Event
+
+export const modifyEvent = async ( form, id ) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}events/${id}`, form);
+        console.log("Event modified succesfully.\nData: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error modifyEvent action: ", error );
+        return false;
+    }
+}
