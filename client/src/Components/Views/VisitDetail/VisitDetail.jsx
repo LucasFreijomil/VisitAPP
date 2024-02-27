@@ -2,10 +2,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { modifyVisit } from '../../../Redux/actions/actions.js';
 
 export const VisitDetail = () => {
 	const { currentVisitDetailId } = useSelector((state) => state);
 	const [showVisit, setShowVisit] = useState(null);
+	const [ editCompany, setEditCompany ] = useState(false);
+	const [ editWork, setEditWork ] = useState(false);
+	const [ input, setInput ] = useState(false)
 
 	useEffect(() => {
 		axios
@@ -18,6 +22,17 @@ export const VisitDetail = () => {
 				console.log('Error geting visit: ', error);
 			});
 	}, []);
+
+	const handleChange = e =>
+    {
+		const {name, value} = e.target;
+		setInput( { [name]: value } );
+	}
+
+	const enviarCambios = ( form, id ) =>
+	{
+		modifyVisit(form, id) && alert("¡Cambiado satisfactoriamente!");
+	}
 
 	return (
 		<div className='w-full mt-10 flex justify-center'>
@@ -33,7 +48,24 @@ export const VisitDetail = () => {
 				<p className=' text-4xl'></p>
 				<p className=' text-4xl'>DNI: {showVisit?.dni}</p>
 				{showVisit?.work && (<p className=' text-4xl'>Work: {showVisit?.work}</p>)}
-				{showVisit?.company && (<p className=' text-4xl'>Company: {showVisit?.company}</p>)}
+				{showVisit?.work && (
+				<>
+					{!editWork && <p className=' text-4xl'>Trabajo: {showVisit?.work}</p>}
+					{editWork && <input type='text' name='work' placeholder='tusn MEGA nalgas' onChange={handleChange} />}
+					{editWork && <button onClick={ () => enviarCambios(input, showVisit.id) }> Enviar </button>}
+					<button onClick={() => console.log("input: ", input)}> input so far </button>
+					<button onClick={() => setEditWork(!editWork)}> EDITAR TRABAJO </button>
+				</>
+				)}
+				{showVisit?.company && (
+				<>
+					{!editCompany && <p className=' text-4xl'>Company: {showVisit?.company}</p>}
+					{editCompany && <input type='text' name='company' placeholder='tus nalgas' onChange={handleChange} />}
+					{editCompany && <button onClick={ () => enviarCambios(input, showVisit.id) }> Enviar </button>}
+					<button onClick={() => console.log("input: ", input)}> input so far </button>
+					<button onClick={() => setEditCompany(!editCompany)}> EDITAR COMPAÑIA </button>
+				</>
+				)}
                 </div>
                 </div>
 			</div>

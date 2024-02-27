@@ -1,11 +1,13 @@
+const { Visitas } = require('../../db.js');
+
 const deleteVisita = async(req, res) =>
 {
     const {id} = req.params
 
     try
     {
-        await visita.destroy( { where: { id } } );
-        res.status(200).json( { Success: `User id ${id} deleted` } );
+        await Visitas.destroy( { where: { id } } );
+        res.status(200).json( { Success: `Visita deleted` } );
     }
     catch(error)
     {

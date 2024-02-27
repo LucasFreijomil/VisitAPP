@@ -24,7 +24,8 @@ export const NavBar = () => {
 				</Link>
 			</div>)}
 
-			<button onClick={() => console.log('Active user:\n', activeUser)}>activeUser</button>
+			{ activeUser && <button onClick={() => console.log('Active user:\n', activeUser)}>activeUser</button> }
+			{ activeGuard && <button onClick={() => console.log('Active guard:\n', activeGuard)}>activeGuard</button> }
 
 			{activeUser && activeUser.isAdmin && (
 				<div>

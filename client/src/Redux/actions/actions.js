@@ -59,7 +59,8 @@ export const decodeGuard = async ( token ) =>
     try
     {
         const { data } = await axios.get(`${url}guards/decode?token=${token}`);
-        return { type: LOG_GUARD, payload: data };
+        const thisGuard = await axios.get(`${url}guards?id=${data.id}`);
+        return { type: LOG_GUARD, payload: thisGuard.data };
     }
     catch(error)
     {
@@ -217,5 +218,39 @@ export const setGuardComponent = (component) => {
     return {
         type: GUARD_VIEW,
         payload: component,
+    }
+}
+
+// Modify Visit
+
+export const modifyVisit = async ( form, id ) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}visitas/${id}`, form);
+        console.log("Visit modified succesfully.\nData: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error modifyVisit action: ", error);
+        return false;
+    }
+}
+
+// Modify Event
+
+export const modifyEvent = async ( form, id ) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}events/${id}`, form);
+        console.log("Event modified succesfully.\nData: ", data);
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error modifyEvent action: ", error );
+        return false;
     }
 }
