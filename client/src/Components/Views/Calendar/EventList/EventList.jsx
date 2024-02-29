@@ -25,11 +25,12 @@ export const EventList = ({selectedDate}) => {
             {eventos.length == 0 ? <div>No hay eventos</div> :
             eventos.map((event) => (
                 <Link to={`/event/${event.id}`} class="w-3/4 border-2 border-red-600 mb-5 p-5">
-                <div >
-                <div>{event.title}</div>
-                <div>{event.body}</div>
-                <div>{event.date.slice(0, 10)}</div>
-                </div>
+                    <div >
+                        <div>{event.title}</div>
+                        {event.body.length>50 && <div> {event.body.slice(0,50) + ' . . .'} </div>}
+                        {event.body.length<=50 && <div> {event.body} </div>}
+                        <div>{event.date.slice(0, 10)}</div>
+                    </div>
                 </Link>
             ))}
         </div>
