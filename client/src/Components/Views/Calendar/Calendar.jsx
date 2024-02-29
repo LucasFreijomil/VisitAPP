@@ -1,51 +1,86 @@
 import { useState } from "react";
-import Calendar from 'react-calendar';
+// import Calendar from 'react-calendar';
 import { useSelector } from "react-redux";
 import '../Calendar/Calendar.css';
 import { CreateEvent } from "./CreateEvent/CreateEvent.jsx";
 import { EventList } from "./EventList/EventList.jsx";
 import styles from "./Calendar.module.css"
 
+// Big Calendar
+import { Calendar, dayjsLocalizer } from 'react-big-calendar'
+import dayjs from "dayjs";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+const localizer = dayjsLocalizer(dayjs)
+//
+
 export const Calendario = () =>
 {
-    const { activeUser } = useSelector((state) => state )
-    const [ selectedDate, setSelectedDate ] = useState( new Date() );
+	const { activeUser } = useSelector((state) => state);
+	const [selectedDate, setSelectedDate] = useState(new Date());
 
-    const userEvents = activeUser.Events
+	// const userEvents = activeUser.Events;
+	const userEvents = activeUser.Events.map((x) => 
+		{return {
+			start: dayjs(x.date.slice(0, 10) + 'T' + x.startsAt + ":00").toDate(),
+			end: dayjs(x.date.slice(0, 10) + 'T' + x.endsAt + ":00").toDate(),
+			title: x.title,
+			id: x.id
+		}}
+	)
 
-    // Función para verificar si un día tiene eventos
-    const hasEvents = (date) => {
-        const eventDates = userEvents.map(event => new Date(event.date).toDateString()); // Obtener un array con las fechas de los eventos en formato de día
-        const selectedDate = date.toDateString(); // Convertir la fecha seleccionada a formato de día
+	const handleDateChange = (date) => {
+		setSelectedDate(date);
+		console.log(userEvents);
+	};
 
-        return eventDates.includes(selectedDate); // Devuelve true si la fecha seleccionada tiene eventos, de lo contrario devuelve false
+	const handleSelectEvent = (event) => {
+        // Redirige a la sección del día del evento seleccionado
+        console.log('la concha de tu madre', event)
     }
 
-    // Función para personalizar el contenido de las celdas del calendario
-    const tileContent = ({ date, view }) => {
-        if (view === 'month' && hasEvents(date)) {
-            return <div style={{ backgroundColor: 'red', borderRadius: '50%', width: '25px', height: '25px' }}></div>;
-        }
-    }
-
-    const handleDateChange = (date) =>
-    {
-        setSelectedDate( date );
-        console.log(userEvents);
-    }
-
-    return(
-        <div>
-            <button onClick={() => console.log("Date: ", selectedDate)}> Date </button>
-            <h1> Calendario de visitas </h1>
-            <Calendar onChange={handleDateChange} value={selectedDate} tileContent={tileContent}/>
-            <br/>
-            <hr/>
-            <br/>
-            <div className={styles.container}>
-            <div className={styles.create}><CreateEvent selectedDate={selectedDate} /></div>
-            <div className={styles.list}><EventList selectedDate={selectedDate} /></div>
-            </div>
-        </div>
-    )
+	return (
+		<div className=' flex flex-col'>
+			<div>
+				<button onClick={() => console.log('Date: ', selectedDate)}> Date </button>
+				<h1> Calendario de visitas </h1>
+                <div className='grid grid-cols-2 gap-3'>
+				<div style={{ height: '600px', width: '100%' }} className='bigCalendar-container'>
+					<Calendar
+                        value={selectedDate}
+						localizer={localizer}
+						events={userEvents}
+						startAccessor='start'
+						endAccessor='end'
+						onSelectSlot={(slotInfo) => handleDateChange(slotInfo.start)}
+						selectable
+						onSelectEvent={(event) => handleSelectEvent(event)}
+						messages={{
+							next: 'Sig.',
+							previous: 'Ant.',
+							today: 'Hoy',
+							month: 'Mes',
+							week: 'Semana',
+						}}
+					/>
+				</div>
+				<div>
+				<div className={styles.list}>
+						<EventList selectedDate={selectedDate} />
+					</div>
+				</div>
+			</div>
+				<br />
+				<hr />
+				<br />
+				<div className={styles.container}>
+					<div className={styles.create}>
+						<CreateEvent selectedDate={selectedDate} />
+					</div>
+					
+				</div>
+			</div>
+			
+		</div>
+	);
 }
