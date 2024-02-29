@@ -1,5 +1,13 @@
-const a = [1,2,3,3,1,3];
+const a = '2020-12-04:EMT20-30-40-50-60.JPG'
 
-let k = [ ...new Set(a) ];
+console.log( a.slice(0,10) + a.slice(10) );
 
-console.log("k: ", k);
+
+
+/* Set behaviour */
+
+// const a = [1,2,3,3,1,3];
+
+// let k = [ ...new Set(a) ];
+
+// console.log("k: ", k);

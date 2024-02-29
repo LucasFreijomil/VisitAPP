@@ -10,6 +10,7 @@ export const EventCard = () =>
     const [ event, setEvent ] = useState(false);
     const [ edit, setEdit ] = useState(false);
     let date = event.date?.slice(0,10);
+    const [ fullDate, setFullDate ] = useState( {day: '', month: '', year: '', extra: event.date?.slice(10) } );
     const [ input, setInput ] = useState(false);
     let url = "http://localhost:3001/";
 
@@ -28,24 +29,59 @@ export const EventCard = () =>
         })
     }, [])
 
+    useEffect( () =>
+    {
+        axios.get(`${url}events?id=${id}`)
+        .then( ( { data } ) =>
+        {
+            console.log("Event details succesfully fetched.");
+            setEvent(data);
+        })
+        .catch( ( error ) =>
+        {
+            console.log("ERROR fetching event details: ", error);
+            setEvent(false);
+        })
+    }, [modifyEvent])
+
     const handleChange = e =>
     {
       const {name, value} = e.target;
       setInput( { [name]: value } );
     }
 
+    const handleDate = e =>
+    {
+      const { name, value } = e.target;
+      setFullDate( prevInput => ( {...prevInput, [name]: value, extra: event.date.slice(10) } ) )
+    }
+
+    const newDate = () =>
+    {
+      modifyEvent( { date: input.date + fullDate.extra }, event.id );
+      window.location.reload();
+    }
+
+    const newItem = () =>
+    {
+      modifyEvent(input, event.id);
+      setEdit(false);
+      window.location.reload();
+    }
+
     return (
         <div >
+          <button onClick={() => console.log("Event: ", event )}> EVENTO </button>
 
           <div style={{fontSize: '24px', textAlign: 'center'}}>
-            {edit!='name' && (<>
-            <h1> Nombre: { event.title } </h1> <label onClick={()=>setEdit('name')}> '('✍')' </label>
+            {edit!='title' && (<>
+            <h1> Título: { event.title } </h1> <label onClick={()=>setEdit('title')}> '('✍')' </label>
             </>)}
-            {edit=='name' && (
+            {edit=='title' && (
             <>
-              <label> Nombre: </label> <input type='text' name='name' placeholder=' . . .' onChange={handleChange} />
+              <label> Título: </label> <input type='text' name='title' placeholder=' . . .' onChange={handleChange} />
               <label onClick={() => { setEdit(false); setInput(false); }}> ✖ </label>
-              <button onClick={()=> modifyEvent(input, event.id)}> ✔ </button>
+              <button onClick={ newItem }> ✔ </button>
             </>)}
           </div>
 
@@ -53,17 +89,52 @@ export const EventCard = () =>
               <hr/>
 
           <div className='grid grid-cols-2 gap-3'>
+
             <div>
+
               {event.body}
+
               <br/>
               <hr/>
               <br/>
-              <label> Fecha: {date} </label>
+
+              {edit!='date' && (<>
+              <label> Fecha: { date } </label> <label onClick={()=>setEdit('date')}> 🖋 </label>
+              </>)}
+              {edit=='date' && (
+              <>
+                <label> Fecha: </label>
+                <input type='date' name='date' onChange={handleChange} />
+                <label onClick={() => { setEdit(false); setInput(false); }}> ✖ </label>
+                <button onClick={newDate}> ✔ </button>
+              </>)}
+
               <br/>
-              <label> Hora de comienzo: {event.startsAt} </label>
+
+              {edit!='startsAt' && (<>
+              <label> Hora de comienzo: { event.startsAt } </label> <label onClick={()=>setEdit('startsAt')}> 🖋 </label>
+              </>)}
+              {edit=='startsAt' && (
+              <>
+                <label> Hora de comienzo: </label> <input type='time' name='startsAt' placeholder=' . . .' onChange={handleChange} />
+                <label onClick={() => { setEdit(false); setInput(false); }}> ✖ </label>
+                <button onClick={ newItem }> ✔ </button>
+              </>)}
+
               <br/>
-              <label> Hora de Finalización: {event.endsAt} </label>
+
+              {edit!='endsAt' && (<>
+              <label> Hora de Finalización: { event.endsAt } </label> <label onClick={()=>setEdit('endsAt')}> 🖋 </label>
+              </>)}
+              {edit=='endsAt' && (
+              <>
+                <label> Hora de Finalización: </label> <input type='time' name='endsAt' placeholder=' . . .' onChange={handleChange} />
+                <label onClick={() => { setEdit(false); setInput(false); }}> ✖ </label>
+                <button onClick={ newItem }> ✔ </button>
+              </>)}
+
               <br/>
+
               <label> Creado por: {event.User?.name} {event.User?.surname} </label>
               
             </div>

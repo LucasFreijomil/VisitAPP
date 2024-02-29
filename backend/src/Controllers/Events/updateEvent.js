@@ -8,6 +8,9 @@ const updateEvent = async ( req, res ) =>
     try
     {
         const updatedEvent = await Events.update(form, { where: { id } } );
+        console.log("form: ", form, "\nid: ", id);
+        const modifiedEvent = await Events.findByPk( id );
+        console.log("Modified event: ", modifiedEvent );
         res.status(200).json( { updatedEvent: updatedEvent } );
     }
     catch(error)
