@@ -5,17 +5,17 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { modifyEvent } from '../../../../Redux/actions/actions.js';
+import './EventCard.css';
 import { EventGuest } from './EventGuest/EventGuest';
-
 
 export const EventCard = () =>
 {
     const { id } = useParams();
     const [ event, setEvent ] = useState(false);
     const [ edit, setEdit ] = useState(false);
-    let date = event.date?.slice(0,10);
-    const [ fullDate, setFullDate ] = useState( {day: '', month: '', year: '', extra: event.date?.slice(10) } );
+    const [ extra, setExtra ] = useState(false);
     const [ input, setInput ] = useState(false);
+    const [ isChecked, setIsChecked ] = useState(false);
     let url = "http://localhost:3001/";
 
     const settings = {
@@ -33,6 +33,8 @@ export const EventCard = () =>
         {
             console.log("Event details succesfully fetched.");
             setEvent(data);
+            setExtra(data.date?.slice(10));
+            setIsChecked(data.alarm);
         })
         .catch( ( error ) =>
         {
@@ -48,6 +50,8 @@ export const EventCard = () =>
         {
             console.log("Event details succesfully fetched.");
             setEvent(data);
+            setExtra(data.date?.slice(10));
+            setIsChecked(data.alarm);
         })
         .catch( ( error ) =>
         {
@@ -62,15 +66,9 @@ export const EventCard = () =>
       setInput( { [name]: value } );
     }
 
-    const handleDate = e =>
-    {
-      const { name, value } = e.target;
-      setFullDate( prevInput => ( {...prevInput, [name]: value, extra: event.date.slice(10) } ) )
-    }
-
     const newDate = () =>
     {
-      modifyEvent( { date: input.date + fullDate.extra }, event.id );
+      modifyEvent( { date: input.date + extra }, event.id );
       window.location.reload();
     }
 
@@ -81,9 +79,15 @@ export const EventCard = () =>
       window.location.reload();
     }
 
+    const handleCheckboxChange = (e) =>
+    {
+      setIsChecked(e.target.checked);
+      modifyEvent( { alarm: e.target.checked }, event.id);
+    };
+
     return (
       <div >
-      <button onClick={() => console.log("Event: ", event )}> EVENTO </button>
+      {/* <button onClick={() => console.log("Event: ", event )}> EVENTO </button> */}
 
       <div style={{fontSize: '24px', textAlign: 'center'}}>
         {edit!='title' && (<>
@@ -100,18 +104,31 @@ export const EventCard = () =>
           <br/>
           <hr/>
 
+          {edit!='body' && (<>
+          <h1> Descripción: <label onClick={()=>setEdit('body')}> 🖋 </label> </h1>
+           { event.body }
+          </>)}
+          {edit=='body' && (
+          <>
+            <h1> Descripción: </h1>
+
+              <textarea style={{ width: "70%" }} type='text' name='body'  placeholder=' . . .' onChange={handleChange} />
+
+
+            <label onClick={() => { setEdit(false); setInput(false); }}> ✖ </label>
+            <button onClick={ newItem }> ✔ </button>
+          </>)}
+
       <div className='grid grid-cols-2 gap-3'>
 
         <div>
-
-          {event.body}
 
           <br/>
           <hr/>
           <br/>
 
           {edit!='date' && (<>
-          <label> Fecha: { date } </label> <label onClick={()=>setEdit('date')}> 🖋 </label>
+          <label> Fecha: { event.date?.slice(0,10) } </label> <label onClick={()=>setEdit('date')}> 🖋 </label>
           </>)}
           {edit=='date' && (
           <>
@@ -147,6 +164,12 @@ export const EventCard = () =>
 
           <br/>
 
+          <label> Alarma </label>
+          <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+
+          <br/>
+          <br/>
+
           <label> Creado por: {event.User?.name} {event.User?.surname} </label>
           
         </div>
@@ -167,9 +190,9 @@ export const EventCard = () =>
       <br/>
       <hr/>
 
-      <div style={{marginTop: '20px'}}>
+      {/* <div style={{marginTop: '20px'}}>
         Datos Extra en el Fondo
-        </div>
+        </div> */}
     </div>
 				);
 }

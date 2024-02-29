@@ -1,0 +1,9 @@
+.contenedor {
+    width: 70%; /* El ancho del div será el 70% del contenedor padre */
+    margin: 0 auto; /* Centrar el div */
+  }
+  
+  .input-grande {
+    width: 100%; /* El input ocupa el 100% del ancho del div */
+    height: 100px; /* Altura suficiente para mostrar dos o tres renglones */
+  }
