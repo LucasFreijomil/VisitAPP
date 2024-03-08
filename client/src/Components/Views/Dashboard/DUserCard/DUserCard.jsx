@@ -1,19 +1,39 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteUser, disapproveUser } from '../../../../Redux/actions/actions';
 import Styles from './DUserCard.module.css';
 
-export const DUserCard = ( { x, setUDetail, setOption } ) =>
+export const DUserCard = ( { x } ) =>
 {
     const [ disapproved, setDisapproved ] = useState(false);
     const [ deleted, setDeleted ] = useState(false);
+    const dispatch = useDispatch();
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const seeDetail = () =>
+    {
+        let urlParams = new URLSearchParams();
+            urlParams.set( 'id', x.id );
+            navigate(window.location.pathname + '?' + urlParams.toString() );
+        // if(location.pathname=='/dashboard')
+        // {
+        //     setOption(dispatch, 'userDetail');
+        //     setUDetail(dispatch, x);
+        // }
+        // else
+        // {
+        //     let urlParams = new URLSearchParams();
+        //     urlParams.set( 'id', x.id );
+        //     navigate(window.location.pathname + '?' + urlParams.toString() );
+        // }
+    }
 
     return(
         <div className={Styles.userCardContainer}>
-            <button onClick={()=>console.log("ruta: ",location.pathname )}> ruta </button>
-
-            <div onClick={ () => { setOption('userDetail'); setUDetail(x); }}
+            
+            <div onClick={seeDetail}
                 className={Styles.clickeable}>
                     <div>
                         <img src={x.profileImage ? x.profileImage : "https://cdn-icons-png.flaticon.com/512/4172/4172718.png"} />

@@ -1,4 +1,4 @@
-import { CURRENT_VISIT_DETAIL_ID, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE } from './actions/action-types';
+import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE, USER_DETAIL } from './actions/action-types';
 
 
 const initialstate =
@@ -7,7 +7,11 @@ const initialstate =
 	activeGuard: false,
 	guestType: null,
 	myProfileToMount: null,
-	guardView: null,
+	//	GUARDIA
+	guardView: 'main',
+	uDetail: false,
+	foundBySearch: 'false',
+	//
 	currentVisitDetailId: null
 }
 
@@ -24,9 +28,13 @@ const rootReducer = (state = initialstate, {type, payload}) => {
 		
 		case MY_PROFILE_TO_MOUNT:
 			return { ...state, myProfileToMount: payload};
-
+			//	GUARDIA
 		case GUARD_VIEW:
 			return { ...state, guardView: payload };
+		case USER_DETAIL:
+			return { ...state, uDetail: payload };
+		case FOUND_BY_SEARCH:
+			return { ...state, foundBySearch: payload };
 		
 		case CURRENT_VISIT_DETAIL_ID:
 			return { ...state, currentVisitDetailId: payload};

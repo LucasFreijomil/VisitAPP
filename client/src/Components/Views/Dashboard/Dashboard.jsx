@@ -30,7 +30,7 @@ export const Dashboard = () =>
                 { option=='pending' && <DPending setUDetail={setUDetail} setOption={setOption} option={option} />}
                 { option=='pendingUserDetail' && <DPendingDetail uDetail={uDetail} setOption={setOption} />}
 
-                { option=='users' && <DUsers setUDetail={setUDetail} setOption={setOption}/>}
+                { option=='users' && <DUsers />}
                 { option=='userDetail' && <DUserDetail uDetail={uDetail} setOption={setOption}/>}
             </div>
 

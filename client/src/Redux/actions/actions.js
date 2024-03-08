@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CURRENT_VISIT_DETAIL_ID, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE } from './action-types';
+import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE, USER_DETAIL } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -220,6 +220,32 @@ export const setGuardComponent = (component) => {
         payload: component,
     }
 }
+
+// Cambiar opción (GUARDIA)
+
+export const setOption = ( dispatch, option ) =>
+{
+    dispatch( { type: GUARD_VIEW, payload: option } );
+    return true;
+}
+
+//  Ver detalle de UN usuario
+
+export const setUDetail = ( dispatch, user ) =>
+{
+    dispatch( { type: USER_DETAIL, payload: user } );
+    return true;
+}
+
+/* Ir a buscar usuarios por NOMBRE, MAIL, DNI. */
+////////////////////////////////////////////////
+
+export const handleFound = ( dispatch, data ) =>
+{
+    dispatch( { type: FOUND_BY_SEARCH, payload: data } );
+}
+
+////////////////////////////////////////////////
 
 // Modify Visit
 

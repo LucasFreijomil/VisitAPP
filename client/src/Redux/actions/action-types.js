@@ -4,3 +4,5 @@ export const LOG_GUARD = "LOG_GUARD";
 export const MY_PROFILE_TO_MOUNT = "MY_PROFILE_TO_MOUNT";
 export const GUARD_VIEW = "GUARD_VIEW";
 export const CURRENT_VISIT_DETAIL_ID = "CURRENT_VISIT_DETAIL_ID";
+export const USER_DETAIL = "USER_DETAIL";
+export const FOUND_BY_SEARCH = "FOUND_BY_SEARCH";

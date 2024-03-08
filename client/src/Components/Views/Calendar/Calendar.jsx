@@ -2,14 +2,15 @@ import { useState } from "react";
 // import Calendar from 'react-calendar';
 import { useSelector } from "react-redux";
 import '../Calendar/Calendar.css';
+import styles from "./Calendar.module.css";
 import { CreateEvent } from "./CreateEvent/CreateEvent.jsx";
 import { EventList } from "./EventList/EventList.jsx";
-import styles from "./Calendar.module.css"
 
 // Big Calendar
-import { Calendar, dayjsLocalizer } from 'react-big-calendar'
 import dayjs from "dayjs";
+import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { EventCard } from "./EventCard/EventCard.jsx";
 
 const localizer = dayjsLocalizer(dayjs)
 //
@@ -18,6 +19,7 @@ export const Calendario = () =>
 {
 	const { activeUser } = useSelector((state) => state);
 	const [selectedDate, setSelectedDate] = useState(new Date());
+    const [ selectedEvent, setSelectedEvent ] = useState(false);
 
 	// const userEvents = activeUser.Events;
 	const userEvents = activeUser.Events.map((x) => 
@@ -31,12 +33,15 @@ export const Calendario = () =>
 
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
-		console.log(userEvents);
+        setSelectedEvent(false);
+		console.log("date change: ",userEvents);
 	};
 
 	const handleSelectEvent = (event) => {
         // Redirige a la sección del día del evento seleccionado
         console.log('la concha de tu madre', event)
+        setSelectedDate();
+        setSelectedEvent(event.id);
     }
 
 	return (
@@ -65,9 +70,10 @@ export const Calendario = () =>
 					/>
 				</div>
 				<div>
-				<div className={styles.list}>
-						<EventList selectedDate={selectedDate} />
-					</div>
+                    <div className={styles.list}>
+                        { !selectedEvent && <EventList selectedDate={selectedDate} setSelectedEvent={setSelectedEvent}/>}
+                        { selectedEvent && <EventCard id={selectedEvent} setSelectedEvent={setSelectedEvent} /> }
+                    </div>
 				</div>
 			</div>
 				<br />
