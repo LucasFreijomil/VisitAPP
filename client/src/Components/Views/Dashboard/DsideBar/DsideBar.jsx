@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
+import { handleFound } from '../../../../Redux/actions/actions';
 
 export const DsideBar = ({setOption}) =>
 {
+    const dispatch = useDispatch();
     const [ pending, setPending ] = useState(false);
     let url ="http://localhost:3001/";
 
@@ -21,6 +24,8 @@ export const DsideBar = ({setOption}) =>
         })
     }, [])
 
+
+
     console.log("Pending: ", pending);
     return(
         <div>
@@ -28,7 +33,7 @@ export const DsideBar = ({setOption}) =>
             | | 
             <button onClick={ () => setOption('pending')}> {pending && `(${pending})`} PENDIENTES </button>
             | | 
-            <button onClick={ () => setOption('users')}> USUARIOS </button>
+            <button onClick={ () => { setOption('users'); handleFound( dispatch, false ) }}> USUARIOS </button>
             | | 
             <button onClick={ () => setOption('createGuard')}> CREAR GUARDIA </button>
             | | 

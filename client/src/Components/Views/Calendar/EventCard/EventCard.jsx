@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -8,9 +7,8 @@ import { modifyEvent } from '../../../../Redux/actions/actions.js';
 import './EventCard.css';
 import { EventGuest } from './EventGuest/EventGuest';
 
-export const EventCard = () =>
+export const EventCard = ( { id, setSelectedEvent } ) =>
 {
-    const { id } = useParams();
     const [ event, setEvent ] = useState(false);
     const [ edit, setEdit ] = useState(false);
     const [ extra, setExtra ] = useState(false);
@@ -31,7 +29,7 @@ export const EventCard = () =>
         axios.get(`${url}events?id=${id}`)
         .then( ( { data } ) =>
         {
-            console.log("Event details succesfully fetched.");
+            console.log("Event details succesfully fetched for the first time.");
             setEvent(data);
             setExtra(data.date?.slice(10));
             setIsChecked(data.alarm);
@@ -48,10 +46,11 @@ export const EventCard = () =>
         axios.get(`${url}events?id=${id}`)
         .then( ( { data } ) =>
         {
-            console.log("Event details succesfully fetched.");
+            console.log("Event details succesfully fetched again.");
             setEvent(data);
             setExtra(data.date?.slice(10));
             setIsChecked(data.alarm);
+            setSelectedEvent(data.id);
         })
         .catch( ( error ) =>
         {
@@ -69,14 +68,15 @@ export const EventCard = () =>
     const newDate = () =>
     {
       modifyEvent( { date: input.date + extra }, event.id );
-      window.location.reload();
+      
+      // window.location.reload();
     }
 
     const newItem = () =>
     {
       modifyEvent(input, event.id);
       setEdit(false);
-      window.location.reload();
+      // window.location.reload();
     }
 
     const handleCheckboxChange = (e) =>
@@ -88,6 +88,7 @@ export const EventCard = () =>
     return (
       <div >
       {/* <button onClick={() => console.log("Event: ", event )}> EVENTO </button> */}
+      <button class='button' onClick={() => setSelectedEvent(false) }> ← </button>
 
       <div style={{fontSize: '24px', textAlign: 'center'}}>
         {edit!='title' && (<>

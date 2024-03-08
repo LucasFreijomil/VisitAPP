@@ -1,32 +1,42 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 import Styles from './DUserDetail.module.css';
 
-export const DUserDetail = ( { uDetail, setOption} ) =>
+export const DUserDetail = () =>
 {
     const [ thisUser, setThisUser ] = useState(false);
+    const { uDetail } = useSelector( state => state );
     let url = "http://localhost:3001/";
+    const location = useLocation();
 
     useEffect( () =>
     {
-        axios.get(`${url}users?id=${uDetail.id}`)
+        const searchParams = new URLSearchParams(location.search);
+        const id = searchParams.get('id');
+
+        axios.get(`${url}users?id=${id}`)
         .then( ( { data } ) =>
         {
-            console.log(`Detalles del usuario ${data.username} traídos con éxito:\n${data}`);
             setThisUser( data );
         })
-        .catch( (error) =>
+        .catch( ( error ) =>
         {
-            console.log("Error en la promesa para traer los detalles del usuario: ", error);
+            console.log( "Error al traer el detalle de usuario: ", error );
         })
-    }, [])
-    //En realidad habría que traer al usuario por ID para que venga con las relacionales y mostrar todo.git
+    }, [location.search])
+
+    const handleBack = () =>
+    {
+        window.history.back();
+    }
 
     return(
         <div className={Styles.containerDetail}>
             <button onClick={()=>console.log("thisUser: ", thisUser)}> detail </button>
 
-            <button className={Styles.backButton} onClick={ () => setOption('users') }> {'<'} </button>
+            <button className={Styles.backButton} onClick={handleBack}> {'<'} </button>
 
             <div className={Styles.detailContainer}>
 
