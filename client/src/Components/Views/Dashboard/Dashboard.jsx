@@ -21,7 +21,6 @@ export const Dashboard = () =>
     useEffect( () =>
     {
         window.history.replaceState({}, '', window.location.pathname);
-        console.log("Cambió la option");
         dispatch( { type: FOUND_BY_SEARCH, payload: false } );
     }, [option])
 

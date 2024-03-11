@@ -32,7 +32,6 @@ export const DUsers = ( { option } ) =>
 
     useEffect( () =>
     {
-        console.log("Cambió el refreshUsers: ", refreshUsers,"\nDebería fetchear data denuevo");
         axios.get(`${url}users`)
         .then( ( {data} ) =>
         {
