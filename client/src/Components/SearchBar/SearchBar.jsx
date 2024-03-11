@@ -1,28 +1,33 @@
 import axios from 'axios';
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { handleFound } from "../../Redux/actions/actions";
 
-export const SearchBar = () =>
+export const SearchBar = ( { option } ) =>
 {
-    let url = "http://localhost:3001/";
+    let url = option=='pending' ? "http://localhost:3001/users/notApproved" : "http://localhost:3001/users";
     const location = useLocation();
     const navigate = useNavigate();
-    const { foundBySearch } = useSelector( state => state );
+    const foundBySearch = useSelector( state => state.foundBySearch );
+    const [ inputName, setInputName ] = useState('');
+    const [ inputEmail, setInputEmail ] = useState('');
+    const [ inputDni, setInputDni ] = useState('');
     const dispatch = useDispatch();
+    const urlParams = new URLSearchParams();
+    const searchParams = new URLSearchParams(location.search);
 
     useEffect( () =>
     {
-        const searchParams = new URLSearchParams(location.search);
-        const name = searchParams.get('name');
-        const surname = searchParams.get('surname');
-        const email = searchParams.get('email');
-        const dni = searchParams.get('dni');
-
+        let name = searchParams.get('name');
+        let surname = searchParams.get('surname');
+        let email = searchParams.get('email');
+        let dni = searchParams.get('dni');
+        
+        console.log("Ni bien me monto:\n","name: ", name, "\nsurname: ", surname, "\nemail: ", email, "\ndni: ", dni);
         if(name && surname)
         {
-            axios.get(`${url}users?name=${name}&surname=${surname}`)
+            axios.get(`${url}?name=${name}&surname=${surname}`)
             .then( ( { data } ) =>
             {
                 data.length>0 ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
@@ -36,24 +41,47 @@ export const SearchBar = () =>
         {
             if(name)
             {
-                axios.get(`${url}users?name=${name}`)
+                axios.get(`${url}?name=${name}`)
                 .then( ( { data } ) =>
                 {
-                    data.length>0 ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                    if(data.length>0)
+                    {
+                        if(option!='pending')
+                        {
+                            let approved = [];
+                            data.map( x => x.isApproved && approved.push(x) );
+                            approved.length>0 ? handleFound( dispatch, approved ) : handleFound( dispatch, 404 );
+                        }
+                        else
+                        {
+                            handleFound( dispatch, data );
+                        }
+                    }
+                    else
+                    {
+                        handleFound(dispatch, 404);
+                    }
                 })
                 .catch( ( error ) =>
                 {
-                    console.log( "Error buscando por nombre: ", error.message );
+                    console.log( "Error buscando por nombre: ", error );
                 })
             }
             else
             {
                 if(email)
                 {
-                    axios.get(`${url}users?email=${email}`)
+                    axios.get(`${url}?email=${email}`)
                     .then( ( { data } ) =>
                     {
-                        data!=null?handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                        if(option=='pending')
+                        {
+                            data!=null ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                        }
+                        else
+                        {
+                            ( data!=null && data.isApproved ) ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                        }
                     })
                     .catch( ( error ) =>
                     {
@@ -64,10 +92,17 @@ export const SearchBar = () =>
                 {
                     if(dni)
                     {
-                        axios.get(`${url}users?dni=${dni}`)
+                        axios.get(`${url}?dni=${dni}`)
                         .then( ( { data } ) =>
                         {
-                            data!=null ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                            if(option=='pending')
+                            {
+                                data!=null ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                            }
+                            else
+                            {
+                                ( data!=null && data.isApproved ) ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                            }
                         })
                         .catch( ( error ) =>
                         {
@@ -77,11 +112,24 @@ export const SearchBar = () =>
                 }
             }
         }
+        return() =>
+        {
+            searchParams.delete('name');
+        }
     }, [location.search]);
 
     const handleGoBack = () =>
     {
         window.history.back();
+    }
+
+    const handleCleanUp = () =>
+    {
+        handleFound(dispatch, false);
+        setInputDni('');
+        setInputEmail('');
+        setInputName('');
+        navigate(window.location.pathname)
     }
 
     const handleEnterName = (e) =>
@@ -90,7 +138,6 @@ export const SearchBar = () =>
         {
             if(e.target.value != '')
             {
-                let urlParams = new URLSearchParams();
                 let input = e.target.value;
                 let splitted = input.split(' ');
                 if(splitted.length>1)
@@ -115,8 +162,9 @@ export const SearchBar = () =>
         {
             if(e.key=='Escape')
             {
-                e.target.value='';
+                setInputName('');
                 handleFound(dispatch, false);
+                navigate(window.location.pathname)
             }
             else
             {
@@ -131,7 +179,6 @@ export const SearchBar = () =>
         {
             if(e.target.value != '')
             {
-                let urlParams = new URLSearchParams();
                 urlParams.set('email', e.target.value);
                 window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
                 navigate(window.location.pathname + '?' + urlParams.toString())
@@ -145,8 +192,9 @@ export const SearchBar = () =>
         {
             if(e.key=='Escape')
             {
-                e.target.value='';
+                setInputEmail('');
                 handleFound(dispatch, false);
+                navigate(window.location.pathname)
             }
             else
             {
@@ -161,7 +209,6 @@ export const SearchBar = () =>
         {
             if(e.target.value != '')
             {
-                let urlParams = new URLSearchParams();
                 urlParams.set('email', e.target.value);
                 window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
                 navigate(window.location.pathname + '?' + urlParams.toString())
@@ -175,8 +222,9 @@ export const SearchBar = () =>
         {
             if(e.key=='Escape')
             {
-                e.target.value='';
+                setInputDni('');
                 handleFound(dispatch, false);
+                navigate(window.location.pathname)
             }
             else
             {
@@ -191,10 +239,13 @@ export const SearchBar = () =>
             <hr/>
             <br/>
             <button onClick={()=>console.log("foundBySearch: ", foundBySearch?foundBySearch:'false')}>| NAME |</button>
-            <label> Nombre: </label> <input placeholder="JHON DOE" onKeyDown={handleEnterName}/>
-            <label> Correo: </label> <input placeholder="JHON@DOE.COM" onKeyDown={handleEnterMail}/>
-            <label> DNI: </label> <input maxLength={8} type='number' placeholder="1234567890" onKeyDown={handleEnterDni}/>
-            {foundBySearch!=false && <button onClick={()=>handleFound(dispatch, false)}> ( Limpiar búsqueda ) </button>}
+            <label> Nombre: </label>
+            <input value={inputName} onChange={(e) => setInputName(e.target.value) } placeholder="JHON DOE" onKeyDown={handleEnterName}/>
+            <label> Correo: </label>
+            <input value={inputEmail} onChange={(e) => setInputEmail(e.target.value) } placeholder="JHON@DOE.COM" onKeyDown={handleEnterMail}/>
+            <label> DNI: </label>
+            <input value={inputDni} onChange={ (e)=> setInputDni(e.target.value) } placeholder="1234567890" onKeyDown={handleEnterDni} maxLength={8}  type='number' />
+            {foundBySearch!=false && <button onClick={handleCleanUp}> ( Limpiar búsqueda ) </button>}
             <br/>
             <hr/>
             <button onClick={handleGoBack}> BACK BACK </button>

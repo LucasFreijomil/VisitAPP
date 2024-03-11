@@ -1,13 +1,11 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteUser, disapproveUser } from '../../../../Redux/actions/actions';
+import { deleteUser, disapproveUser, pendingToApprove, refreshUsersFromDb } from '../../../../Redux/actions/actions';
 import Styles from './DUserCard.module.css';
 
 export const DUserCard = ( { x } ) =>
 {
-    const [ disapproved, setDisapproved ] = useState(false);
-    const [ deleted, setDeleted ] = useState(false);
+    const refreshUsers = useSelector( state => state.refreshUsers );
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
@@ -17,17 +15,20 @@ export const DUserCard = ( { x } ) =>
         let urlParams = new URLSearchParams();
             urlParams.set( 'id', x.id );
             navigate(window.location.pathname + '?' + urlParams.toString() );
-        // if(location.pathname=='/dashboard')
-        // {
-        //     setOption(dispatch, 'userDetail');
-        //     setUDetail(dispatch, x);
-        // }
-        // else
-        // {
-        //     let urlParams = new URLSearchParams();
-        //     urlParams.set( 'id', x.id );
-        //     navigate(window.location.pathname + '?' + urlParams.toString() );
-        // }
+    }
+
+    const disapproveThisUser = async () =>
+    {
+        await disapproveUser(x.id);
+        await pendingToApprove(dispatch);
+        refreshUsersFromDb(dispatch, !refreshUsers);
+    }
+
+    const deleteThisUser = async () =>
+    {
+        await deleteUser(x.id);
+        await pendingToApprove(dispatch);
+        refreshUsersFromDb(dispatch, !refreshUsers);
     }
 
     return(
@@ -53,17 +54,11 @@ export const DUserCard = ( { x } ) =>
             </div>
                 
                 {location.pathname=='/dashboard' &&
-                (!deleted && <div class={!disapproved ? 'bg-red-400' : 'bg-green-400'}>
-                    {!disapproved && <button onClick={() => { disapproveUser(x.id); setDisapproved(true); } }> Deshabilitar </button>}
-                    {disapproved && <button disabled> DESHABILITADO </button>}
-                </div>)
+                    <button onClick={disapproveThisUser} > Deshabilitar </button>
                 }
 
                 {location.pathname=='/dashboard' &&
-                (<div class={!deleted ? 'bg-gray-400' : 'bg-red-400'}>
-                    {!deleted && <button onClick={() => { deleteUser(x.id); setDeleted(true); } }> Eliminar </button>}
-                    {deleted && <button disabled> ELIMINADO </button>}
-                </div>)
+                    <button onClick={deleteThisUser} > Eliminar </button>
                 }
 
         </div>
