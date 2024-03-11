@@ -24,7 +24,6 @@ export const SearchBar = ( { option } ) =>
         let email = searchParams.get('email');
         let dni = searchParams.get('dni');
         
-        console.log("Ni bien me monto:\n","name: ", name, "\nsurname: ", surname, "\nemail: ", email, "\ndni: ", dni);
         if(name && surname)
         {
             axios.get(`${url}?name=${name}&surname=${surname}`)
@@ -111,10 +110,6 @@ export const SearchBar = ( { option } ) =>
                     }
                 }
             }
-        }
-        return() =>
-        {
-            searchParams.delete('name');
         }
     }, [location.search]);
 
