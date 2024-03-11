@@ -7,26 +7,44 @@ import { DUserCard } from '../DUserCard/DUserCard.jsx';
 import { DUserDetail } from '../DUserDetail/DUserDetail.jsx';
 import Styles from './DUsers.module.css';
 
-export const DUsers = () =>
+export const DUsers = ( { option } ) =>
 {
     const [ users, setUsers ] = useState([]);
-    const { foundBySearch } = useSelector( state => state );
+    const { foundBySearch, refreshUsers } = useSelector( state => state )
     const [ id, setId ] = useState(false);
     const location = useLocation();
+    let url = "http://localhost:3001/";
 
     useEffect( () =>
     {
-        let url = "http://localhost:3001/";
         axios.get(`${url}users`)
         .then( ( {data} ) =>
         {
-            setUsers(data);
+            let approved = [];
+            data.map( x => x.isApproved && approved.push(x) );
+            setUsers(approved);
         })
         .catch( (error) =>
         {
             console.log( "Error al cargar pendientes: ", error.message );
         })
     }, [])
+
+    useEffect( () =>
+    {
+        console.log("Cambió el refreshUsers: ", refreshUsers,"\nDebería fetchear data denuevo");
+        axios.get(`${url}users`)
+        .then( ( {data} ) =>
+        {
+            let approved = [];
+            data.map( x => x.isApproved && approved.push(x) );
+            setUsers(approved);
+        })
+        .catch( (error) =>
+        {
+            console.log( "Error al cargar pendientes: ", error.message );
+        })
+    }, [refreshUsers])
 
     useEffect( () =>
     {
@@ -40,7 +58,7 @@ export const DUsers = () =>
             {!id && (
                 <div>
                     <button onClick={() => console.log("Users: ", users)}> USERS </button>
-                    <SearchBar />
+                    <SearchBar option={option} />
 
                     { (foundBySearch && foundBySearch!='404' && Array.isArray(foundBySearch) ) && (<div className={Styles.usersContainer}>
                         {

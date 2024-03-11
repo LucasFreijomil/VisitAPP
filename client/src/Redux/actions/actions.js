@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, SET_GUEST_TYPE, USER_DETAIL } from './action-types';
+import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, SET_GUEST_TYPE, USER_DETAIL } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -279,4 +279,44 @@ export const modifyEvent = async ( form, id ) =>
         console.log("Error modifyEvent action: ", error );
         return false;
     }
+}
+
+// Users to approve counter
+
+export const usersToAprove = async () =>
+{
+    try
+    {
+        const { data } = await axios.get(`${url}users/notApproved`);
+        return data;
+    }
+    catch(error)
+    {
+        console.log( "Error counting usersToAprove: ", error );
+        return false;
+    }
+}
+
+// Pending-to-Approve users counter
+
+export const pendingToApprove = async (dispatch) =>
+{
+    try
+    {
+        const { data } = await axios.get(`${url}users/notApproved`);
+        dispatch( { type: REFRESH_TOAPPROVE, payload: data } );
+        return true;
+    }
+    catch(error)
+    {
+        console.log( "Error fetching pendingToApprove users: ", error );
+        return false;
+    }
+}
+
+//  Refresh actual users from DB
+
+export const refreshUsersFromDb = ( dispatch, data ) =>
+{
+    return dispatch( { type: REFRESH_USERS, payload: data })
 }

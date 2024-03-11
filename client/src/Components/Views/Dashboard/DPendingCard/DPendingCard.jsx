@@ -1,11 +1,27 @@
 import { useState } from 'react';
-import { approveUser, deleteUser } from '../../../../Redux/actions/actions.js';
+import { useDispatch } from 'react-redux';
+import { approveUser, deleteUser, pendingToApprove } from '../../../../Redux/actions/actions.js';
 import Styles from './DPendingCard.module.css';
 
 export const DPendingCard = ( {x, setUDetail, setOption} ) =>
 {
+    const dispatch = useDispatch();
     const [approved, setApproved] = useState(false);
     const [deleted, setDeleted] = useState(false);
+
+    const deleteThisUser = async () =>
+    {
+        await deleteUser(x.id);
+        await pendingToApprove(dispatch);
+        setDeleted(true);
+    }
+
+    const approveThisUser = async () =>
+    {
+        await approveUser(x.id);
+        await pendingToApprove(dispatch);
+        setApproved(true);
+    }
 
     return(
         <div className={Styles.pendingCardContainer}>
@@ -29,14 +45,12 @@ export const DPendingCard = ( {x, setUDetail, setOption} ) =>
                     </div>
             </div>
                 
-                {!deleted && <div class={!approved ? 'bg-red-400' : 'bg-green-400'}>
-                    {!approved && <button onClick={() => { approveUser(x.id); setApproved(true); } }> Aprobar </button>}
-                    {approved && <button disabled> APROBADO </button>}
+                {!deleted && <div class={'bg-green-400'}>
+                    <button onClick={approveThisUser} > Aprobar </button>
                 </div>}
 
-                <div class={!deleted ? 'bg-gray-400' : 'bg-red-400'}>
-                    {!deleted && <button onClick={() => { deleteUser(x.id); setDeleted(true); } }> Eliminar </button>}
-                    {deleted && <button disabled> ELIMINADO </button>}
+                <div class={'bg-red-400'}>
+                    <button onClick={deleteThisUser} > Eliminar </button>
                 </div>
 
         </div>
