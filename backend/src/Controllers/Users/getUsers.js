@@ -1,8 +1,9 @@
 const { Users, Visitas, Events } = require("../../db.js");
+const { Op, fn, col } = require('sequelize');
 
 const getUsers = async(req, res) =>
 {
-    const { id, email } = req.query;
+    const { id, email, name, surname, dni } = req.query;
     
     if(id)
     {
@@ -39,6 +40,11 @@ const getUsers = async(req, res) =>
                         model: Visitas,
                         as: 'Visitas',
                         attributes: ["id", "name", "surname", "dni", "company", "work" ],
+                    },
+                    {
+                        model: Events,
+                        as: 'Events',
+                        attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
                     } ] } );
                 res.status(200).json( userByMail );
             }
@@ -49,14 +55,103 @@ const getUsers = async(req, res) =>
         }
         else
         {
-            try
+            if(name)
             {
-                const usuarios = await Users.findAll()
-                return res.status(200).json(usuarios)
+                if(surname)
+                {
+                    try
+                    {
+                        const thisNameSurname = await Users.findAll( { where:
+                            {
+                                name: { [Op.iLike]: `%${name}%`},
+                                surname: { [Op.iLike]: `%${surname}%`} }, include:
+                            [ {
+                                model: Visitas,
+                                as: 'Visitas',
+                                attributes: ["id", "name", "surname", "dni", "company", "work" ],
+                            },
+                            {
+                                model: Events,
+                                as: 'Events',
+                                attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            } ] } );
+                        res.status(200).json( thisNameSurname );
+                    }
+                    catch(error)
+                    {
+                        res.status(500).json( { error_getByNameSurname: error } );
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        const thisName = await Users.findAll( { where: { name: { [Op.iLike]: `%${name}%`} }, include:
+                            [ {
+                                model: Visitas,
+                                as: 'Visitas',
+                                attributes: ["id", "name", "surname", "dni", "company", "work" ],
+                            },
+                            {
+                                model: Events,
+                                as: 'Events',
+                                attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            } ] } );
+                        const thisSurname = await Users.findAll( { where: { surname: { [Op.iLike]: `%${name}%`} }, include:
+                            [ {
+                                model: Visitas,
+                                as: 'Visitas',
+                                attributes: ["id", "name", "surname", "dni", "company", "work" ],
+                            },
+                            {
+                                model: Events,
+                                as: 'Events',
+                                attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            } ] } );
+                        res.status(200).json( [...thisName, ...thisSurname] );
+                    }
+                    catch(error)
+                    {
+                        res.status(500).json( { error_getByName: error } );
+                    }
+                }
             }
-            catch(error)
+            else
             {
-                return res.status(400).send("Error al obtener los usuarios")
+                if(dni)
+                {
+                    try
+                    {
+                        const thisDni = await Users.findAll( { where: { dni }, include:
+                            [ {
+                                model: Visitas,
+                                as: 'Visitas',
+                                attributes: ["id", "name", "surname", "dni", "company", "work" ],
+                            },
+                            {
+                                model: Events,
+                                as: 'Events',
+                                attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            } ] } );
+                        res.status(200).json( thisDni );
+                    }
+                    catch(error)
+                    {
+                        res.status(500).json( { error_getUserByDni: error } );
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        const usuarios = await Users.findAll()
+                        return res.status(200).json(usuarios)
+                    }
+                    catch(error)
+                    {
+                        return res.status(400).send("Error al obtener los usuarios")
+                    }
+                }
             }
         }
     }

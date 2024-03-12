@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import { handleFound } from '../../../../Redux/actions/actions.js';
 import { SearchBar } from '../../../SearchBar/SearchBar.jsx';
 import { DUserCard } from '../DUserCard/DUserCard.jsx';
 import { DUserDetail } from '../DUserDetail/DUserDetail.jsx';
@@ -13,10 +14,12 @@ export const DUsers = ( { option } ) =>
     const { foundBySearch, refreshUsers } = useSelector( state => state )
     const [ id, setId ] = useState(false);
     const location = useLocation();
+    const dispatch = useDispatch();
     let url = "http://localhost:3001/";
 
     useEffect( () =>
     {
+        location.search=='' && handleFound(dispatch, false);
         axios.get(`${url}users`)
         .then( ( {data} ) =>
         {
@@ -56,7 +59,7 @@ export const DUsers = ( { option } ) =>
             
             {!id && (
                 <div>
-                    <button onClick={() => console.log("Users: ", users)}> USERS </button>
+                    
                     <SearchBar option={option} />
 
                     { (foundBySearch && foundBySearch!='404' && Array.isArray(foundBySearch) ) && (<div className={Styles.usersContainer}>
@@ -66,14 +69,12 @@ export const DUsers = ( { option } ) =>
                                 <DUserCard key={y} x={x}/>
                             )
                         }
-                        {users.length==0 && <p> No hay usuarios para mostrar </p>}
                     </div>) }
 
                     { (foundBySearch && foundBySearch!='404' && !Array.isArray(foundBySearch) ) && (<div className={Styles.usersContainer}>
                         {
                             <DUserCard x={foundBySearch}/>
                         }
-                        {users.length==0 && <p> No hay usuarios para mostrar </p>}
                     </div>) }
 
                     { foundBySearch=='404' && (<div className={Styles.usersContainer}>
@@ -82,19 +83,22 @@ export const DUsers = ( { option } ) =>
                                 No se encontraron coincidencias con la búsqueda...
                             </div>
                         }
-                        {users.length==0 && <p> No hay usuarios para mostrar </p>}
                     </div>) }
 
-                    {!foundBySearch && (
+                    { (!foundBySearch && users.length>0) && (
                     <div className={Styles.usersContainer}>
-                        {users.length>0 && (
+                        {
                             users.map( (x, y) =>
-                            
                                 <DUserCard key={y} x={x}/>
                             )
-                        )}
-                        {users.length==0 && <p> No hay usuarios para mostrar </p>}
+                        }
                     </div>)}
+
+                    { (!foundBySearch && users.length==0) && (
+                    <div className={Styles.usersContainer}>
+                        No se encontraron usuarios aprobados...
+                    </div>)}
+
                 </div>)
             }
 

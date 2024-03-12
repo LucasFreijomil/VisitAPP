@@ -29,7 +29,9 @@ export const SearchBar = ( { option } ) =>
             axios.get(`${url}?name=${name}&surname=${surname}`)
             .then( ( { data } ) =>
             {
-                data.length>0 ? handleFound( dispatch, data ) : handleFound(dispatch, 404);
+                let approved = [];
+                data.map( x => x.isApproved && approved.push(x) );
+                approved.length>0 ? handleFound( dispatch, approved ) : handleFound( dispatch, 404 );
             })
             .catch( ( error ) =>
             {
