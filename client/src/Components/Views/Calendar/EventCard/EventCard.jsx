@@ -57,7 +57,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
             console.log("ERROR fetching event details: ", error);
             setEvent(false);
         })
-    }, [modifyEvent])
+    }, [modifyEvent, edit])
 
     const handleChange = e =>
     {
@@ -68,7 +68,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
     const newDate = () =>
     {
       modifyEvent( { date: input.date + extra }, event.id );
-      
+      setEdit(false);
       // window.location.reload();
     }
 
