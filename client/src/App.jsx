@@ -17,12 +17,15 @@ import { Landing } from './Components/Views/Landing/Landing'
 import { Login } from './Components/Views/Login/Login'
 import { LoginGuard } from './Components/Views/LoginGuard/LoginGuard'
 import { MyProfile } from './Components/Views/MyProfile/MyProfile'
+import { PlayGround } from './Components/Views/PlayGround/PlayGround'
 import { decodeGuard, decodeUser } from './Redux/actions/actions'
 
 function App() {
 	const location = useLocation()
 	const dispatch = useDispatch()
+
 	const {activeUser, activeGuard, myProfileToMount, updateUserInfo} = useSelector(state => state)
+
 	const ruta = location.pathname;
 
 	useEffect(() =>
@@ -76,7 +79,10 @@ function App() {
 				{activeGuard && <Route path='/guard/users' element={<DUsers/>} />}
 				{activeGuard && <Route path='/guard/user' element={<DUserDetail />} />}
 				{ (activeUser && activeUser.isAdmin) && <Route path='/dashboard' element={<Dashboard />} />}
-				<Route path='/event/:id' element={<EventCard />} />
+
+				<Route path='/event/:id' element={<EventCard/>} />
+				<Route path='/playground' element={<PlayGround />} />
+
 			</Routes>
 			{/* <Footer /> */}
 		</div>

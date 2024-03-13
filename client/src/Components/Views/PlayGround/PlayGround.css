@@ -1,0 +1,26 @@
+/* Estilo para el contenedor de la campana */
+.contenedor-campana
+{
+    position: relative;
+    display: inline-block;
+}
+  
+  /* Estilo para el número superpuesto */
+.numero-notificaciones
+{
+    position: absolute;
+    top: -10px; /* Ajusta según tu diseño */
+    right: -10px; /* Ajusta según tu diseño */
+    background-color: red;
+    color: white;
+    border-radius: 50%; /* Para que sea un círculo */
+    padding: 5px;
+    font-size: 12px;
+}
+
+  /* Estilo para la campana */
+.contenedor-campana img
+{
+    max-width: 50px; /* Ajusta el tamaño máximo según tu diseño */
+    max-height: 50px; /* Ajusta el tamaño máximo según tu diseño */
+}
