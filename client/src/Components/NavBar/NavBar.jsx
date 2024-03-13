@@ -1,10 +1,27 @@
+import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setGuardComponent, setMyProfileComponent } from '../../Redux/actions/actions';
+import './NavBar.css';
 
 export const NavBar = () => {
-	const { activeUser, activeGuard } = useSelector((state) => state);
+	const activeUser = useSelector( state => state.activeUser );
+	const activeGuard = useSelector( state => state.activeGuard );
+	const [ tomorrow, setTomorrow ] = useState( [] );
+
 	const dispatch = useDispatch();
+
+	useEffect( () =>
+    {
+        let nextDayEvents = [];
+        activeUser && activeUser.Events.map( x =>
+            {
+                (moment(x.date).isSame( moment(new Date()).clone().add(1, 'day'), 'day') && x.alarm) && nextDayEvents.push( x );
+                console.log(x);
+            })
+        setTomorrow(nextDayEvents);
+    }, [activeUser])
 
 	return (
 		<div className=' bg-blue-600 flex justify-evenly items-center h-20 text-cyan-50'>
@@ -81,6 +98,19 @@ export const NavBar = () => {
 					</div>
 				</Link>
 			)}
+
+			{tomorrow.length>0 &&
+			<Link to='/playground'>
+				<div className="contenedor-campana" >
+                <img src='https://c0.klipartz.com/pngpicture/762/925/gratis-png-interfaz-de-usuario-de-iconos-de-computadora-campana-de-notificacion.png'/>
+                {tomorrow.length>0 &&
+                <div className="numero-notificaciones" >
+                    {tomorrow.length}
+                </div>}
+            </div>
+			</Link>}
+
+			
 		</div>
 	);
 };
