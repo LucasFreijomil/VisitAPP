@@ -1,4 +1,4 @@
-import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, SET_GUEST_TYPE, USER_DETAIL } from './actions/action-types';
+import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, SET_GUEST_TYPE, USER_DETAIL, REFRESH_USER_INFO } from './actions/action-types';
 
 
 const initialstate =
@@ -16,6 +16,7 @@ const initialstate =
 	toApprove: false,
 	//usersInGeneral
 	refreshUsers: false,
+	updateUserInfo: false,
 	currentVisitDetailId: null
 }
 
@@ -38,6 +39,10 @@ const rootReducer = (state = initialstate, {type, payload}) => {
 			//	refreshUsers
 		case REFRESH_USERS:
 			return { ...state, refreshUsers: payload };
+
+		case REFRESH_USER_INFO:
+			return { ...state, updateUserInfo: payload}
+
 			//	GUARDIA
 		case GUARD_VIEW:
 			return { ...state, guardView: payload };

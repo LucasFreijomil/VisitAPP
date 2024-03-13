@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import { modifyEvent } from '../../../../Redux/actions/actions.js';
+import { modifyEvent, refreshUserInfo } from '../../../../Redux/actions/actions.js';
 import './EventCard.css';
 import { EventGuest } from './EventGuest/EventGuest';
 
@@ -15,6 +16,9 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
     const [ input, setInput ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
     let url = "http://localhost:3001/";
+
+    const { updateUserInfo } = useSelector((state) => state)
+    var dispatch = useDispatch();
 
     const settings = {
       dots: true,
@@ -57,7 +61,11 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
             console.log("ERROR fetching event details: ", error);
             setEvent(false);
         })
-    }, [modifyEvent])
+
+        if (updateUserInfo) dispatch(refreshUserInfo(false));
+        if (!updateUserInfo) dispatch(refreshUserInfo(true));
+        
+    }, [modifyEvent, edit])
 
     const handleChange = e =>
     {
@@ -65,24 +73,24 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
       setInput( { [name]: value } );
     }
 
-    const newDate = () =>
+    const newDate = async () =>
     {
-      modifyEvent( { date: input.date + extra }, event.id );
-      
-      // window.location.reload();
-    }
-
-    const newItem = () =>
-    {
-      modifyEvent(input, event.id);
+      await modifyEvent( { date: input.date + extra }, event.id );
       setEdit(false);
       // window.location.reload();
     }
 
-    const handleCheckboxChange = (e) =>
+    const newItem = async () =>
+    {
+      await modifyEvent(input, event.id);
+      setEdit(false);
+      // window.location.reload();
+    }
+
+    const handleCheckboxChange = async (e) =>
     {
       setIsChecked(e.target.checked);
-      modifyEvent( { alarm: e.target.checked }, event.id);
+      await modifyEvent( { alarm: e.target.checked }, event.id);
     };
 
     return (
