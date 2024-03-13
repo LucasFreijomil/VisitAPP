@@ -1,19 +1,31 @@
-/* Tomar un pedazo de array inexistente */
+/* */
 
-let a = [1, 2, 3, 4, 5];
+let string = '12 de mayo de 2024';
+let string2 = string.split(' ');
+console.log("String: ", string);
+console.log("String2: ", string2);
+console.log("[0]: ", string2[0] + Number(string2[0]));
+console.log("[0] a number: ", Number(string2[0]) + Number(string2[0]));
 
-let page = 3;
-let cardsPerView = 2;
-let totalPages = Math.ceil( a.length / cardsPerView);
 
-let startsAt = ( page - 1 ) * cardsPerView;
-let endsAt = page * cardsPerView;
+/* PAGINADO // Tomar un pedazo de array inexistente  */
 
-console.log( a.slice(startsAt, endsAt) );
-console.log("Total pages: ", totalPages);
+// let a = [1, 2, 3, 4, 5];
+
+// let page = 3;
+// let cardsPerView = 2;
+// let totalPages = Math.ceil( a.length / cardsPerView);
+
+// let startsAt = ( page - 1 ) * cardsPerView;
+// let endsAt = page * cardsPerView;
+
+// console.log( a.slice(startsAt, endsAt) );
+// console.log("Total pages: ", totalPages);
 
 //NOTA: Si el pedazo de array que tratamos de cortar (slice) del original no tiene
 //      esa cantidad de miembros, va a mostrar los que pueda. [No tira error]
+
+//NOTA2:    Esta es la base de un paginado, anotar y reusar a futuro.
 
 /* .includes() */
 
