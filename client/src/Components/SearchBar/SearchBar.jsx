@@ -30,7 +30,6 @@ export const SearchBar = ( { option } ) =>
             .then( ( { data } ) =>
             {
                 let approved = [];
-                console.log(data);
                 data.map( x => x.isApproved && approved.push(x) );
                 approved.length>0 ? handleFound( dispatch, approved ) : handleFound( dispatch, 404 );
             })

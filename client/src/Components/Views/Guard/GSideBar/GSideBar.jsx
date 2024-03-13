@@ -14,7 +14,7 @@ export const GSideBar = () =>
             </Link>
             | |
             <Link to='/guard/users'>
-                <button onClick={ () => setOption(dispatch, 'users')}> USUARIOS </button>
+                <button onClick={ () => setOption(dispatch, 'users') }> USUARIOS </button>
             </Link>
             | |
         </div>

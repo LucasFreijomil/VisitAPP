@@ -1,6 +1,37 @@
-const a = '2020-12-04:EMT20-30-40-50-60.JPG'
+/* Tomar un pedazo de array inexistente */
 
-console.log( a.slice(0,10) + a.slice(10) );
+let a = [1, 2, 3, 4, 5];
+
+let page = 3;
+let cardsPerView = 2;
+let totalPages = Math.ceil( a.length / cardsPerView);
+
+let startsAt = ( page - 1 ) * cardsPerView;
+let endsAt = page * cardsPerView;
+
+console.log( a.slice(startsAt, endsAt) );
+console.log("Total pages: ", totalPages);
+
+//NOTA: Si el pedazo de array que tratamos de cortar (slice) del original no tiene
+//      esa cantidad de miembros, va a mostrar los que pueda. [No tira error]
+
+/* .includes() */
+
+// let = a = '/guard/users';
+
+// console.log(a.includes('guard')?'Contiene':'NO contiene');
+
+/* comportamiento de un array vacío */
+
+// const a = [];
+
+// console.log(a==[]?'es un array vacío':'NO ES un array vacío');
+
+/* concatenar un slice */
+
+// const a = '2020-12-04:EMT20-30-40-50-60.JPG'
+
+// console.log( a.slice(0,10) + a.slice(10) );
 
 
 
