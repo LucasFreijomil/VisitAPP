@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
@@ -23,9 +23,8 @@ import { decodeGuard, decodeUser } from './Redux/actions/actions'
 function App() {
 	const location = useLocation()
 	const dispatch = useDispatch()
-	const activeUser = useSelector( state => state.activeUser );
-	const activeGuard = useSelector( state => state.activeGuard );
-	const myProfileToMount = useSelector( state => state.myProfileToMount );
+
+	const {activeUser, activeGuard, myProfileToMount, updateUserInfo} = useSelector(state => state)
 
 	const ruta = location.pathname;
 
@@ -60,7 +59,8 @@ function App() {
 			})
 		}
 		//
-	}, [ruta, myProfileToMount])
+
+	}, [ruta, myProfileToMount, updateUserInfo])
 
 	return (
 		<div className='h-screen'>
@@ -79,8 +79,10 @@ function App() {
 				{activeGuard && <Route path='/guard/users' element={<DUsers/>} />}
 				{activeGuard && <Route path='/guard/user' element={<DUserDetail />} />}
 				{ (activeUser && activeUser.isAdmin) && <Route path='/dashboard' element={<Dashboard />} />}
+
 				<Route path='/event/:id' element={<EventCard/>} />
 				<Route path='/playground' element={<PlayGround />} />
+
 			</Routes>
 			{/* <Footer /> */}
 		</div>

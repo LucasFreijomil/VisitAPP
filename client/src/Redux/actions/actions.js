@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, SET_GUEST_TYPE, USER_DETAIL } from './action-types';
+import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, SET_GUEST_TYPE, USER_DETAIL, REFRESH_USER_INFO } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -319,4 +319,9 @@ export const pendingToApprove = async (dispatch) =>
 export const refreshUsersFromDb = ( dispatch, data ) =>
 {
     return dispatch( { type: REFRESH_USERS, payload: data })
+}
+
+export const refreshUserInfo = (status) => 
+{
+    return {type: REFRESH_USER_INFO, payload: status};
 }
