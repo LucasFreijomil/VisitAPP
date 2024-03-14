@@ -1,7 +1,7 @@
 const { Users, Events, Visitas } = require("../../db")
 
 const postEvent = async (req, res) => {
-	const { title, date, startsAt, endsAt, body, alarm, visitId, userId } = req.body;
+	const { title, date, startsAt, endsAt, body, alarm, alarmDistance, visitId, userId } = req.body;
 
 	try
     {
@@ -13,6 +13,7 @@ const postEvent = async (req, res) => {
 			endsAt,
 			body,
 			alarm,
+			alarmDistance
 		};
 
 		const newEventCreated = await Events.create( newEvent );

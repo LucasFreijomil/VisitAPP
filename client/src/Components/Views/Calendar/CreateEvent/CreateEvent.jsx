@@ -6,6 +6,7 @@ import { decodeUser } from '../../../../Redux/actions/actions';
 export const CreateEvent = ({ selectedDate }) => {
 	const { activeUser } = useSelector((state) => state);
 	const dispatch = useDispatch();
+	const [ checked, setChecked ] = useState( false );
 	const [form, setForm] = useState({
 		title: '',
 		date: '',
@@ -14,6 +15,7 @@ export const CreateEvent = ({ selectedDate }) => {
 		body: '',
 		alarm: false,
 		visitId: [],
+		alarmDistance: [],
 		userId: activeUser.id,
 	});
 
@@ -23,10 +25,18 @@ export const CreateEvent = ({ selectedDate }) => {
 	};
 
 	const handleSelectVisit = (e) => {
-		const selectedVisit = e.target.value;
 
-		if (!form.visitId.includes(selectedVisit)) {
-			setForm({ ...form, visitId: [...form.visitId, selectedVisit] });
+		if(e.target.name=='visitId')
+		{
+			if (!form.visitId.includes(e.target.value)) {
+				setForm({ ...form, visitId: [...form.visitId, e.target.value] });
+			}
+		}
+		else
+		{
+			if (!form.alarmDistance.includes(e.target.value)) {
+				setForm({ ...form, alarmDistance: [...form.alarmDistance, e.target.value] });
+			}
 		}
 	};
 
@@ -42,9 +52,11 @@ export const CreateEvent = ({ selectedDate }) => {
 			body: form.body,
 			alarm: form.alarm,
 			visitId: selectedVisitId,
+			alarmDistance: form.alarmDistance,
 			userId: form.userId,
 		};
-		try {
+		try
+		{
 			const { data } = await axios.post('http://localhost:3001/events', definitiveForm);
 			alert('New event created!', data);
 			console.log('New event created!', data);
@@ -54,6 +66,10 @@ export const CreateEvent = ({ selectedDate }) => {
 				startsAt: '',
 				endsAt: '',
 				body: '',
+				alarm: false,
+				visitId: [],
+				alarmDistance: [],
+				userId: activeUser.id,
 			});
 			decodeUser( JSON.parse( window.localStorage.getItem('activeUser') ) )
 			.then( ( data ) =>
@@ -64,12 +80,20 @@ export const CreateEvent = ({ selectedDate }) => {
 			{
 				console.log("Error al logear usuario, promesa app.jsx: ", error);
 			})
-		} catch (error) {
-			console.error('Error creating event: ', error.message);
+		}
+		catch(error)
+		{
+			console.error('Error creating event: ', error);
 			console.log('DEFINITIVE', definitiveForm);
 			alert('Error creating event');
 		}
 	};
+
+	const handleCheckboxChange = (e) =>
+	{
+		setChecked(e.target.checked);
+		setForm( { ...form, alarm: e.target.checked } );
+	}
 
 	// Provisorio //////////////////////
 	useEffect(() => {
@@ -128,6 +152,26 @@ export const CreateEvent = ({ selectedDate }) => {
 								return <div key={v}>{name}</div>;
 							})}
 					</div>
+
+					<input type="checkbox" checked={checked} onChange={handleCheckboxChange} />
+					<label> ALARMA </label>
+
+					<br/>
+
+					{ checked &&
+						<div>
+							<p> ¿Cuando? </p>
+							<select name='alarmDistance' onChange={handleSelectVisit}>
+								<option selected disabled > ---- </option>
+								<option value={'1 Día antes'} > 1 Día </option>
+								<option value={'7 Días antes'} > 7 Días </option>
+								<option value={'12 Horas antes'} > 12 Horas </option>
+							</select>
+							<br />
+							{ form.alarmDistance.length>0 && form.alarmDistance.map( x => <> <label> { x } </label> <br/> </>) }
+						</div> }
+
+						<button type='button' onClick={()=> console.log("Form: ", form)}> FORM </button>
 
 					<button
 						type='submit'

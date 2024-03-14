@@ -17,11 +17,11 @@ export const NavBar = () => {
         let nextDayEvents = [];
         activeUser && activeUser.Events.map( x =>
             {
-                (moment(x.date).isSame( moment(new Date()).clone().add(1, 'day'), 'day') && x.alarm) && nextDayEvents.push( x );
+                ( moment(x.date).isSame( moment(new Date()).clone().add(1, 'day'), 'day' ) && x.alarm ) && nextDayEvents.push( x );
                 console.log(x);
             })
         setTomorrow(nextDayEvents);
-    }, [activeUser])
+    }, [activeUser] );
 
 	return (
 		<div className=' bg-blue-600 flex justify-evenly items-center h-20 text-cyan-50'>

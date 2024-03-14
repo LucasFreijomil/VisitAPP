@@ -1,12 +1,12 @@
-/* */
+/*  */
 
 let string = '12 de mayo de 2024';
 let string2 = string.split(' ');
+
 console.log("String: ", string);
 console.log("String2: ", string2);
 console.log("[0]: ", string2[0] + Number(string2[0]));
 console.log("[0] a number: ", Number(string2[0]) + Number(string2[0]));
-
 
 /* PAGINADO // Tomar un pedazo de array inexistente  */
 

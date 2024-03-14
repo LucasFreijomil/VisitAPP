@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         date:
-        { 
+        {
             type: DataTypes.STRING,
             allowNull: true
         },
@@ -38,6 +38,11 @@ module.exports = (sequelize) => {
         {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        alarmDistance:
+        {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: true
         },
         userId:
         {

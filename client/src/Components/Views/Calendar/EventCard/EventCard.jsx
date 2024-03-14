@@ -65,24 +65,24 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
       setInput( { [name]: value } );
     }
 
-    const newDate = () =>
+    const newDate = async () =>
     {
-      modifyEvent( { date: input.date + extra }, event.id );
+      await modifyEvent( { date: input.date + extra }, event.id );
       
       // window.location.reload();
     }
 
-    const newItem = () =>
+    const newItem = async () =>
     {
-      modifyEvent(input, event.id);
+      await modifyEvent(input, event.id);
       setEdit(false);
       // window.location.reload();
     }
 
-    const handleCheckboxChange = (e) =>
+    const handleCheckboxChange = async (e) =>
     {
       setIsChecked(e.target.checked);
-      modifyEvent( { alarm: e.target.checked }, event.id);
+      await modifyEvent( { alarm: e.target.checked }, event.id);
     };
 
     return (
