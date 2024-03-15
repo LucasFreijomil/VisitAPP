@@ -15,9 +15,18 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
     const [ extra, setExtra ] = useState(false);
     const [ input, setInput ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
+    const [ addGuest, setAddGuest ] = useState(false);
+
+    const [ putGuestForm, setPutGuestForm] = useState(
+    {
+      eventId: id,
+      visits: [],
+      add: 'true/false'
+    })
+
     let url = "http://localhost:3001/";
 
-    const { updateUserInfo } = useSelector((state) => state)
+    const { updateUserInfo, activeUser } = useSelector((state) => state)
     var dispatch = useDispatch();
 
     const settings = {
@@ -25,7 +34,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
       infinite: false,
       speed: 500,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
     };
   
     useEffect( () =>
@@ -37,6 +46,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
             setEvent(data);
             setExtra(data.date?.slice(10));
             setIsChecked(data.alarm);
+            console.log(data);
         })
         .catch( ( error ) =>
         {
@@ -64,6 +74,8 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 
         if (updateUserInfo) dispatch(refreshUserInfo(false));
         if (!updateUserInfo) dispatch(refreshUserInfo(true));
+
+        console.log("las visitas del evento", event);
         
     }, [modifyEvent, edit])
 
@@ -92,6 +104,39 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
       setIsChecked(e.target.checked);
       await modifyEvent( { alarm: e.target.checked }, event.id);
     };
+
+    const filteredVisits = activeUser.Visitas?.filter((visita) => 
+    {
+      return !event.Visitas?.some((eventVisit) => eventVisit.dni === visita.dni);
+    });
+
+    const handlePutGuest = (e) => 
+    {
+      const selectedGuest = e.target.value;
+
+      if (!putGuestForm.visits.includes(selectedGuest) && selectedGuest !== 'default') {
+        setPutGuestForm({ ...putGuestForm, visits: [...putGuestForm.visits, selectedGuest] });
+      }
+    }
+
+    const handleSubmitGuest = async () =>
+    {
+      const selectedVisitId = putGuestForm.visits.map((pos) => pos.split(',')[0])
+      const definitiveGuestForm =
+      {
+        eventId: putGuestForm.eventId,
+        visits: selectedVisitId,
+        add: putGuestForm.add
+      }
+
+      try {
+        const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
+			  alert('Invitado agregado!', data);
+      } catch (error) {
+        console.error('Error al agregar invitado', error);
+			  alert('Error al agregar invitados');
+      }
+    }
 
     return (
       <div >
@@ -122,7 +167,6 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
             <h1> Descripción: </h1>
 
               <textarea style={{ width: "70%" }} type='text' name='body'  placeholder=' . . .' onChange={handleChange} />
-
 
             <label onClick={() => { setEdit(false); setInput(false); }}> ✖ </label>
             <button onClick={ newItem }> ✔ </button>
@@ -182,19 +226,46 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
           <label> Creado por: {event.User?.name} {event.User?.surname} </label>
           
         </div>
-        <div>
-								<div >
+        <div className=' h-full'>
+								<div className=' h-full'>
 									<Slider {...settings} style={{ maxWidth: '97%'}} className='h-full'>
 										{event.Visitas?.map((x, y) => (
-											<div key={y}>
-												<EventGuest guest={x} />
+											<div className='h-full' key={y}>
+												<EventGuest className='h-full' guest={x} />
 											</div>
 										))}
+
+                    {addGuest == false ? 
+                    <div className='h-full'>
+                      <button className=' bg-slate-400' onClick={() => {setAddGuest(true); setPutGuestForm({...putGuestForm, add: true}); console.log(putGuestForm);}}>Agregar Invitado</button> 
+                    </div> : 
+                      (filteredVisits.length > 0 ? 
+                      <div className='h-full'> <button className=' bg-red-700 w-8' onClick={() => {setAddGuest(false); setPutGuestForm({...putGuestForm, add: 'true/false', visits: []})}}>X</button> 
+                        <div className=' h-80 flex flex-col justify-around'>
+                          <select onChange={handlePutGuest} name='visitId'>
+                          <option value={'default'}>Seleccionar visita</option>
+                          {filteredVisits.map((x, y) => (
+                            <option value={[x.id, x.name]} key={y}>
+                              {x.name}
+                            </option>
+                          ))}
+
+                          </select>
+
+                          {putGuestForm.visits?.length > 0 &&
+                            putGuestForm.visits.map((vis, v) => {
+                              const name = vis.split(',')[1];
+                              return <div key={v}>{name}</div>;
+                          })}
+
+                          <button onClick={handleSubmitGuest} className=' bg-slate-400' >Agregar</button>
+                        </div> 
+                      </div> : <div>No hay más invitados para agregar!</div>)}
+
 									</Slider>
 								</div>
 							</div>
       </div>
-
 
       <br/>
       <hr/>
