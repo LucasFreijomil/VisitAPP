@@ -112,13 +112,30 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 
     const handlePutGuest = (e) => 
     {
-      const selectedGuest = e.target.value.split(',')[0];
+      const selectedGuest = e.target.value;
 
-      if (!putGuestForm.visits.includes(selectedGuest) && selectedGuest !== "default") {
+      if (!putGuestForm.visits.includes(selectedGuest) && selectedGuest !== 'default') {
         setPutGuestForm({ ...putGuestForm, visits: [...putGuestForm.visits, selectedGuest] });
       }
+    }
 
-      console.log(putGuestForm)
+    const handleSubmitGuest = async () =>
+    {
+      const selectedVisitId = putGuestForm.visits.map((pos) => pos.split(',')[0])
+      const definitiveGuestForm =
+      {
+        eventId: putGuestForm.eventId,
+        visits: selectedVisitId,
+        add: putGuestForm.add
+      }
+
+      try {
+        const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
+			  alert('Invitado agregado!', data);
+      } catch (error) {
+        console.error('Error al agregar invitado', error);
+			  alert('Error al agregar invitados');
+      }
     }
 
     return (
@@ -209,34 +226,40 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
           <label> Creado por: {event.User?.name} {event.User?.surname} </label>
           
         </div>
-        <div>
-								<div >
+        <div className=' h-full'>
+								<div className=' h-full'>
 									<Slider {...settings} style={{ maxWidth: '97%'}} className='h-full'>
 										{event.Visitas?.map((x, y) => (
-											<div key={y}>
-												<EventGuest guest={x} />
+											<div className='h-full' key={y}>
+												<EventGuest className='h-full' guest={x} />
 											</div>
 										))}
 
-                    {addGuest == false ? <div>
+                    {addGuest == false ? 
+                    <div className='h-full'>
                       <button className=' bg-slate-400' onClick={() => {setAddGuest(true); setPutGuestForm({...putGuestForm, add: true}); console.log(putGuestForm);}}>Agregar Invitado</button> 
-                      </div> : (filteredVisits.length > 0 ? <div> <button className=' bg-red-700' onClick={() => setAddGuest(false)}>X</button> <div>
-                        <select onChange={handlePutGuest} name='visitId'>
-                        <option value={false}>Seleccionar visita</option>
-                        {filteredVisits.map((x, y) => (
-                          <option value={[x.id, x.name]} key={y}>
-                            {x.name}
-                          </option>
-                        ))}
+                    </div> : 
+                      (filteredVisits.length > 0 ? 
+                      <div className='h-full'> <button className=' bg-red-700 w-8' onClick={() => {setAddGuest(false); setPutGuestForm({...putGuestForm, add: 'true/false', visits: []})}}>X</button> 
+                        <div className=' h-80 flex flex-col justify-around'>
+                          <select onChange={handlePutGuest} name='visitId'>
+                          <option value={'default'}>Seleccionar visita</option>
+                          {filteredVisits.map((x, y) => (
+                            <option value={[x.id, x.name]} key={y}>
+                              {x.name}
+                            </option>
+                          ))}
 
-						            </select>
+                          </select>
 
-                        {putGuestForm.visits?.length > 0 &&
-                          putGuestForm.visits.map((vis, v) => {
-                            const name = vis.split(',')[1];
-                            return <div key={v}>{name}</div>;
-                        })}
-                      </div> 
+                          {putGuestForm.visits?.length > 0 &&
+                            putGuestForm.visits.map((vis, v) => {
+                              const name = vis.split(',')[1];
+                              return <div key={v}>{name}</div>;
+                          })}
+
+                          <button onClick={handleSubmitGuest} className=' bg-slate-400' >Agregar</button>
+                        </div> 
                       </div> : <div>No hay más invitados para agregar!</div>)}
 
 									</Slider>

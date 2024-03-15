@@ -28,7 +28,7 @@ export const CreateEvent = ({ selectedDate }) => {
 
 		if(e.target.name=='visitId')
 		{
-			if (!form.visitId.includes(e.target.value)) {
+			if (!form.visitId.includes(e.target.value) && e.target.value !== 'default') {
 				setForm({ ...form, visitId: [...form.visitId, e.target.value] });
 			}
 		}
