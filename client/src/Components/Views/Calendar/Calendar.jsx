@@ -39,7 +39,6 @@ export const Calendario = () =>
 
 	const handleSelectEvent = (event) => {
         // Redirige a la sección del día del evento seleccionado
-        console.log('la concha de tu madre', event)
         setSelectedDate();
         setSelectedEvent(event.id);
     }

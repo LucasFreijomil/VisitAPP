@@ -1,3 +1,5 @@
+const { Events, Users, Visitas } = require('../../db.js')
+
 const handleVisits = async ( req, res ) =>
 {
     const { eventId, visits, add } = req.body;
@@ -6,7 +8,21 @@ const handleVisits = async ( req, res ) =>
     {
         try
         {
-            visits.map( visitaId => eventId.addVisita( visitaId ) );
+            const thisEvent = await Events.findByPk( eventId, 
+                {
+                    include: [
+                        {
+                            model: Users,
+                            as: 'User',
+                            attributes: ["id", "name", "surname", "username", "email"]
+                        },
+                        {
+                            model: Visitas,
+                            as: 'Visitas',
+                            through: 'events_int_visits',
+                        }
+                    ]})
+            visits.map( visitaId => thisEvent.addVisita( visitaId ) );
             res.status(200).json( { success: 'Visitas agregadas correctamente' } );
         }
         catch(error)
@@ -18,7 +34,21 @@ const handleVisits = async ( req, res ) =>
     {
         try
         {
-            visits.map( visitaId => eventId.removeVisita( visitaId ) );
+            const thisEvent = await Events.findByPk( eventId, 
+                {
+                    include: [
+                        {
+                            model: Users,
+                            as: 'User',
+                            attributes: ["id", "name", "surname", "username", "email"]
+                        },
+                        {
+                            model: Visitas,
+                            as: 'Visitas',
+                            through: 'events_int_visits',
+                        }
+                    ]})
+            visits.map( visitaId => thisEvent.removeVisita( visitaId ) );
             res.status(200).json( { success: 'Visita eliminada correctamente' } );
         }
         catch(error)
