@@ -25,7 +25,7 @@ export const CreateEvent = ({ selectedDate }) => {
 	const handleSelectVisit = (e) => {
 		const selectedVisit = e.target.value;
 
-		if (!form.visitId.includes(selectedVisit)) {
+		if (!form.visitId.includes(selectedVisit) && selectedVisit !== "default") {
 			setForm({ ...form, visitId: [...form.visitId, selectedVisit] });
 		}
 	};
@@ -77,7 +77,7 @@ export const CreateEvent = ({ selectedDate }) => {
 	}, [selectedDate]);
 
 	useEffect(() => {
-		console.log(form.visitId);
+		console.log('form.visitId: ' ,form.visitId);
 	}, [form.visitId]);
 	///////////////////////////////////
 
@@ -114,6 +114,7 @@ export const CreateEvent = ({ selectedDate }) => {
 					<div>
 						<p>visitante</p>
 						<select name='visitId' onChange={handleSelectVisit}>
+							<option value="default">Seleccionar Visita</option>
 							{activeUser.Visitas.length > 0 &&
 								activeUser.Visitas?.map((x, y) => (
 									<option value={[x.id, x.name]} key={y}>
