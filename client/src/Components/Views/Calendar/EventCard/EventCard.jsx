@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick.css';
 import { modifyEvent, refreshUserInfo } from '../../../../Redux/actions/actions.js';
 import './EventCard.css';
 import { EventGuest } from './EventGuest/EventGuest';
+import {Modal} from "../../../Modal Alert/ModalAlert"
 
 export const EventCard = ( { id, setSelectedEvent } ) =>
 {
@@ -16,6 +17,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
     const [ input, setInput ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
     const [ addGuest, setAddGuest ] = useState(false);
+    const [ open, setOpen ] = useState(false)
 
     const [ putGuestForm, setPutGuestForm] = useState(
     {
@@ -132,14 +134,56 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
       try {
         const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
 			  alert('Invitado agregado!', data);
+        window.location.reload();
       } catch (error) {
         console.error('Error al agregar invitado', error);
 			  alert('Error al agregar invitados');
       }
     }
 
+    const [ visitToRemove, setVisitToremove ] = useState('')
+
+    const handleRemoveGuest = async () =>
+    {
+      const definitiveGuestForm =
+      {
+        eventId: putGuestForm.eventId,
+        visits: [visitToRemove],
+        add: putGuestForm.add
+      }
+      
+      try {
+        if(definitiveGuestForm.add === false)
+        {const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
+			  alert('Invitado quitado!', data)}
+        window.location.reload();
+      } catch (error) {
+        console.error('Error al quitar invitado', error);
+			  alert('Error al quitar invitado');
+      }
+    }
+
     return (
       <div >
+        <Modal open={open} onClose={() => setOpen(false)}>
+          <div className="text-center w-56">
+            <div className="mx-auto my-4 w-48">
+              <h3 className="text-lg font-black text-gray-800">Confirmación</h3>
+              <p className="text-sm text-gray-500">
+                Quiere quitar este invitado del evento?
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <button onClick={handleRemoveGuest} className="btn btn-danger w-full bg-red-600 text-amber-50 border hover:bg-slate-400 transition">Quitar</button>
+              <button
+                className="btn btn-light w-full border hover:bg-slate-400 transition"
+                onClick={() => {setVisitToremove(''); setPutGuestForm({...putGuestForm, visits: [], add: 'true/false'}); setOpen(false)}}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </Modal>
       {/* <button onClick={() => console.log("Event: ", event )}> EVENTO </button> */}
       <button class='button' onClick={() => setSelectedEvent(false) }> ← </button>
 
@@ -172,7 +216,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
             <button onClick={ newItem }> ✔ </button>
           </>)}
 
-      <div className='grid grid-cols-2 gap-3'>
+      <div className='grid grid-cols-2 gap-3 mt-5'>
 
         <div>
 
@@ -231,6 +275,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 									<Slider {...settings} style={{ maxWidth: '97%'}} className='h-full'>
 										{event.Visitas?.map((x, y) => (
 											<div className='h-full' key={y}>
+                        <button onClick={() => {setOpen(true); setVisitToremove(x.id); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
 												<EventGuest className='h-full' guest={x} />
 											</div>
 										))}
