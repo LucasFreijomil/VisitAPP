@@ -23,19 +23,19 @@ const getEvents = async ( req, res) =>
                             }
                         ]})
                     res.status(200).json( eventById );
-            } 
-            catch (error) 
+            }
+            catch (error)
             {
                 res.status(500).json( { error_getEventById: error.message } )
             }
         } else
         {
-            try 
+            try
             {
                 const allEvents = await Events.findAll();
                 return res.status(200).json(allEvents)
-            } 
-            catch (error) 
+            }
+            catch (error)
             {
                 return res.status(400).send("Error geting all events ", error.message)
             }

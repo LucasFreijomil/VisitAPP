@@ -5,6 +5,7 @@ const userRouter = require("../Routes/usersRoutes")
 const visitaRouter = require("../Routes/visitasRoutes")
 const guardiasRouter = require("../Routes/guardiasRoutes")
 const eventsRouter = require('./eventsRouter.js');
+const messagesRouter = require('./messagesRouter.js');
 
 const router = Router()
 
@@ -14,6 +15,7 @@ router.use("/users", userRouter)
 router.use("/visitas", visitaRouter)
 router.use("/guards", guardiasRouter)
 router.use('/events', eventsRouter)
+router.use('/messages', messagesRouter);
 
 
 module.exports = router
