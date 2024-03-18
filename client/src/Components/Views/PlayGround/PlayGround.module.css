@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    overflow-x: auto; /* Permite desplazarse horizontalmente */
+  }
+  
+  .card {
+    flex: 0 0 33.333%; /* Las tarjetas ocuparán un tercio del espacio */
+    /* Otros estilos para las tarjetas */
+  }

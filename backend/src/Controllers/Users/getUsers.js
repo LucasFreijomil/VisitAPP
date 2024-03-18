@@ -25,7 +25,7 @@ const getUsers = async(req, res) =>
                 {
                     model: Messages,
                     as: 'Messages',
-                    attributes: ["id", "title", "urgent", "read", "general" ]
+                    attributes: ["id", "title", "urgent", "read", "general", "body" ]
                 }]} );
             res.status(200).json( userById );
         }
@@ -50,6 +50,11 @@ const getUsers = async(req, res) =>
                         model: Events,
                         as: 'Events',
                         attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                    },
+                    {
+                        model: Messages,
+                        as: 'Messages',
+                        attributes: ["id", "title", "urgent", "read", "general" ]
                     } ] } );
                 res.status(200).json( userByMail );
             }
@@ -79,6 +84,11 @@ const getUsers = async(req, res) =>
                                 model: Events,
                                 as: 'Events',
                                 attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            },
+                            {
+                                model: Messages,
+                                as: 'Messages',
+                                attributes: ["id", "title", "urgent", "read", "general" ]
                             } ] } );
                         res.status(200).json( thisNameSurname );
                     }
