@@ -54,7 +54,10 @@ export const NavBar = () => {
 				</div>
 			)}
 
-		
+			{activeUser &&
+			<Link to='/playground'>
+				PlayGround
+			</Link>}
 
 			{ (!activeUser && !activeGuard) && (
 				<div>

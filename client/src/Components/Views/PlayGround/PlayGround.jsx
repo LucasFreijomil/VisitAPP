@@ -52,7 +52,9 @@ export const PlayGround = () =>
 
     return(
         <div>
+                {messages?.length>0 && <div class='bg-orange-400'> Mensajes recientes: </div>}
             <div className={Styles.container}>
+                {messages?.length==0 && <div> Sin mensajes que mostrar </div>}
                 {messages?.length>0 && messages.map( (msg, index) =>
                 <div className={Styles.card} key={index}>
                     <h1> {msg.title} </h1>
