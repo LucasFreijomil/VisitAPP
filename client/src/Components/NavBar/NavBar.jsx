@@ -64,7 +64,17 @@ export const NavBar = () => {
 					<Link
 						className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-slate-600 hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'
 						to='/login'>
-						<button> LOGIN </button>
+						<button> LOGIN AS USER </button>
+					</Link>
+				</div>
+			)}
+
+			{ (!activeUser && !activeGuard) && (
+				<div>
+					<Link
+						className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-orange-700 hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'
+						to='/glogin'>
+						<button> LOGIN AS GUARD </button>
 					</Link>
 				</div>
 			)}
