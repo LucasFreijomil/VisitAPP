@@ -28,7 +28,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 
     let url = "http://localhost:3001/";
 
-    const { updateUserInfo, activeUser } = useSelector((state) => state)
+    const { updateUserInfo, activeUser, activeGuard } = useSelector((state) => state)
     var dispatch = useDispatch();
 
     const settings = {
@@ -275,12 +275,14 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 									<Slider {...settings} style={{ maxWidth: '97%'}} className='h-full'>
 										{event.Visitas?.map((x, y) => (
 											<div className='h-full' key={y}>
-                        <button onClick={() => {setOpen(true); setVisitToremove(x.id); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
+
+                        {!activeGuard && <button onClick={() => {setOpen(true); setVisitToremove(x.id); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
+                        }
 												<EventGuest className='h-full' guest={x} />
 											</div>
 										))}
 
-                    {addGuest == false ? 
+                    {!activeGuard && (addGuest == false ? 
                     <div className='h-full'>
                       <button className=' bg-slate-400' onClick={() => {setAddGuest(true); setPutGuestForm({...putGuestForm, add: true}); console.log(putGuestForm);}}>Agregar Invitado</button> 
                     </div> : 
@@ -305,7 +307,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 
                           <button onClick={handleSubmitGuest} className=' bg-slate-400' >Agregar</button>
                         </div> 
-                      </div> : <div>No hay más invitados para agregar!</div>)}
+                      </div> : <div>No hay más invitados para agregar!</div>))}
 
 									</Slider>
 								</div>
