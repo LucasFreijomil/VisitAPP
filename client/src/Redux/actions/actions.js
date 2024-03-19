@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, SET_GUEST_TYPE, USER_DETAIL, REFRESH_USER_INFO } from './action-types';
+import { CURRENT_VISIT_DETAIL_ID, FOUND_BY_SEARCH, GUARD_VIEW, LOGIN, LOG_GUARD, MY_PROFILE_TO_MOUNT, REFRESH_TOAPPROVE, REFRESH_USERS, REFRESH_USER_INFO, SET_GUEST_TYPE, USER_DETAIL } from './action-types';
 
 let url = "http://localhost:3001/";
 
@@ -324,4 +324,36 @@ export const refreshUsersFromDb = ( dispatch, data ) =>
 export const refreshUserInfo = (status) => 
 {
     return {type: REFRESH_USER_INFO, payload: status};
+};
+
+// Marcar LEÍDO y DESVINCULAR  [ M E S S A G E S]
+
+export const setRead = async ( id ) =>
+{
+    try
+    {
+        await axios.put( `${url}messages?id=${id}`, { read: true } );
+        console.log("Mensaje visto correctamente.");
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error setRead action: ", error);
+        return false;
+    }
+}
+
+export const delinkMessage = async ( msgId, userId ) =>
+{
+    try
+    {
+        await axios.put( `${url}messages?id=${msgId}`, { userId: userId, delink: true, } );
+        console.log("Mensaje delinkeado correctamente.");
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error delinkMessage: ", error);
+        return false;
+    }
 }

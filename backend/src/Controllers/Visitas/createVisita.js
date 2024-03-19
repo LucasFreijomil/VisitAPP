@@ -18,7 +18,7 @@ const createVisita = async (req, res) =>
     }
     catch(error)
     {
-        return res.status(500).json({error_createVisitas: error})
+        return res.status(500).json({error_createVisitas: error.message})
     }
 }
 

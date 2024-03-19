@@ -15,21 +15,41 @@ import { EventCard } from "./EventCard/EventCard.jsx";
 const localizer = dayjsLocalizer(dayjs)
 //
 
-export const Calendario = () =>
+export const Calendario = ( { thisUser } ) =>
 {
-	const { activeUser } = useSelector((state) => state);
+	const activeUser = useSelector((state) => state.activeUser);
+	const activeGuard = useSelector( state => state.activeGuard);
 	const [selectedDate, setSelectedDate] = useState(new Date());
     const [ selectedEvent, setSelectedEvent ] = useState(false);
 
-	// const userEvents = activeUser.Events;
-	const userEvents = activeUser.Events.map((x) => 
+	console.log("THIS USER EN CALENDAR: ", thisUser);
+
+	let userEvents = '';
+
+	if(activeUser)
+	{
+		userEvents = activeUser.Events.map((x) =>
 		{return {
 			start: dayjs(x.date.slice(0, 10) + 'T' + x.startsAt + ":00").toDate(),
 			end: dayjs(x.date.slice(0, 10) + 'T' + x.endsAt + ":00").toDate(),
 			title: x.title,
 			id: x.id
-		}}
-	)
+		}})
+	}
+
+	if(activeGuard)
+	{
+		userEvents = thisUser.Events?.map((x) => 
+		{return {
+			start: dayjs(x.date.slice(0, 10) + 'T' + x.startsAt + ":00").toDate(),
+			end: dayjs(x.date.slice(0, 10) + 'T' + x.endsAt + ":00").toDate(),
+			title: x.title,
+			id: x.id
+		}})
+	}
+
+	
+	
 
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
@@ -47,6 +67,7 @@ export const Calendario = () =>
 		<div className=' flex flex-col'>
 			<div>
 				<button onClick={() => console.log('Date: ', selectedDate)}> Date </button>
+				<button onClick={() => console.log("thisUser: ", thisUser)}> THIS USER !!!</button>
 				<h1> Calendario de visitas </h1>
                 <div className='grid grid-cols-2 gap-3'>
 				<div style={{ height: '600px', width: '100%' }} className='bigCalendar-container'>
@@ -70,7 +91,7 @@ export const Calendario = () =>
 				</div>
 				<div>
                     <div className={styles.list}>
-                        { !selectedEvent && <EventList selectedDate={selectedDate} setSelectedEvent={setSelectedEvent}/>}
+                        { !selectedEvent && <EventList selectedDate={selectedDate} setSelectedEvent={setSelectedEvent} thisUser={thisUser}/>}
                         { selectedEvent && <EventCard id={selectedEvent} setSelectedEvent={setSelectedEvent} /> }
                     </div>
 				</div>
@@ -78,12 +99,13 @@ export const Calendario = () =>
 				<br />
 				<hr />
 				<br />
+				{ activeUser &&
 				<div className={styles.container}>
 					<div className={styles.create}>
 						<CreateEvent selectedDate={selectedDate} />
 					</div>
 					
-				</div>
+				</div>}
 			</div>
 			
 		</div>

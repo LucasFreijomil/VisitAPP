@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import { Calendario } from '../../Calendar/Calendar';
 import Styles from './DUserDetail.module.css';
 
 export const DUserDetail = () =>
@@ -10,6 +11,8 @@ export const DUserDetail = () =>
     const { uDetail } = useSelector( state => state );
     let url = "http://localhost:3001/";
     const location = useLocation();
+
+    console.log("THIS USER EN DUSERDETAIL: ", thisUser);
 
     useEffect( () =>
     {
@@ -71,6 +74,8 @@ export const DUserDetail = () =>
             <br />
             <hr />
 
+            {thisUser && <Calendario thisUser={thisUser} />}
+            
             {location.pathname=='dashboard' && (<div className={Styles.description}>
                 <hr />
 					<h3> Imagenes que dió para probar que es residente (o texto similar): </h3>

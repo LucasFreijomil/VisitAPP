@@ -7,6 +7,7 @@ export const DUserCard = ( { x } ) =>
 {
     const refreshUsers = useSelector( state => state.refreshUsers );
     const dispatch = useDispatch();
+    const activeGuard = useSelector( state => state.activeGuard );
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -52,7 +53,6 @@ export const DUserCard = ( { x } ) =>
                         <h1> { x.email } </h1>
                     </div>
             </div>
-                
                 {location.pathname=='/dashboard' &&
                     <button onClick={disapproveThisUser} > Deshabilitar </button>
                 }
