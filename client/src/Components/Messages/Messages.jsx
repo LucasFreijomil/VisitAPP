@@ -8,8 +8,8 @@ export const Messages = () =>
     const activeUser = useSelector( state => state.activeUser );
     const dispatch = useDispatch();
     let url = 'http://localhost:3001/users';
-    const [ user, setUser ] = useState(false);
     const [ allUsers, setAllUsers ] = useState([]);
+    const [ allIds, setAllIds ] = useState([]);
     const [ selectedUsers, setSelectedUsers ] = useState( [] );
     const [ form, setForm ] = useState(
         {
@@ -18,8 +18,6 @@ export const Messages = () =>
             urgent: false,
             general: false,
             userId: [],
-            urgent: false,
-            general: false,
         }
     )
 
@@ -29,6 +27,7 @@ export const Messages = () =>
         .then( ( { data} ) =>
         {
             setAllUsers(data);
+            console.log(data);
         })
         .catch( ( error ) =>
         {
@@ -38,10 +37,11 @@ export const Messages = () =>
 
     useEffect( () =>
     {
-        setUser(activeUser);
-    }, [activeUser])
+        setAllIds( allUsers.map( user => user.id ) );
+    }, [allUsers])
 
-    const handleChange = (e) => {
+    const handleChange = (e) =>
+    {
 		const { name, value } = e.target;
 		setForm((prevInput) => ({ ...prevInput, [name]: value }));
 	};
@@ -58,7 +58,22 @@ export const Messages = () =>
 
     const handleCheckboxChange = (e) =>
 	{
-		setForm( { ...form, [e.target.name]: e.target.checked } );
+        if(e.target.name=='general')
+        {
+            if(e.target.checked)
+            {
+                setForm( { ...form, [e.target.name]: e.target.checked, userId: allIds } );
+            }
+            else
+            {
+                let onlyIds = selectedUsers.map( user => user.split(',')[0] );
+                setForm( { ...form, [e.target.name]: e.target.checked, userId: onlyIds } );
+            }
+        }
+        else
+        {
+            setForm( { ...form, [e.target.name]: e.target.checked } );
+        }
 	}
 
     const handleSubmit = async (event) => {
@@ -66,16 +81,15 @@ export const Messages = () =>
 
 		try
 		{
-			const { data } = await axios.post('http://localhost:3001/messages', form);
-			alert('Message sent!', data);
+            await axios.post('http://localhost:3001/messages', form);
+            console.log("Envió este form: ", form);
+			alert('Message sent!');
 			setForm({
                 title: '',
                 body: '',
                 urgent: false,
                 general: false,
-                userId: [],
-                urgent: false,
-                general: false,
+                userId: []
             });
             setSelectedUsers( [] );
             //Log user
@@ -114,17 +128,22 @@ export const Messages = () =>
 			alert('Error creating event');
 		}
 	};
-
+    
     return(
         <div>
+            <button onClick={()=>console.log(allIds)}> SHOW </button>
             <form
 				onSubmit={handleSubmit}
 				className='relative bg-brown px-6 pt-10 pb-6 shadow-xl ring-gray-600/5 sm:max-w-lg sm:rounded-lg sm:px-10'>
 				<fieldset>
 
+                    <input type="checkbox" name='general' checked={form.general} onChange={handleCheckboxChange} />
+                    <label> GENERAL </label>
+
 					<div>
 						<p>To: </p>
-						<select name='users' onChange={handleSelectDestinatary}>
+						{!form.general && <>
+                        <select name='users' onChange={handleSelectDestinatary}>
 							<option value="default" disabled>Seleccionar destinatario</option>
 							{allUsers.length > 0 &&
 								allUsers.map((x, y) => (
@@ -138,7 +157,8 @@ export const Messages = () =>
 							selectedUsers.map((vis, v) => {
 								const name = vis.split(',')[1];
 								return <div key={v}>{name}</div>;
-							})}
+							})}</>}
+                            { form.general && <div> Every user </div> }
 					</div>
 
 					<div>
@@ -157,8 +177,6 @@ export const Messages = () =>
 					<input type="checkbox" name='urgent' checked={form.urgent} onChange={handleCheckboxChange} />
 					<label> URGENT </label>
 
-                    <input type="checkbox" name='general' checked={form.general} onChange={handleCheckboxChange} />
-					<label> GENERAL </label>
 
 					<br/>
 

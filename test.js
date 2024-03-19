@@ -1,12 +1,41 @@
+/* guardar una funcion en una variable */
+
+// const consologear = ( x ) =>
+// {
+//     console.log( x );
+// };
+
+// let a = () => consologear('perrito');
+
+// a();
+
+/* Diferencia entre FILTER y MAP*/
+
+let a = [ 1, 2, 3, 40, 50, 60, 6, 7, 99 ];
+let b = a.filter( x => x<10 )
+
+let c = [ "1,a", "2,b", "3,c" ];
+let d = c.map( x => x.split(',')[0] );
+
+console.log("B: " ,b);
+console.log("D: ", d);
+
+/* A==NULL = A==FALSE */
+
+// let a = null;
+
+// console.log(a?'true':'false');
+
+
 /*  */
 
-let string = '12 de mayo de 2024';
-let string2 = string.split(' ');
+// let string = '12 de mayo de 2024';
+// let string2 = string.split(' ');
 
-console.log("String: ", string);
-console.log("String2: ", string2);
-console.log("[0]: ", string2[0] + Number(string2[0]));
-console.log("[0] a number: ", Number(string2[0]) + Number(string2[0]));
+// console.log("String: ", string);
+// console.log("String2: ", string2);
+// console.log("[0]: ", string2[0] + Number(string2[0]));
+// console.log("[0] a number: ", Number(string2[0]) + Number(string2[0]));
 
 /* PAGINADO // Tomar un pedazo de array inexistente  */
 

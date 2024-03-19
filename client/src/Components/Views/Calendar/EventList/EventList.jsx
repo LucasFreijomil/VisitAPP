@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
-export const EventList = ({ selectedDate, setSelectedEvent}) => {
-    const { activeUser } = useSelector((state) => state )
+export const EventList = ({ selectedDate, setSelectedEvent, thisUser}) => {
+    const activeUser = useSelector((state) => state.activeUser );
+    const activeGuard = useSelector( state => state.activeGuard );
     const [eventos, setEventos] = useState([])
     const parseDate = selectedDate.toISOString().slice(0, 10)
-    const userEvents = activeUser.Events
+    const userEvents = activeUser ? activeUser?.Events : thisUser?.Events;
+    console.log("AAAAAAAAAAAAAAAAAAAA: ",thisUser);
     
     useEffect(()=> {
         const eventArr = []
@@ -22,8 +24,8 @@ export const EventList = ({ selectedDate, setSelectedEvent}) => {
         <div class="grid justify-items-center">
             <h2 class="m-5">Eventos del dia</h2>
             {eventos.length == 0 ? <div>No hay eventos</div> :
-            eventos.map((event) => (
-                    <div onClick={()=> setSelectedEvent(event.id) } class="w-3/4 border-2 border-red-600 mb-5 p-5">
+            eventos.map((event, index) => (
+                    <div onClick={()=> setSelectedEvent(event.id) } key={index} class="w-3/4 border-2 border-red-600 mb-5 p-5">
                         <div>{event.title}</div>
                         {event.body.length>50 && <div> {event.body.slice(0,50) + ' . . .'} </div>}
                         {event.body.length<=50 && <div> {event.body} </div>}

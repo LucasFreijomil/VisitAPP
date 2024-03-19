@@ -5,6 +5,13 @@
   
   .card {
     flex: 0 0 33.333%; /* Las tarjetas ocuparán un tercio del espacio */
-    background-color: rgba(230, 190, 115, 0.795);
+    background-color: rgba(250, 222, 171, 0.274);
+    /* Otros estilos para las tarjetas */
+  }
+
+  .urgentCard {
+    flex: 0 0 33.333%; /* Las tarjetas ocuparán un tercio del espacio */
+    background-color: rgba(228, 103, 113, 0.274);
+    border: 2px solid red;
     /* Otros estilos para las tarjetas */
   }

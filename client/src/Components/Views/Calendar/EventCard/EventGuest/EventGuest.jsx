@@ -16,14 +16,12 @@ export const EventGuest = ( {guest} ) =>
             {guest.work!='' && <p>Trabajo: {guest.work}</p>}
             {guest.company!='' && <p>Empresa: {guest.company}</p>}
             <button onClick={() => console.log(guest)}>Guest info</button>
-            {!activeGuard && (
+            <br/>
+            <hr/>
+            <br/>
               <div>
-                <br/>
-                <hr/>
-                <br/>
-                <button onClick={()=>alert('Usuario avisado')}> LLegó ✔ </button>
+                {activeGuard && <button onClick={()=>alert('Usuario avisado')}> LLegó ✔ </button>}
               </div>
-            )}
 
           </div>
         </div>
