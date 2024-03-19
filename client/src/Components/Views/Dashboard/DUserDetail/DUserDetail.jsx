@@ -68,6 +68,9 @@ export const DUserDetail = () =>
                         <button onClick={() => console.log("Usuario a detallar: ", thisUser) }> osea </button>
 
                     </div>
+                    <div>
+                        <button class='bg-orange-500'> Enviar mensaje 📧 </button>
+                    </div>
                 </div>
             </div>
 

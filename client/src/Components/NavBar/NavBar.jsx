@@ -2,7 +2,7 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setGuardComponent, setMyProfileComponent } from '../../Redux/actions/actions';
+import { setGuardComponent, setMyProfileComponent, setOption } from '../../Redux/actions/actions';
 import './NavBar.css';
 
 export const NavBar = () => {
@@ -97,7 +97,7 @@ export const NavBar = () => {
 			{activeGuard && (
 				<Link to='/guard'>
 					<div className=' flex justify-center w-36 h-9 transition rounded-md ease-in-out delay-150 bg-black hover:-translate-y-1 hover:scale-110 hover:bg-white hover:text-black duration-300'>
-						<button onClick={() => dispatch(setGuardComponent(null))} >Guardia</button>
+						<button onClick={() => {dispatch(setGuardComponent(null)); setOption(dispatch, 'main');}} >Guardia</button>
 					</div>
 				</Link>
 			)}
