@@ -1,8 +1,27 @@
+import axios from "axios";
 import { useSelector } from "react-redux";
 
-export const EventGuest = ( {guest} ) =>
+export const EventGuest = ( { guest, thisUser } ) =>
 {
   const activeGuard = useSelector( state => state.activeGuard );
+
+  const handleCame = async () =>
+  {
+    const cameMessage = 
+    {
+      title: `Hola ${thisUser.name} ${thisUser.surname}, le informamos que ${guest.name} ${guest.surname} ha llegado!`,
+      userId: thisUser.id
+    }
+
+    try {
+      const { data } = await axios.post('http://localhost:3001/messages', cameMessage)
+      alert(`${thisUser.name} avisado!`)
+      console.log('Detalle de la notificación: ', data)
+    } catch (error) {
+      alert(`Error al dar aviso a ${thisUser.name}`)
+      console.error(`Error al dar aviso a ${thisUser.name}`, error)
+    }
+  }
 
     return (
         <div style={{ display: 'flex', width: '50%' }}>
@@ -20,9 +39,8 @@ export const EventGuest = ( {guest} ) =>
             <hr/>
             <br/>
               <div>
-                {activeGuard && <button onClick={()=>alert('Usuario avisado')}> LLegó ✔ </button>}
+                {activeGuard && <button onClick={handleCame}> LLegó ✔ </button>}
               </div>
-
           </div>
         </div>
       );

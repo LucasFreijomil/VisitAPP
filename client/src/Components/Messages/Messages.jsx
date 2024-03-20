@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { decodeGuard, decodeUser } from "../../Redux/actions/actions";
 
-export const Messages = () =>
+export const Messages = ({ showMessagesComponent, thisUser, setShowMessagesComponent }) =>
 {
     const activeUser = useSelector( state => state.activeUser );
     const dispatch = useDispatch();
@@ -39,6 +39,12 @@ export const Messages = () =>
     {
         setAllIds( allUsers.map( user => user.id ) );
     }, [allUsers])
+
+    useEffect(() =>
+    {
+        showMessagesComponent && setForm( { ...form, userId: [ thisUser.id ] } )
+        console.log("FORMULARIOOOOO", form);
+    }, [])
 
     const handleChange = (e) =>
     {
@@ -131,20 +137,24 @@ export const Messages = () =>
     
     return(
         <div>
-            <button onClick={()=>console.log(allIds)}> SHOW </button>
+        
+            <button onClick={() => {console.log(allIds); console.log("FORMULARIO: ", form);}}> SHOW </button>
+            {showMessagesComponent && <button onClick={() => {setShowMessagesComponent(false)}} className=' bg-orange-50'>{"< VOLVER"}</button>}
             <form
 				onSubmit={handleSubmit}
 				className='relative bg-brown px-6 pt-10 pb-6 shadow-xl ring-gray-600/5 sm:max-w-lg sm:rounded-lg sm:px-10'>
 				<fieldset>
 
-                    <input type="checkbox" name='general' checked={form.general} onChange={handleCheckboxChange} />
-                    <label> GENERAL </label>
+                    {!showMessagesComponent && <div> 
+                        <input type="checkbox" name='general' checked={form.general} onChange={handleCheckboxChange} />
+                        <label> GENERAL </label>
+                    </div>}
 
 					<div>
 						<p>To: </p>
-						{!form.general && <>
+						{!form.general && !showMessagesComponent && <>
                         <select name='users' onChange={handleSelectDestinatary}>
-							<option value="default" disabled>Seleccionar destinatario</option>
+							<option value="default" >Seleccionar destinatario</option>
 							{allUsers.length > 0 &&
 								allUsers.map((x, y) => (
 									<option value={[x.id, x.name]} key={y}>
@@ -158,7 +168,11 @@ export const Messages = () =>
 								const name = vis.split(',')[1];
 								return <div key={v}>{name}</div>;
 							})}</>}
-                            { form.general && <div> Every user </div> }
+
+                    { form.general && !showMessagesComponent ? (<div> Every user </div>) : (<div>{thisUser?.name} {thisUser?.surname}</div>) }
+
+                    <br />
+
 					</div>
 
 					<div>
