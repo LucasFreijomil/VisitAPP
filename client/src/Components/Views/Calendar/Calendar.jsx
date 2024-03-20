@@ -92,7 +92,7 @@ export const Calendario = ( { thisUser } ) =>
 				<div>
                     <div className={styles.list}>
                         { !selectedEvent && <EventList selectedDate={selectedDate} setSelectedEvent={setSelectedEvent} thisUser={thisUser}/>}
-                        { selectedEvent && <EventCard id={selectedEvent} setSelectedEvent={setSelectedEvent} /> }
+                        { selectedEvent && <EventCard id={selectedEvent} setSelectedEvent={setSelectedEvent} thisUser={thisUser} /> }
                     </div>
 				</div>
 			</div>

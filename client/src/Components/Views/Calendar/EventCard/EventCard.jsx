@@ -9,7 +9,7 @@ import './EventCard.css';
 import { EventGuest } from './EventGuest/EventGuest';
 import {Modal} from "../../../Modal Alert/ModalAlert"
 
-export const EventCard = ( { id, setSelectedEvent } ) =>
+export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
 {
     const [ event, setEvent ] = useState(false);
     const [ edit, setEdit ] = useState(false);
@@ -278,7 +278,7 @@ export const EventCard = ( { id, setSelectedEvent } ) =>
 
                         {!activeGuard && <button onClick={() => {setOpen(true); setVisitToremove(x.id); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
                         }
-												<EventGuest className='h-full' guest={x} />
+												<EventGuest className='h-full' guest={x} thisUser={thisUser} />
 											</div>
 										))}
 
