@@ -102,9 +102,14 @@ export const NavBar = () => {
 				</Link>
 			)}
 
+			{tomorrow.length==0 &&
+			<div className="contenedor-campana" >
+                <img src='https://c0.klipartz.com/pngpicture/762/925/gratis-png-interfaz-de-usuario-de-iconos-de-computadora-campana-de-notificacion.png'/>
+            </div>}
+
 			{tomorrow.length>0 &&
 			<Link to='/playground'>
-				<div className="contenedor-campana" >
+			<div className="contenedor-campana" >
                 <img src='https://c0.klipartz.com/pngpicture/762/925/gratis-png-interfaz-de-usuario-de-iconos-de-computadora-campana-de-notificacion.png'/>
                 {tomorrow.length>0 &&
                 <div className="numero-notificaciones" >
