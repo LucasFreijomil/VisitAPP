@@ -20,4 +20,4 @@ const postMessages = async (req, res) =>
     }
 }
 
-module.exports = postMessages ;
+module.exports = postMessages;
