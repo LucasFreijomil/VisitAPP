@@ -38,6 +38,9 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
       slidesToShow: 1,
       slidesToScroll: 1,
     };
+
+    const [ removeGuest, setRemoveGuest ] = useState(false)
+    const [ insertGuest, setInsertGuest ] = useState(false)
   
     useEffect( () =>
     {
@@ -56,7 +59,7 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
             setEvent(false);
         })
 
-    }, [])
+    }, [removeGuest, insertGuest])
 
     useEffect( () =>
     {
@@ -132,8 +135,10 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
 
       try {
         const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
+        !insertGuest ? setInsertGuest(true) : setInsertGuest(false)
 			  alert('Invitado agregado!', data);
-        window.location.reload();
+        setPutGuestForm({ ...putGuestForm, visits: [] })
+        setAddGuest(false)
       } catch (error) {
         console.error('Error al agregar invitado', error);
 			  alert('Error al agregar invitados');
@@ -153,9 +158,10 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
       
       try {
         if(definitiveGuestForm.add === false)
-        {const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
+        { const { data } = await axios.put('http://localhost:3001/events', definitiveGuestForm);
+        !removeGuest ? setRemoveGuest(true) : setRemoveGuest(false)
 			  alert('Invitado quitado!', data)}
-        window.location.reload();
+        setOpen(false)
       } catch (error) {
         console.error('Error al quitar invitado', error);
 			  alert('Error al quitar invitado');
