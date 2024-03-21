@@ -2,70 +2,73 @@ const {Visitas, Events, Users} = require("../../db");
 
 const getVisitas = async (req, res) =>
 {
-    const { id, company, work } = req.query;
+    const { dni, name, surname } = req.query;
 
-    if(id)
+    if(dni)
     {
         try
         {
-            const visitById = await Visitas.findByPk( id,
+            const visitByDni = await Visitas.findByPk( dni,
                 {
-                    include: [
-                {
-                    model: Users,
-                    as: 'User',
-                    attributes: ["id", "name", "surname"]
-                },
-                {
-                    model: Events,
-                    as: 'Events',
-                    attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
-                }]} );
-            res.status(200).json( visitById );
+                    include:
+                    [ {
+                            model: Users,
+                            as: 'User',
+                            attributes: ["id", "name", "surname", "email"]
+                    } ]
+                } );
+            res.status(200).json( visitByDni );
         }
         catch(error)
         {
-            res.status(500).json( { error_getVisitById: error.message } );
+            res.status(500).json( { error_getVisitByDni: error.message } );
         }
     }
     else
     {
-        if(company)
+        if(name)
         {
-            try
-            {
-                const visitByCompany = await Visitas.findAll( { where: { company } } );
-                res.status(200).json( visitByCompany );
-            }
-            catch(error)
-            {
-                res.status(500).json( { error_getVisitByCompany: error.message } );
-            }
-        }
-        else
-        {
-            if(work)
+            if(surname)
             {
                 try
                 {
-                    const visitByWork = await Visitas.findAll( { where: { work } } );
-                    res.status(200).json( visitByWork );
+                    const thisNameSurname = await Visitas.findAll( { where:
+                        {
+                            name: { [Op.iLike]: `%${name}%`},
+                            surname: { [Op.iLike]: `%${surname}%`} }, include:
+                        [ {
+                            model: Users,
+                            as: 'Users',
+                            attributes: ["id", "name", "surname", "username", "email" ],
+                        } ] } );
+                    res.status(200).json( thisNameSurname );
                 }
                 catch(error)
                 {
-                    res.status(500).json( { error_getVisitByWork: error.message } );
+                    res.status(500).json( { error_getVisitByNameSurname: error } );
                 }
             }
             else
             {
                 try
                 {
-                    const allVisitas = await Visitas.findAll();
-                    return res.status(200).json(allVisitas);
+                    const thisName = await Visitas.findAll( { where: { name: { [Op.iLike]: `%${name}%`} }, include:
+                        [ {
+                            model: Users,
+                            as: 'Users',
+                            attributes: ["id", "name", "surname", "username", "email" ],
+                        }] } );
+                    const thisSurname = await Visitas.findAll( { where: { surname: { [Op.iLike]: `%${name}%`} }, include:
+                        [ {
+                            model: Users,
+                            as: 'Users',
+                            attributes: ["id", "name", "surname", "username", "email" ],
+                        }] } );
+                    res.status(200).json( [...thisName, ...thisSurname] );
                 }
-                catch (error)
+                catch(error)
                 {
-                    return res.status(500).json({ error_getVisitas: error.message });
+                    res.status(500).json( { error_getVisitByName: error } );
                 }
             }
         }

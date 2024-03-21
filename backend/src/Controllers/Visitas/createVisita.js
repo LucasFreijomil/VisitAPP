@@ -2,12 +2,17 @@ const { Visitas, Users } = require("../../db.js");
 
 const createVisita = async (req, res) =>
 {
-    const { name, surname, dni, company, work, userId } = req.body
+    const { name, surname, dni, img, userId } = req.body
+    let image = img ? img : "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png";
+    
     try
     {
+        const alreadyExisting = await Visitas.findByPk( dni );
+        alreadyExisting && res.status(200).json( { alreadyExisting: `Visit DNI ${dni} already exists.` } );
+
         const nuevaVisita =
         {
-            name, surname, dni, company, work
+            name, surname, dni, image
         };
 
         const visita = await Visitas.create(nuevaVisita);
