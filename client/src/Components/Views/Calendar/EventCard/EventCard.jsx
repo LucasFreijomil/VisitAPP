@@ -55,6 +55,7 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
             console.log("ERROR fetching event details: ", error);
             setEvent(false);
         })
+
     }, [])
 
     useEffect( () =>
@@ -77,8 +78,6 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
         if (updateUserInfo) dispatch(refreshUserInfo(false));
         if (!updateUserInfo) dispatch(refreshUserInfo(true));
 
-        console.log("las visitas del evento", event);
-        
     }, [modifyEvent, edit])
 
     const handleChange = e =>
@@ -278,7 +277,7 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
 
                         {!activeGuard && <button onClick={() => {setOpen(true); setVisitToremove(x.id); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
                         }
-												<EventGuest className='h-full' guest={x} thisUser={thisUser} />
+												<EventGuest className='h-full' guest={x} event={event} thisUser={thisUser} />
 											</div>
 										))}
 
