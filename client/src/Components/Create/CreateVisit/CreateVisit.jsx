@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { guestTypeAction } from '../../../Redux/actions/actions';
-import styles from '../../Create/CreateVisit/CreateVisit.module.css'
+import styles from '../../Create/CreateVisit/CreateVisit.module.css';
 
 export const CreateVisit = () => {
 	const { guestType, activeUser } = useSelector((state) => state);
@@ -30,10 +29,11 @@ export const CreateVisit = () => {
 		try {
 			const completedForm = { ...form, userId: activeUser.id, img: imageURL };
 
-			if (guestType == 'visit') 
+			if (guestType == 'visit')
 			{
 				const { data } = await axios.post('http://localhost:3001/visitas', completedForm);
 				alert('New visit created!', data);
+				console.log("data: ", data);
 			};
 
 			setForm({
