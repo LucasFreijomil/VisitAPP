@@ -1,7 +1,7 @@
 const { Users, Events, Visitas } = require("../../db")
 
 const postEvent = async (req, res) => {
-	const { title, date, startsAt, endsAt, body, alarm, alarmDistance, visitId, userId } = req.body;
+	const { title, date, startsAt, endsAt, body, alarm, alarmDistance, visitDni, userId } = req.body;
 
 	try
     {
@@ -21,7 +21,7 @@ const postEvent = async (req, res) => {
 		const thisUser = await Users.findByPk(userId);
 		await thisUser.addEvent(newEventCreated);
 
-		const selectedVisits = await Visitas.findAll({ where: { id: visitId }});
+		const selectedVisits = await Visitas.findAll({ where: { dni: visitDni }});
 		await newEventCreated.addVisitas(selectedVisits);
 
         return res.status(201).json(newEventCreated)

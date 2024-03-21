@@ -21,7 +21,6 @@ module.exports = (sequelize) => {
         img:
         {
             type: DataTypes.STRING,
-            defaultValue: "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png",
             allowNull: false
         }
     },

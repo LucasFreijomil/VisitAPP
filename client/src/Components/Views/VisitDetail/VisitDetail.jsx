@@ -13,7 +13,7 @@ export const VisitDetail = () => {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:3001/visitas?id=${currentVisitDetailId}`)
+			.get(`http://localhost:3001/visitas?dni=${currentVisitDetailId}`)
 			.then(({ data }) => {
 				console.log(`Success fetching visit ${currentVisitDetailId}!`, data);
 				setShowVisit(data);

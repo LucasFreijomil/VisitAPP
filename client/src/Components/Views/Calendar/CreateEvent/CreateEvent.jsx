@@ -14,7 +14,7 @@ export const CreateEvent = ({ selectedDate }) => {
 		endsAt: '',
 		body: '',
 		alarm: false,
-		visitId: [],
+		visitDni: [],
 		alarmDistance: [],
 		userId: activeUser.id,
 	});
@@ -26,10 +26,10 @@ export const CreateEvent = ({ selectedDate }) => {
 
 	const handleSelectVisit = (e) => {
 
-		if(e.target.name=='visitId')
+		if(e.target.name=='visitDni')
 		{
-			if (!form.visitId.includes(e.target.value) && e.target.value !== 'default') {
-				setForm({ ...form, visitId: [...form.visitId, e.target.value] });
+			if (!form.visitDni.includes(e.target.value) && e.target.value !== 'default') {
+				setForm({ ...form, visitDni: [...form.visitDni, e.target.value] });
 			}
 		}
 		else
@@ -42,7 +42,7 @@ export const CreateEvent = ({ selectedDate }) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const selectedVisitId = form.visitId.map((x) => x.split(',')[0]);
+		const selectedVisitDni = form.visitDni.map((x) => x.split(',')[0]);
 
 		const definitiveForm = {
 			title: form.title,
@@ -51,7 +51,7 @@ export const CreateEvent = ({ selectedDate }) => {
 			endsAt: form.endsAt,
 			body: form.body,
 			alarm: form.alarm,
-			visitId: selectedVisitId,
+			visitDni: selectedVisitDni,
 			alarmDistance: form.alarmDistance,
 			userId: form.userId,
 		};
@@ -67,7 +67,7 @@ export const CreateEvent = ({ selectedDate }) => {
 				endsAt: '',
 				body: '',
 				alarm: false,
-				visitId: [],
+				visitDni: [],
 				alarmDistance: [],
 				userId: activeUser.id,
 			});
@@ -101,8 +101,8 @@ export const CreateEvent = ({ selectedDate }) => {
 	}, [selectedDate]);
 
 	useEffect(() => {
-		console.log('form.visitId: ' ,form.visitId);
-	}, [form.visitId]);
+		console.log('form.visitDni: ' ,form.visitDni);
+	}, [form.visitDni]);
 	///////////////////////////////////
 
 	return (
@@ -137,18 +137,18 @@ export const CreateEvent = ({ selectedDate }) => {
 
 					<div>
 						<p>visitante</p>
-						<select name='visitId' onChange={handleSelectVisit}>
+						<select name='visitDni' onChange={handleSelectVisit}>
 							<option value="default">Seleccionar Visita</option>
 							{activeUser.Visitas.length > 0 &&
 								activeUser.Visitas?.map((x, y) => (
-									<option value={[x.id, x.name]} key={y}>
+									<option value={[x.dni, x.name]} key={y}>
 										{x.name}
 									</option>
 								))}
 						</select>
 						<br />
-						{form.visitId?.length > 0 &&
-							form.visitId.map((vis, v) => {
+						{form.visitDni?.length > 0 &&
+							form.visitDni.map((vis, v) => {
 								const name = vis.split(',')[1];
 								return <div key={v}>{name}</div>;
 							})}

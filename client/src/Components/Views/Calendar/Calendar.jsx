@@ -47,10 +47,7 @@ export const Calendario = ( { thisUser } ) =>
 			id: x.id
 		}})
 	}
-
 	
-	
-
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
         setSelectedEvent(false);
