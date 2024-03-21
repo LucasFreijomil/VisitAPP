@@ -2,12 +2,11 @@ const {DataTypes} = require("sequelize")
 
 module.exports = (sequelize) => {
     sequelize.define("Visitas",{
-        id:
+        dni:
         {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
         name:
         {
@@ -19,26 +18,11 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        dni:
+        img:
         {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
+            defaultValue: "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png",
             allowNull: false
-        },
-        company:
-        {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        work:
-        {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        userId:
-        {
-            type: DataTypes.UUID,
-            foreignKey: true,
-            allowNull: true
         }
     },
     { timestamps: false, freezeTableName: true })
