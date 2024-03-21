@@ -13,7 +13,7 @@ const getVisitas = async (req, res) =>
                     include:
                     [ {
                             model: Users,
-                            as: 'User',
+                            as: 'Users',
                             attributes: ["id", "name", "surname", "email"]
                     } ]
                 } );
@@ -70,6 +70,18 @@ const getVisitas = async (req, res) =>
                 {
                     res.status(500).json( { error_getVisitByName: error } );
                 }
+            }
+        }
+        else
+        {
+            try
+            {
+                const allVisits = await Visitas.findAll();
+                res.status(200).json( allVisits );
+            }
+            catch(error)
+            {
+                res.status(500).json( { error_getAllVisits: error } );
             }
         }
     }

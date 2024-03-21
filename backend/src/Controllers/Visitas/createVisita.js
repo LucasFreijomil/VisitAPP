@@ -3,23 +3,28 @@ const { Visitas, Users } = require("../../db.js");
 const createVisita = async (req, res) =>
 {
     const { name, surname, dni, img, userId } = req.body
-    let image = img ? img : "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png";
     
     try
     {
         const alreadyExisting = await Visitas.findByPk( dni );
-        alreadyExisting && res.status(200).json( { alreadyExisting: `Visit DNI ${dni} already exists.` } );
+        
+        if(alreadyExisting!==null)
+        {
+            const thisUser = await Users.findByPk( userId );
+            thisUser.addVisitas( alreadyExisting );
+            res.status(200).json( { alreadyExisting: `Visit DNI ${dni} already exists.` } );
+        }
 
         const nuevaVisita =
         {
-            name, surname, dni, image
+            name, surname, dni, img
         };
 
         const visita = await Visitas.create(nuevaVisita);
         const thisUser = await Users.findByPk( userId );
-        thisUser.addVisitas( visita.id );
+        thisUser.addVisitas( visita );
 
-        return res.status(201).json( visita );
+        return res.status(200).json( visita );
     }
     catch(error)
     {

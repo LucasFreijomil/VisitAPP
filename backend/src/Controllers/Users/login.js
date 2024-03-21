@@ -13,7 +13,7 @@ const login = async(req, res) =>
             [ {
                 model: Visitas,
                 as: 'Visitas',
-                attributes: ["id", "name", "surname", "dni", "company", "work", "userId" ],
+                attributes: [ "name", "surname", "dni", "img" ]
             } ] } )
 
         if(user.isActive==false)
