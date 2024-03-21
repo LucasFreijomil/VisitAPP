@@ -1,9 +1,12 @@
-import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { setCurrentVisitId, setMyProfileComponent } from '../../Redux/actions/actions';
 
 export const VisitCard = ({ props }) => {
 	const dispatch = useDispatch();
+	const activeUser = useSelector((state) => state.activeUser)
+	const url = "http://localhost:3001/"
 
 	const cartelito = () => {
 		Swal.fire({
@@ -13,9 +16,16 @@ export const VisitCard = ({ props }) => {
 			showDenyButton: true,
 			cancelButtonText: 'Cancelar',
 			denyButtonText: 'Eliminarlo',
-		}).then((result) => {
+		}).then( async (result) => {
 			if (result.isDenied) {
-				// Código para la opción "Eliminar"
+				try {
+					const { data } = await axios.delete(`${url}visitas?dni=${props.dni}&userId=${activeUser.id}`);
+					alert("Visita desvinculada satisfactoriamente!")
+					console.log(data)
+				} catch (error) {
+					alert(`Error al desvincular la visita ${props.name} ${props.surname} DNI ${props.dni}`)
+      				console.error(`Error al desvincular la visita ${props.name} ${props.surname} DNI ${props.dni}`, error)
+				}
 			}
 		});
 	};
@@ -28,7 +38,7 @@ export const VisitCard = ({ props }) => {
 			<div
 				onClick={() => {
 					dispatch(setMyProfileComponent('visit_detail'));
-					dispatch(setCurrentVisitId(props.id));
+					dispatch(setCurrentVisitId(props.dni));
 				}}
 				>
 				<h3>

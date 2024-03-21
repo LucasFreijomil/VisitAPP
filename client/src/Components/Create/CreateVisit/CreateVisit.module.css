@@ -1,0 +1,60 @@
+.imageContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.imageContainer input {
+    height: 300px;
+    background-color: aliceblue;
+    cursor: pointer;
+    margin-left: -392px;
+    max-width: 300px;
+    opacity: 0;
+}
+
+.imageContainer label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 150%;
+    width: 300px;
+    height: 300px;
+    border: solid 2px black;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.imageContainer img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: solid 2px rgb(46, 45, 45);
+}
+
+.imgAndButton {
+    display: flex;
+    flex-direction: column;
+}
+
+.imgAndButton button {
+    margin-bottom: -30px;
+    position: absolute;
+    border-radius: 5px;
+    border: .5px solid white;
+    background-color: rgba(0, 0, 0, 0.284);
+    color: white;
+    transition: 0.3s;
+    width: 30px;
+    height: 30px;
+}
+
+.imgAndButton button:hover {
+    background-color: rgb(255, 0, 0);
+    color: black;
+    border: .5px solid black;
+
+}
