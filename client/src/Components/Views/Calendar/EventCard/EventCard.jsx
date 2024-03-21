@@ -275,7 +275,7 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
 										{event.Visitas?.map((x, y) => (
 											<div className='h-full' key={y}>
 
-                        {!activeGuard && <button onClick={() => {setOpen(true); setVisitToremove(x.id); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
+                        {!activeGuard && <button onClick={() => {setOpen(true); setVisitToremove(x.dni); setPutGuestForm({...putGuestForm, add: false})}} className=' bg-red-600 mb-4'>Quitar Invitado</button>
                         }
 												<EventGuest className='h-full' guest={x} event={event} thisUser={thisUser} />
 											</div>
@@ -291,7 +291,7 @@ export const EventCard = ( { id, setSelectedEvent, thisUser } ) =>
                           <select onChange={handlePutGuest} name='visitId'>
                           <option value={'default'}>Seleccionar visita</option>
                           {filteredVisits.map((x, y) => (
-                            <option value={[x.id, x.name]} key={y}>
+                            <option value={[x.dni, x.name]} key={y}>
                               {x.name}
                             </option>
                           ))}
