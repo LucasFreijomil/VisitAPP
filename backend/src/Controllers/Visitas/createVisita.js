@@ -7,7 +7,6 @@ const createVisita = async (req, res) =>
     try
     {
         const alreadyExisting = await Visitas.findByPk( dni );
-        
         if(alreadyExisting!==null)
         {
             const thisUser = await Users.findByPk( userId );

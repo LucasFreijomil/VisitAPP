@@ -5,7 +5,7 @@ const initialstate =
 {
 	activeUser: false,
 	activeGuard: false,
-	guestType: null,
+	guestType: 'visit',
 	myProfileToMount: null,
 	//	GUARDIA
 	guardView: 'main',

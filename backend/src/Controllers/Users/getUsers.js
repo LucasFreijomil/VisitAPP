@@ -15,7 +15,7 @@ const getUsers = async(req, res) =>
                 {
                     model: Visitas,
                     as: 'Visitas',
-                    attributes: ["name", "surname", "dni", "img" ]
+                    attributes: ["name", "surname", "dni", "img"],
                 },
                 {
                     model: Events,
@@ -44,7 +44,7 @@ const getUsers = async(req, res) =>
                     [ {
                         model: Visitas,
                         as: 'Visitas',
-                        attributes: ["name", "surname", "dni", "img" ]
+                        attributes: ["name", "surname", "dni", "img"],
                     },
                     {
                         model: Events,
@@ -141,7 +141,7 @@ const getUsers = async(req, res) =>
                             [ {
                                 model: Visitas,
                                 as: 'Visitas',
-                                attributes: ["name", "surname", "dni", "img" ]
+                                attributes: ["name", "surname", "dni", "img"],
                             },
                             {
                                 model: Events,

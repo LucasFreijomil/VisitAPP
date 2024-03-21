@@ -1,22 +1,21 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { guestTypeAction } from '../../../Redux/actions/actions';
+import { guestTypeAction, decodeUser } from '../../../Redux/actions/actions';
 import styles from '../../Create/CreateVisit/CreateVisit.module.css';
+const defaultImage = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png";
 
 export const CreateVisit = () => {
 	const { guestType, activeUser } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
-	const [imageURL, setImageURL] = useState('')
+	const [imageURL, setImageURL] = useState(defaultImage)
 	const [imagePublicId, setImagePublicId] = useState('')
 
 	const [form, setForm] = useState({
 		name: '',
 		surname: '',
 		dni: '',
-		company: '',
-		work: '',
 	});
 
 	const handleInputChange = (event) => {
@@ -27,12 +26,15 @@ export const CreateVisit = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const completedForm = { ...form, userId: activeUser.id, img: imageURL };
+			let completedForm = { ...form, userId: activeUser.id, img: imageURL };
+
+			completedForm.img == '' && setImageURL(defaultImage)
 
 			if (guestType == 'visit')
 			{
 				const { data } = await axios.post('http://localhost:3001/visitas', completedForm);
 				alert('New visit created!', data);
+				console.log(data);
 				console.log("data: ", data);
 			};
 
@@ -40,16 +42,32 @@ export const CreateVisit = () => {
 				name: '',
 				surname: '',
 				dni: '',
-				company: '',
-				work: '',
+			})
+
+			setImageURL('')
+
+			decodeUser( JSON.parse( window.localStorage.getItem('activeUser') ) )
+			.then( ( data ) =>
+			{
+				dispatch(data);
+			})
+			.catch( ( error ) =>
+			{
+				console.log("Error al logear usuario, promesa app.jsx: ", error);
 			})
 			
-			setImageURL('')
 		} catch (error) {
 			console.error('Error creating visit: ', error);
 			alert('No funciona!');
 		}
 	};
+
+	const completedForm = { ...form, userId: activeUser.id, img: imageURL };
+	
+	useEffect(() =>
+	{
+		console.log(completedForm);
+	}, [completedForm])
 
 	// CLOUDINARY
 
@@ -136,6 +154,7 @@ export const CreateVisit = () => {
 						<input
 							type='text'
 							name='name'
+							value={form.name}
 							onChange={handleInputChange}
 							className='w-96 h-9 rounded-sm outline-none text-black'
 						/>
@@ -145,6 +164,7 @@ export const CreateVisit = () => {
 						<h4>Apellido: </h4>
 						<input
 							type='text'
+							value={form.surname}
 							name='surname'
 							onChange={handleInputChange}
 							className='w-96 h-9 rounded-sm outline-none text-black'
@@ -156,6 +176,7 @@ export const CreateVisit = () => {
 						<input
 							type='text'
 							name='dni'
+							value={form.dni}
 							onChange={handleInputChange}
 							className='w-96 h-9 rounded-sm outline-none text-black'
 						/>
