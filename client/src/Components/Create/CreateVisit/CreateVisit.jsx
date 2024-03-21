@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { guestTypeAction, decodeUser } from '../../../Redux/actions/actions';
+import { decodeUser, guestTypeAction } from '../../../Redux/actions/actions';
 import styles from '../../Create/CreateVisit/CreateVisit.module.css';
 const defaultImage = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png";
 
@@ -62,7 +62,6 @@ export const CreateVisit = () => {
 			alert('No funciona!');
 		}
 	};
-
 	// CLOUDINARY
 
 	const changeUploadImage = async event => {
