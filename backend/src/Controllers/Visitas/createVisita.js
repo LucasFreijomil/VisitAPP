@@ -23,7 +23,7 @@ const createVisita = async (req, res) =>
         const thisUser = await Users.findByPk( userId );
         thisUser.addVisitas( visita );
 
-        return res.status(201).json( visita );
+        return res.status(200).json( visita );
     }
     catch(error)
     {

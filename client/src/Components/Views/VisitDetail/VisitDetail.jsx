@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { modifyVisit } from '../../../Redux/actions/actions.js';
 
@@ -39,7 +38,7 @@ export const VisitDetail = () => {
 			<div className=' grid grid-cols-2 h-96 w-4/5 bg-slate-400 rounded-xl'>
                 <div name='first-column ' className='flex flex-col justify-center items-center'>
                     <div name='photo-container' className=' w-56 h-56 border border-stone-950 flex flex-col justify-center items-center '>
-                        Photo Container
+                        <img src={showVisit.img} />
                     </div>
                 </div>
                 <div name='second-column' className=' bg-slate-300 flex flex-col justify-evenly items-center rounded-r-xl'>

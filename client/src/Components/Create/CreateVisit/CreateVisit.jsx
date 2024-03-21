@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { guestTypeAction, decodeUser } from '../../../Redux/actions/actions';
-import styles from '../../Create/CreateVisit/CreateVisit.module.css'
+import styles from '../../Create/CreateVisit/CreateVisit.module.css';
 const defaultImage = "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png";
 
 export const CreateVisit = () => {
@@ -31,11 +30,12 @@ export const CreateVisit = () => {
 
 			completedForm.img == '' && setImageURL(defaultImage)
 
-			if (guestType == 'visit') 
+			if (guestType == 'visit')
 			{
 				const { data } = await axios.post('http://localhost:3001/visitas', completedForm);
 				alert('New visit created!', data);
 				console.log(data);
+				console.log("data: ", data);
 			};
 
 			setForm({

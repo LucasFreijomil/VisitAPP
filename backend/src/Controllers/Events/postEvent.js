@@ -25,7 +25,7 @@ const postEvent = async (req, res) => {
 		await newEventCreated.addVisitas(selectedVisits);
 
         return res.status(201).json(newEventCreated)
-	} catch (error) 
+	} catch (error)
     {
 		console.log(error)
         return res.status(500).json({error_creating_event: error})
