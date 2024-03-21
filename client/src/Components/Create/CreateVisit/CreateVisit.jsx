@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { guestTypeAction, decodeUser } from '../../../Redux/actions/actions';
 import styles from '../../Create/CreateVisit/CreateVisit.module.css';
@@ -9,7 +9,7 @@ export const CreateVisit = () => {
 	const { guestType, activeUser } = useSelector((state) => state);
 	const dispatch = useDispatch();
 
-	const [imageURL, setImageURL] = useState(defaultImage)
+	const [imageURL, setImageURL] = useState('')
 	const [imagePublicId, setImagePublicId] = useState('')
 
 	const [form, setForm] = useState({
@@ -26,15 +26,16 @@ export const CreateVisit = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			let completedForm = { ...form, userId: activeUser.id, img: imageURL };
+			let completedForm = false;
 
-			completedForm.img == '' && setImageURL(defaultImage)
+			imageURL == '' ? 
+			completedForm = { ...form, userId: activeUser.id, img: defaultImage } : 
+			completedForm = { ...form, userId: activeUser.id, img: imageURL }
 
 			if (guestType == 'visit')
 			{
 				const { data } = await axios.post('http://localhost:3001/visitas', completedForm);
 				alert('New visit created!', data);
-				console.log(data);
 				console.log("data: ", data);
 			};
 
@@ -61,13 +62,6 @@ export const CreateVisit = () => {
 			alert('No funciona!');
 		}
 	};
-
-	const completedForm = { ...form, userId: activeUser.id, img: imageURL };
-	
-	useEffect(() =>
-	{
-		console.log(completedForm);
-	}, [completedForm])
 
 	// CLOUDINARY
 
