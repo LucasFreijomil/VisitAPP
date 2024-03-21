@@ -8,7 +8,7 @@ visitaRouter = Router()
 
 visitaRouter.get("/", getVisitas)
 visitaRouter.post("/", createVisita)
-visitaRouter.put('/:id', updateVisit);
-visitaRouter.delete("/:id", deleteVisita)
+visitaRouter.put('/:dni', updateVisit);
+visitaRouter.delete("/", deleteVisita)
 
 module.exports = visitaRouter

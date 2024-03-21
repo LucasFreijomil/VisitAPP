@@ -32,8 +32,8 @@ sequelize
 
   // RELACIONALES
 
-  Users.hasMany( Visitas, { foreignKey: 'userId', onDelete: 'CASCADE' } );
-  Visitas.belongsTo( Users, { foreignKey: 'userId' } );
+  Users.belongsToMany( Visitas, { through: 'user/visits', onDelete: 'CASCADE' } );
+  Visitas.belongsToMany( Users, { through: 'user/visits' } );
 
   Users.hasMany( Events, { foreignKey: 'userId', onDelete: 'CASCADE'} )
   Events.belongsTo( Users, { foreignKey: 'userId' } )
