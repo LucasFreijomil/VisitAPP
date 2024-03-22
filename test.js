@@ -1,3 +1,9 @@
+/* */
+
+// let a = [ 'Maestranza', 'Contador' ];
+// a.includes
+
+
 /* guardar una funcion en una variable */
 
 // const consologear = ( x ) =>
@@ -11,14 +17,14 @@
 
 /* Diferencia entre FILTER y MAP*/
 
-let a = [ 1, 2, 3, 40, 50, 60, 6, 7, 99 ];
-let b = a.filter( x => x<10 )
+// let a = [ 1, 2, 3, 40, 50, 60, 6, 7, 99 ];
+// let b = a.filter( x => x<10 )
 
-let c = [ "1,a", "2,b", "3,c" ];
-let d = c.map( x => x.split(',')[0] );
+// let c = [ "1,a", "2,b", "3,c" ];
+// let d = c.map( x => x.split(',')[0] );
 
-console.log("B: " ,b);
-console.log("D: ", d);
+// console.log("B: " ,b);
+// console.log("D: ", d);
 
 /* A==NULL = A==FALSE */
 
@@ -58,9 +64,9 @@ console.log("D: ", d);
 
 /* .includes() */
 
-// let = a = '/guard/users';
+let a = '/guard/users';
 
-// console.log(a.includes('guard')?'Contiene':'NO contiene');
+console.log(a.includes('guard')?'Contiene':'NO contiene');
 
 /* comportamiento de un array vacío */
 
