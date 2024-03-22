@@ -16,6 +16,8 @@ export const CreateVisit = () => {
 		name: '',
 		surname: '',
 		dni: '',
+		company_name: '',
+		cuit: ''
 	});
 
 	const handleInputChange = (event) => {
@@ -36,6 +38,20 @@ export const CreateVisit = () => {
 			{
 				const { data } = await axios.post('http://localhost:3001/visitas', completedForm);
 				alert('New visit created!', data);
+				console.log("data: ", data);
+			};
+
+			if (guestType == 'employee')
+			{
+				const { data } = await axios.post('http://localhost:3001/employees', completedForm);
+				alert('New employee created!', data);
+				console.log("data: ", data);
+			};
+
+			if (guestType == 'provider')
+			{
+				const { data } = await axios.post('http://localhost:3001/providers', completedForm);
+				alert('New provider created!', data);
 				console.log("data: ", data);
 			};
 
