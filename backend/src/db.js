@@ -5,6 +5,7 @@ const eventModel = require('./Models/Event.js');
 const visitasModel = require('./Models/Visitas.js');
 const guardiasModel = require('./Models/Guardias.js');
 const messagesModel = require('./Models/Messages.js');
+const employeesModel = require('./Models/Employees.js');
 const {DB_USER, DB_PASSWORD, DB_HOST, DB_PORT} = process.env
 
 let sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/Visitapp`, { logging: false, native: false })
@@ -25,10 +26,11 @@ sequelize
   visitasModel(sequelize);
   guardiasModel(sequelize);
   messagesModel(sequelize);
+  employeesModel(sequelize);
 
   // SEQUELIZE.MODELS
 
-  const { Users, Events, Visitas, Guardias, Messages } = sequelize.models;
+  const { Users, Events, Visitas, Employees, Guardias, Messages } = sequelize.models;
 
   // RELACIONALES
 
@@ -44,6 +46,11 @@ sequelize
   Users.belongsToMany( Messages, {through: 'user/messages', onDelete: 'CASCADE' } )
   Messages.belongsToMany( Users, {through: 'user/messages'} );
 
+  Users.belongsToMany( Employees, {through: 'user/employees', onDelete: 'CASCADE' } );
+  Employees.belongsToMany( Users, {through: 'user/employees' } );
+
+  Events.belongsToMany( Employees, {through: 'events/employees', onDelete: 'CASCADE' } );
+  Employees.belongsToMany( Events, {through: 'events/employees' } );
 
   module.exports ={
     ...sequelize.models,
