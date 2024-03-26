@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { setCurrentVisitId, setMyProfileComponent } from '../../Redux/actions/actions';
 
-export const VisitCard = ({ props }) => {
+export const EmployeeCard = ({ props, refreshData, setRefreshData }) => {
 	const dispatch = useDispatch();
 	const activeUser = useSelector((state) => state.activeUser)
 	const url = "http://localhost:3001/"
@@ -19,8 +19,8 @@ export const VisitCard = ({ props }) => {
 		}).then( async (result) => {
 			if (result.isDenied) {
 				try {
-					const { data } = await axios.delete(`${url}visitas?dni=${props.dni}&userId=${activeUser.id}`);
-					alert("Visita desvinculada satisfactoriamente!")
+					const { data } = await axios.delete(`${url}employees?dni=${props.dni}&id=${activeUser.id}`);
+					alert("Empleado desvinculado satisfactoriamente!")
 					!refreshData ? setRefreshData(true) : setRefreshData(false)
 					console.log(data)
 				} catch (error) {
@@ -32,13 +32,13 @@ export const VisitCard = ({ props }) => {
 	};
 
 	return (
-		<div className=' flex-row p-2 h-36 bg-slate-300 rounded-lg cursor-pointer'>
+		<div className=' flex-row p-2 h-36 bg-stone-400 rounded-lg cursor-pointer'>
 			<button className=' bg-rose-700 w-6 h-6' onClick={() => cartelito()}>
 				X
 			</button>
 			<div
 				onClick={() => {
-					dispatch(setMyProfileComponent('visit_detail'));
+					dispatch(setMyProfileComponent('employee_detail'));
 					dispatch(setCurrentVisitId(props.dni));
 				}}
 				>

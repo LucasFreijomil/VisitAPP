@@ -1,18 +1,29 @@
-const { Visitas } = require('../../db.js');
+const { Visitas, Users } = require('../../db.js');
 
 const updateVisit = async ( req, res ) =>
 {
     const form = req.body;
-    const { dni } = req.params;
+    const { id, dni } = req.query;
 
-    try
+    if (id) 
     {
-        const updatedVisit = await Visitas.update( form, {where: { dni } } );
-        return res.status(200).json( { updatedVisit: updatedVisit } );
-    }
-    catch(error)
+        try {
+            const thisUser = await Users.findByPk( id )
+            const thisVisit = await Visitas.findByPk( dni )
+            await thisUser.addVisita(thisVisit)
+            res.status(200).json({succes: 'Visit linked succesfully'})
+        } catch (error) {
+            return res.status(500).json({ error_link_visit_user: error.message });
+        }
+    } else
     {
-        return res.status(500).json( { error_updateVisit: error.message } );
+        try 
+        {
+            const updatedVisit = await Visitas.update(form, { where: { dni } });
+            return res.status(200).json({ updatedVisit: updatedVisit });
+        } catch (error) {
+            return res.status(500).json({ error_updateVisit: error.message });
+        }
     }
 }
 

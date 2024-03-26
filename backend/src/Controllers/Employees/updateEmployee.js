@@ -4,7 +4,8 @@ const updateEmployee = async ( req, res ) =>
 {
     const { id, dni } = req.query;
     const newData = req.body;
-
+    console.log(dni);
+    
     if(id)  // Si llega ID espero relacionar el Employee con otro usuario
     {
         try
@@ -15,7 +16,7 @@ const updateEmployee = async ( req, res ) =>
             let contains = [];
             thisEmployee.labor.map( labor => labor.includes(newData.labor) && contains.push(1) );
             console.log( contains.length>0 ? 'Encontró repetido' : 'No encontró repetido' );
-            contains.length>0 && await Employees.update( { labor: [ ...thisEmployee.labor, newData.labor ] }, { where: { dni } } );
+            contains.length == 0 && await Employees.update( { labor: [ ...thisEmployee.labor, newData.labor ] }, { where: { dni } } );
             res.status(200).json( { success: 'Employee succesfully related to the user.' } );
         }
         catch(error)

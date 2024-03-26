@@ -1,4 +1,4 @@
-const { Users, Visitas, Events, Messages } = require("../../db.js");
+const { Users, Visitas, Events, Messages, Employees } = require("../../db.js");
 const { Op, fn, col } = require('sequelize');
 
 const getUsers = async(req, res) =>
@@ -26,6 +26,11 @@ const getUsers = async(req, res) =>
                     model: Messages,
                     as: 'Messages',
                     attributes: ["id", "title", "urgent", "read", "general", "body" ]
+                },
+                {
+                    model: Employees,
+                    as: 'Employees',
+                    attributes: ["name", "surname", "dni", "img", "labor", "img"]
                 }]} );
             res.status(200).json( userById );
         }
@@ -55,6 +60,11 @@ const getUsers = async(req, res) =>
                         model: Messages,
                         as: 'Messages',
                         attributes: ["id", "title", "urgent", "read", "general" ]
+                    },
+                    {
+                        model: Employees,
+                        as: 'Employees',
+                        attributes: ["name", "surname", "dni", "img", "labor", "img"]
                     } ] } );
                 res.status(200).json( userByMail );
             }
@@ -89,6 +99,11 @@ const getUsers = async(req, res) =>
                                 model: Messages,
                                 as: 'Messages',
                                 attributes: ["id", "title", "urgent", "read", "general" ]
+                            },
+                            {
+                                model: Employees,
+                                as: 'Employees',
+                                attributes: ["name", "surname", "dni", "img", "labor", "img"]
                             } ] } );
                         res.status(200).json( thisNameSurname );
                     }
@@ -122,6 +137,11 @@ const getUsers = async(req, res) =>
                                 model: Events,
                                 as: 'Events',
                                 attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            },
+                            {
+                                model: Employees,
+                                as: 'Employees',
+                                attributes: ["name", "surname", "dni", "img", "labor", "img"]
                             } ] } );
                         res.status(200).json( [...thisName, ...thisSurname] );
                     }
@@ -147,6 +167,11 @@ const getUsers = async(req, res) =>
                                 model: Events,
                                 as: 'Events',
                                 attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
+                            },
+                            {
+                                model: Employees,
+                                as: 'Employees',
+                                attributes: ["name", "surname", "dni", "img", "labor", "img"]
                             } ] } );
                         res.status(200).json( thisDni );
                     }
