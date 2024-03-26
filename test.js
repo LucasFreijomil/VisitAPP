@@ -1,4 +1,11 @@
-/* */
+/* NULL = FALSEY */
+
+// let a = null;
+
+// console.log( a ? 'Truey' : 'Falsey' );
+
+
+/* INCLUDES */
 
 // let a = [ 'Maestranza', 'Contador' ];
 // a.includes
@@ -64,9 +71,9 @@
 
 /* .includes() */
 
-let a = '/guard/users';
+// let a = '/guard/users';
 
-console.log(a.includes('guard')?'Contiene':'NO contiene');
+// console.log(a.includes('guard')?'Contiene':'NO contiene');
 
 /* comportamiento de un array vacío */
 

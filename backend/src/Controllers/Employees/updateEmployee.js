@@ -12,11 +12,15 @@ const updateEmployee = async ( req, res ) =>
         {
             const thisUser = await Users.findByPk( id );
             const thisEmployee = await Employees.findByPk( dni );
+
             await thisUser.addEmployee( thisEmployee );
+            
             let contains = [];
             thisEmployee.labor.map( labor => labor.includes(newData.labor) && contains.push(1) );
             console.log( contains.length>0 ? 'Encontró repetido' : 'No encontró repetido' );
+
             contains.length == 0 && await Employees.update( { labor: [ ...thisEmployee.labor, newData.labor ] }, { where: { dni } } );
+
             res.status(200).json( { success: 'Employee succesfully related to the user.' } );
         }
         catch(error)
