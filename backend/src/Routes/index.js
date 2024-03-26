@@ -8,6 +8,7 @@ const eventsRouter = require('./eventsRouter.js');
 const messagesRouter = require('./messagesRouter.js');
 const mailRouter = require('./mailRouter.js');
 const employeesRouter = require('./employeesRouter.js');
+const providersRouter = require('./providersRouter.js');
 
 const router = Router()
 
@@ -20,6 +21,7 @@ router.use('/events', eventsRouter)
 router.use('/messages', messagesRouter);
 router.use('/mail', mailRouter);
 router.use('/employees', employeesRouter);
+router.use('/providers', providersRouter);
 
 
 module.exports = router
