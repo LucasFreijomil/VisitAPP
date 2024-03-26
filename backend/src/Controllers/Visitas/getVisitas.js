@@ -15,6 +15,11 @@ const getVisitas = async (req, res) =>
                             model: Users,
                             as: 'Users',
                             attributes: ["id", "name", "surname", "email"]
+                    },
+                    {
+                            model: Events,
+                            as: 'Events',
+                            attributes: ["id", "title", "date", "body"]
                     } ]
                 } );
             res.status(200).json( visitByDni );
@@ -40,6 +45,11 @@ const getVisitas = async (req, res) =>
                             model: Users,
                             as: 'Users',
                             attributes: ["id", "name", "surname", "username", "email" ],
+                        },
+                        {
+                            model: Events,
+                            as: 'Events',
+                            attributes: ["id", "title", "date", "body"]
                         } ] } );
                     res.status(200).json( thisNameSurname );
                 }
@@ -57,12 +67,22 @@ const getVisitas = async (req, res) =>
                             model: Users,
                             as: 'Users',
                             attributes: ["id", "name", "surname", "username", "email" ],
+                        },
+                        {
+                            model: Events,
+                            as: 'Events',
+                            attributes: ["id", "title", "date", "body"]
                         }] } );
                     const thisSurname = await Visitas.findAll( { where: { surname: { [Op.iLike]: `%${name}%`} }, include:
                         [ {
                             model: Users,
                             as: 'Users',
                             attributes: ["id", "name", "surname", "username", "email" ],
+                        },
+                        {
+                            model: Events,
+                            as: 'Events',
+                            attributes: ["id", "title", "date", "body"]
                         }] } );
                     res.status(200).json( [...thisName, ...thisSurname] );
                 }
