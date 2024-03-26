@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setMyProfileComponent } from '../../../Redux/actions/actions';
+import { EmployeeDetail } from '../../EmployeeDetail/EmployeeDetail.jsx';
 import { VisitCardList } from '../../VisitCardList/VisitCardList';
 import { Calendario } from '../Calendar/Calendar.jsx';
 import { VisitDetail } from '../VisitDetail/VisitDetail.jsx';
@@ -28,6 +29,7 @@ export const MyProfile = () => {
 			</div>
 			{myProfileToMount == 'My visits' && <VisitCardList />}
 			{myProfileToMount == 'visit_detail' && <VisitDetail />}
+			{myProfileToMount == 'employee_detail' && <EmployeeDetail />}
 			{myProfileToMount == 'My calendar' && <Calendario  />}
 		</div>
 	);

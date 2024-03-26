@@ -281,6 +281,23 @@ export const modifyEvent = async ( form, id ) =>
     }
 }
 
+//  Modify Employee
+
+export const modifyEmployee = async ( form, dni ) =>
+{
+    try
+    {
+        const { data } = await axios.put(`${url}employees?dni=${dni}`, form);
+        console.log("Employee modified succesfully");
+        return true;
+    }
+    catch(error)
+    {
+        console.log("Error modifyEmployee action: ", error);
+        return false;
+    }
+}
+
 // Users to approve counter
 
 export const usersToAprove = async () =>
