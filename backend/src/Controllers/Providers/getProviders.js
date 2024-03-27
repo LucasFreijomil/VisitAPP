@@ -12,11 +12,11 @@ const getProviders = async ( req, res ) =>
             const providerByCuit = await Providers.findByPk( cuit,
                 {
                     include: [
-                {
-                    model: Users,
-                    as: 'Users',
-                    attributes: [ "id", "name", "surname", "email"],
-                } ] } );
+                    {
+                        model: Users,
+                        as: 'Users',
+                        attributes: [ "id", "name", "surname", "email"],
+                    } ] } );
             res.status(200).json( providerByCuit );
         }
         catch(error)
