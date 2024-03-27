@@ -2,13 +2,14 @@ const { Events, Users, Visitas, Employees } = require('../../db.js');
 
 const getEvents = async ( req, res) =>
 
-{ 
+{
     const { id } = req.query;
 
-        if (id) {
-            try 
+        if (id)
+        {
+            try
             {
-                const eventById = await Events.findByPk( id, 
+                const eventById = await Events.findByPk( id,
                     {
                         include: [
                             {
@@ -27,13 +28,15 @@ const getEvents = async ( req, res) =>
                                 attributes: ["dni", "name", "surname", "labor"]
                             } 
                         ]})
+
                     res.status(200).json( eventById );
             }
             catch (error)
             {
                 res.status(500).json( { error_getEventById: error.message } )
             }
-        } else
+        }
+        else
         {
             try
             {
