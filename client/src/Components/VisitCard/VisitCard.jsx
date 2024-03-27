@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { setCurrentVisitId, setMyProfileComponent } from '../../Redux/actions/actions';
 
-export const VisitCard = ({ props }) => {
+export const VisitCard = ({ props, refreshData, setRefreshData }) => {
 	const dispatch = useDispatch();
 	const activeUser = useSelector((state) => state.activeUser)
 	const url = "http://localhost:3001/"
@@ -22,7 +22,7 @@ export const VisitCard = ({ props }) => {
 					const { data } = await axios.delete(`${url}visitas?dni=${props.dni}&userId=${activeUser.id}`);
 					alert("Visita desvinculada satisfactoriamente!")
 					!refreshData ? setRefreshData(true) : setRefreshData(false)
-					console.log(data)
+					console.log(refreshData)
 				} catch (error) {
 					alert(`Error al desvincular la visita ${props.name} ${props.surname} DNI ${props.dni}`)
       				console.error(`Error al desvincular la visita ${props.name} ${props.surname} DNI ${props.dni}`, error)
