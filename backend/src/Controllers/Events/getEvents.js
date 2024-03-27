@@ -26,8 +26,9 @@ const getEvents = async ( req, res) =>
                                 model: Employees,
                                 as: 'Employees',
                                 attributes: ["dni", "name", "surname", "labor"]
-                            }
-                    ]})
+                            } 
+                        ]})
+
                     res.status(200).json( eventById );
             }
             catch (error)

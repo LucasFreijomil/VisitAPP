@@ -32,7 +32,7 @@ export const VisitCardList = () => {
 		<div className='grid grid-cols-3 gap-3'>
 			<div className='flex flex-col gap-3'>
 			Visitas:
-			{visits && visits.map((x, y) => <VisitCard key={y} props={x} />)}
+			{visits && visits.map((x, y) => <VisitCard refreshData={refreshData} setRefreshData={setRefreshData} key={y} props={x} />)}
 			</div>
 			<div className='flex flex-col gap-3'>
 			Empleados:

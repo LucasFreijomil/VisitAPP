@@ -15,12 +15,14 @@ const getVisitas = async (req, res) =>
                             model: Users,
                             as: 'Users',
                             attributes: ["id", "name", "surname", "email"]
-                    },
-                    {
+                      },
+                      {
                             model: Events,
                             as: 'Events',
-                            attributes: ["id", "title", "date", "body"]
-                    } ]
+                            attributes: ["id", "title", "date", "startsAt", "endsAt", "alarm", "body"]
+                      }
+                    ]
+
                 } );
             res.status(200).json( visitByDni );
         }
