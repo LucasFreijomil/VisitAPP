@@ -1,4 +1,4 @@
-const { Events, Users, Visitas } = require('../../db.js');
+const { Events, Users, Visitas, Employees } = require('../../db.js');
 
 const getEvents = async ( req, res) =>
 
@@ -26,8 +26,9 @@ const getEvents = async ( req, res) =>
                                 model: Employees,
                                 as: 'Employees',
                                 attributes: ["dni", "name", "surname", "labor"]
-                            }
-                    ]})
+                            } 
+                        ]})
+
                     res.status(200).json( eventById );
             }
             catch (error)

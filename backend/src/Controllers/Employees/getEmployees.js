@@ -21,7 +21,7 @@ const getEmployees = async ( req, res ) =>
                     model: Events,
                     as: 'Events',
                     attributes: ["id", "title", "date", "startsAt", "endsAt", "body", "alarm"]
-                } ]} );
+                }]} );
             res.status(200).json( employeeByDni );
         }
         catch(error)
